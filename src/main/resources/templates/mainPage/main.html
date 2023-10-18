@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}" />
+	<script th:src="@{/js/mainPage.js}"></script>
+</head>
+<body>
+    <header th:replace="@{mainPage/menu.html} :: header"></header>
+    <section>
+        <p>현재 위치 : xxx입니다.</p>
+        <div id="Weather">
+            <div id ="nowWeather" th:replace="@{mainPage/weather.html} :: div"></div>
+            <div id ="mapWeather" th:replace="@{mainPage/map.html} :: div"></div>
+        </div>
+    </section>
+    <section>
+        <div id ="recommend" th:replace="@{mainPage/recommend.html} :: div"></div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+ /* 지도 */
+		
+        #map_container {
+            position: relative;
+            width: 700px;  /* 지도 이미지의 크기 */
+            height: 900px;
+            background-image: url('../images/m_map_city.png');  /* 지도 이미지의 경로 */
+        }
+        
+        .container_mt_5{
+       		 height:600px;}
+
+        .city {
+            position: absolute;
+            font-size: 14px;
+            text-align: center;
+        }
+        .city span {font-size: 2em;}
+        .city p {margin: 0px;}
+
+        #seoul { top: 190px; left: 190px; }
+        #daegu { top: 440px; left: 390px; }
+        #gangwon { top: 170px; left: 370px; }
+        #gyeonggi { top: 220px; left: 250px; }
+        #daejeon{top: 370px; left: 250px;}
+        
+        
+       
+  /* 날씨 */       
+        
+        .locations-wrapper {
+            overflow: hidden;
+        }
+
+        .locations {
+            display: flex;
+            transition: transform 0.3s;
+            width: 400px; /* 임의의 넓은 값 */
+        }
+		
+		
+		
+		
+ /* 추천 */
+		
+        .slider-wrapper {
+            overflow: hidden;
+            width: 1600px;  /* 원하는 너비를 설정하세요 */
+            height: auto;  /* 원하는 높이를 설정하세요 */
+        }
+        
+        .slider {
+            align-items: center;
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 20px;
+        }
+        
+        .slider li {
+            margin: 10px;
+            flex: 0 0 auto;
+            width: 400px;  /* slider-wrapper와 동일한 너비를 설정하세요 */
+            background-color: white;
+        }
+        .slider li > img {width:320px; height: 180px; margin: 10px;}
+        .slider li > h1 {width: 180px; height: 30px; margin: 10px; line-height: 30px; font-size: 20px;}
+        .slider li > p {width: 180px; height: 30px; margin: 10px; line-height: 30px;}
+        .slider li img+p{font-size: 12px; height: 20px;  line-height: 20px;}
+        
