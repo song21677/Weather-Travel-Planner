@@ -21,37 +21,39 @@
         <hr>
 
         <!-- 지역 선택 -->
-        <div class="locations-wrapper">
-            <div class="locations">
-                <button class="btn btn-light" data-location="서울">서울</button>
-                <button class="btn btn-light" data-location="인천">인천</button>
-                <button class="btn btn-light" data-location="부산">부산</button>
-                <button class="btn btn-light" data-location="대구">대구</button>
-                <button class="btn btn-light" data-location="대전">대전</button>
-                <button class="btn btn-light" data-location="광주">광주</button>
-                <button class="btn btn-light" data-location="울산">울산</button>
-                <button class="btn btn-light" data-location="세종">세종</button>
-                <button class="btn btn-light" data-location="경기">경기</button>
-                <button class="btn btn-light" data-location="강원">강원</button>
-                <button class="btn btn-light" data-location="충북">충북</button>
-                <button class="btn btn-light" data-location="충남">충남</button>
-                <button class="btn btn-light" data-location="전북">전북</button>
-                <button class="btn btn-light" data-location="전남">전남</button>
-                <button class="btn btn-light" data-location="경북">경북</button>
-                <button class="btn btn-light" data-location="경남">경남</button>
-                <button class="btn btn-light" data-location="제주">제주</button>
-                <button class="btn btn-light" data-location="울릉">울릉</button>
+		<div class="locations-wrapper">
+		    <button id="prevSlide" class="btn btn-info mt-2">◀</button>
+		    <div class="locations-sizing">
+		        <div class="locations">
+	                <button class="btn btn-light" data-location="서울">서울</button>
+	                <button class="btn btn-light" data-location="인천">인천</button>
+	                <button class="btn btn-light" data-location="부산">부산</button>
+	                <button class="btn btn-light" data-location="대구">대구</button>
+	                <button class="btn btn-light" data-location="대전">대전</button>
+	                <button class="btn btn-light" data-location="광주">광주</button>
+	                <button class="btn btn-light" data-location="울산">울산</button>
+	                <button class="btn btn-light" data-location="세종">세종</button>
+	                <button class="btn btn-light" data-location="경기">경기</button>
+	                <button class="btn btn-light" data-location="강원">강원</button>
+	                <button class="btn btn-light" data-location="충북">충북</button>
+	                <button class="btn btn-light" data-location="충남">충남</button>
+	                <button class="btn btn-light" data-location="전북">전북</button>
+	                <button class="btn btn-light" data-location="전남">전남</button>
+	                <button class="btn btn-light" data-location="경북">경북</button>
+	                <button class="btn btn-light" data-location="경남">경남</button>
+	                <button class="btn btn-light" data-location="제주">제주</button>
+	                <button class="btn btn-light" data-location="울릉">울릉</button>
+          	  </div>
             </div>
-            <button id="prevSlide" class="btn btn-info mt-2">◀</button>
-            <button id="nextSlide" class="btn btn-info mt-2">▶</button>
-       </div>
+		 <button id="nextSlide" class="btn btn-info mt-2">▶</button>
+		</div>
         <hr>
 
         <!-- 날씨 정보 출력 영역 -->
         <div id="weatherInfo" class="alert alert-info mt-4" style="display: none;"></div>
 
         <div class="container mt-5">
-            <h3>오늘의 날씨 정보</h3>
+        	 <div class="table-container">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -63,22 +65,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>09:00</td>
-                        <td>맑음</td>
-                        <td>20</td>
-                        <td>0</td>
-                        <td>60</td>
-                    </tr>
-                    <tr>
-                        <td>10:00</td>
-                        <td>흐림</td>
-                        <td>21</td>
-                        <td>0</td>
-                        <td>62</td>
-                    </tr>
-                    <!-- ... 추가적인 시간 및 날씨 정보 -->
                 </tbody>
             </table>
+        </div>
         </div>
 </div>

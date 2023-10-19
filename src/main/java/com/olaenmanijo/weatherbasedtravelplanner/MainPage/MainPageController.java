@@ -1,4 +1,4 @@
-package com.olaenmanijo.weatherbasedtravelplanner;
+package com.olaenmanijo.weatherbasedtravelplanner.MainPage;
 
 import javax.servlet.http.HttpSession;
 

@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+
 body {
+		font-family: 'Noto Sans', sans-serif;
 		width : 1600px;
 		margin : 0 auto;
 		height: auto;
@@ -7,10 +11,15 @@ body {
 		
 /*menu*/
 
-.navbar {
-    height: 80px;
+header {
+	box-sizing:border-box;
+	border-bottom:1px dashed rgba(0,123,255,0.2);
+	margin-bottom:60px;
+    height: 120px;
     line-height: 80px;
     background-color: white;
+    padding-top:5px;
+    padding-bottom:50px;
 }
 
 /* 아이템 간격 및 호버 효과 */
