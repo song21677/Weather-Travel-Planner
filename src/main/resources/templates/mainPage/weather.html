@@ -1,0 +1,72 @@
+
+    <div th:fragment="div">
+   
+   
+
+
+    <div class="container_mt_5">
+        <div id="todayDate"></div>
+        <!-- 날짜 선택 -->
+        <div class="dates">
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <button class="btn btn-light" data-date=""></button>
+            <!-- ... 추가적인 날짜 -->
+        </div>
+        <hr>
+
+        <!-- 지역 선택 -->
+		<div class="locations-wrapper">
+		    <button id="prevSlide" class="btn btn-info mt-2">◀</button>
+		    <div class="locations-sizing">
+		        <div class="locations">
+	                <button class="btn btn-light" data-location="서울">서울</button>
+	                <button class="btn btn-light" data-location="인천">인천</button>
+	                <button class="btn btn-light" data-location="부산">부산</button>
+	                <button class="btn btn-light" data-location="대구">대구</button>
+	                <button class="btn btn-light" data-location="대전">대전</button>
+	                <button class="btn btn-light" data-location="광주">광주</button>
+	                <button class="btn btn-light" data-location="울산">울산</button>
+	                <button class="btn btn-light" data-location="세종">세종</button>
+	                <button class="btn btn-light" data-location="경기">경기</button>
+	                <button class="btn btn-light" data-location="강원">강원</button>
+	                <button class="btn btn-light" data-location="충북">충북</button>
+	                <button class="btn btn-light" data-location="충남">충남</button>
+	                <button class="btn btn-light" data-location="전북">전북</button>
+	                <button class="btn btn-light" data-location="전남">전남</button>
+	                <button class="btn btn-light" data-location="경북">경북</button>
+	                <button class="btn btn-light" data-location="경남">경남</button>
+	                <button class="btn btn-light" data-location="제주">제주</button>
+	                <button class="btn btn-light" data-location="울릉">울릉</button>
+          	  </div>
+            </div>
+		 <button id="nextSlide" class="btn btn-info mt-2">▶</button>
+		</div>
+        <hr>
+
+        <!-- 날씨 정보 출력 영역 -->
+        <div id="weatherInfo" class="alert alert-info mt-4" style="display: none;"></div>
+
+        <div class="container mt-5">
+        	 <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>시간</th>
+                        <th>날씨</th>
+                        <th>온도 (°C)</th>
+                        <th>강수량 (mm)</th>
+                        <th>습도 (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </div>
+</div>
