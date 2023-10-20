@@ -5,10 +5,14 @@
 		
         
         .container_mt_5{
-        overflow:hidden;
-        	margin-top:75px;
-       		 height:600px; width:800px; display: inline-block; float:left;
-       		 border:dashed 1px rgba(0,125,255,0.5); padding:10px;}
+        	overflow:hidden;
+        	margin-top:60px;
+       		height:610px; 
+       		width:800px; 
+       		display: inline-block; 
+       		float:left;
+       		border:dashed 1px rgba(0,125,255,0.5); 
+       		padding:10px;}
 
         .city {
             position: absolute;
@@ -48,12 +52,15 @@
 		#ulleung{top: 28.75%; left: 85.62%;}
 		
 		#map_location{
-	  		border:dashed 1px rgba(0,125,255,0.5); 
+	  		background-color:#007bff;
+	  		color:white;
 	  		display: inline-block; 
 	  		float: right;  
 	  		margin-right: 40px; 
-	  		font-size: 20px; 
-	  		padding: 10px;}
+	  		font-size: 18px; 
+	  		padding: 10px;
+	  		border-radius: 10px;
+	  		}
 	  		
         #map_container {
      		float: right;
@@ -81,15 +88,15 @@
   
   
   		.table-container {
-		    max-height: 320px; /* 예: 6행 x 50px(행 높이) + 20px(헤더) */
+		    max-height: 350px; /* 예: 6행 x 50px(행 높이) + 20px(헤더) */
 		    overflow-y: auto; /* 세로 스크롤 */
 		}
 		
 		.table-container::-webkit-scrollbar {
-   		 display: none; /* Chrome, Safari, Edge */
+   			 display: none; /* Chrome, Safari, Edge */
 			}
   		
-  		.mt-5 {margin-top: 0!important;}
+  		.mt-5 {margin-top: 0!important; }
   
 		  #todayDate {
 		  
@@ -127,7 +134,7 @@
   
   
   		
-        #Weather{height:650px; width:1400px; margin: 0 auto; }
+        #Weather{height:700px; width:1400px; margin: 0 auto; }
         
 		 .locations-sizing {
 		    position: relative;
@@ -203,12 +210,12 @@
 		/* 워터마크 스타일 */
 		.watermark {
 		    position: absolute;
-		    bottom: 58%;
-		    right: 45%;
-		    width: 100px;
-		    height: 100px;
+		    bottom: 220px;
+		    right: 190px;
+		    width: 80px;
+		    height: 80px;
 		    opacity: 0.8;
-		     pointer-events: none;
+		    pointer-events: none;
 		}
 
 		

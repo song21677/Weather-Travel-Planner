@@ -39,14 +39,12 @@
                 $currentImage.addClass("default-image");
             }
         });
-        $(document).ready(function() {
             $('.default-image').each(function() {
                 $('<img>', {
                     'src': 'images/waterMark.png', // 워터마크 이미지의 경로를 설정하세요.
                     'class': 'watermark'
                 }).appendTo($(this).parent());
             });
-        });
         
        
 
@@ -270,16 +268,7 @@
         
         
         
-        //map
-        
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            // 여기서 lat, lng 값으로 네이버 지도 API 호출
-        }, function(error) {
-            console.error("Error occurred: " + error.message);
-        });
-        
+              
         
         });
 
