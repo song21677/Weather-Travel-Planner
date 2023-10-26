@@ -35,7 +35,9 @@ public class ReverseGeolocationServiceImpl implements ReverseGeolocationService 
             Map<String, String> result = new HashMap<>();
             result.put("address", storedAddress);
             return result;
-        } else {
+        } 
+        
+        else {
             String apiUrl = String.format("https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=%f,%f&sourcecrs=epsg:4326&orders=admcode,legalcode,addr,roadaddr&output=json", lon, lat);
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
