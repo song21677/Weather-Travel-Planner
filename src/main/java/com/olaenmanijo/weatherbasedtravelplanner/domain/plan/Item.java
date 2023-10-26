@@ -1,7 +1,10 @@
 package com.olaenmanijo.weatherbasedtravelplanner.domain.plan;
 
+import org.apache.ibatis.type.Alias;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Alias("Item")
 class Item {
 	@JsonProperty("title")
     private String title;

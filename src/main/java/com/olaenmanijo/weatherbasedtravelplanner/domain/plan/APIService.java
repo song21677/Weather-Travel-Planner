@@ -3,6 +3,7 @@ package com.olaenmanijo.weatherbasedtravelplanner.domain.plan;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -23,18 +24,19 @@ public class APIService {
 	String baseUrl = "http://apis.data.go.kr";
 	String subUrl = "/B551011/KorService1/areaBasedList1";
 	String serviceKey = "xSNjOLnnZKF%2B4zEt6Y7%2Bk79dqA76nW9NSDdStY2MsFcvF3zkLs1gLGOAyg5bVWoJhBT8BQeRPsY%2FRYsPu2Ukfg%3D%3D";
-	public void requestToTourListBasedAreaAPI(SearchForm searchForm) throws IOException, URISyntaxException {
-		 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(baseUrl + subUrl)
-		            .queryParam("numOfRows", 10)
-		            .queryParam("pageNo", 1)
-		            .queryParam("MobileOS", "ETC")
-		            .queryParam("MobileApp", "WeatherPlan")
-		            .queryParam("serviceKey", serviceKey) // 이미 URL 인코딩된 값
-		            .queryParam("areaCode", searchForm.getArea())
-		            .queryParam("contentTypeId", searchForm.getCategory())
-		            .queryParam("_type", "json");
+	public List<Item> requestToTourListBasedAreaAPI() throws IOException, URISyntaxException {
+		String url = new StringBuilder(baseUrl + subUrl)
+                .append("?serviceKey=").append(serviceKey)
+                .append("&pageNo=").append(URLEncoder.encode("1", "UTF-8"))
+                .append("&numOfRows=").append(URLEncoder.encode("10", "UTF-8"))
+                .append("&MobileOS=").append(URLEncoder.encode("ETC", "UTF-8"))
+                .append("&MobileApp=").append(URLEncoder.encode("WeatherPlan", "UTF-8"))
+                .append("&areaCode=").append(URLEncoder.encode("6", "UTF-8"))
+                .append("&contentTypeId=").append(URLEncoder.encode("39", "UTF-8"))
+                .append("&_type=").append(URLEncoder.encode("json", "UTF-8"))
+                .toString();
 
-		URI uri = builder.build().toUri();
+		URI uri = new URI(url);
         System.out.println(uri.toString());
         
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
@@ -64,14 +66,10 @@ public class APIService {
             ResponseDTO responseBody = response.getBody();
             if (responseBody != null && responseBody.getResponse() != null) {
                 List<Item> items = responseBody.getResponse().getBody().getItems().getItem();
-                for (Item item : items) {
-                    String title = item.getTitle();
-                    String addr1 = item.getAddr1();
-                    System.out.println("Title: " + title);
-                    System.out.println("Address: " + addr1);
-                }
+                return items;
             }
         }
+		return null;
        
 	}
 }
