@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="tour-1.0.0/css/bootstrap.min.css">
+    <!-- Custom styles for this template -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="tour-1.0.0/css/owl.carousel.min.css">
+   <link rel="stylesheet" href="tour-1.0.0/css/owl.theme.default.min.css">
+   <link rel="stylesheet" href="tour-1.0.0/css/jquery.fancybox.min.css">
+   <link rel="stylesheet" href="tour-1.0.0/fonts/icomoon/style.css">
+   <link rel="stylesheet" href="tour-1.0.0/fonts/flaticon/font/flaticon.css">
+   <link rel="stylesheet" href="tour-1.0.0/css/daterangepicker.css">
+   <link rel="stylesheet" href="tour-1.0.0/css/aos.css">
+   <link rel="stylesheet" href="tour-1.0.0/css/style.css">
+    
+    <!-- Custom styles for WeatherPlanner-->
+    <link rel="stylesheet" href="css/wpstyle.css">
+</head>
+<body>
+   <form action="/search" method="post" class="row" id="schedule-container">
+    <div class="frame col-md-4 mr-1 container">
+    
+            <div class="row">
+                <select name="area" id="" class="form-control custom-select col-md-3">
+                    <option value="">장소</option>
+                    <option value="6">부산</option>
+                    <option value="2">강릉</option>
+                </select>
+    
+                <input class="form-control col-md-9" type="text" name="keyword">
+            </div>
+            
+            <br>
+            
+            <div id="selectedPlace">
+               
+            </div>
+         
+      
+               <div class="row" id="place" th:each="place : ${places}">
+                   <div class="col-md-9">
+                       <div>
+                           <span th:text=${place.place_name}>칠암사계</span>
+                           <span th:text=${place.place_category}>먹거리, 베이커리/디저트</span>
+                       </div>
+                       <div>
+                           <span th:text=${place.road_name_adr}>부산 기장군 일광읍 칠암1길 7-10</span>
+                       </div> 
+                   </div>
+   
+                   <button class="form-control col-md-3" id="select">선택</button>
+               </div>
+            
+    </div>
+    
+    <div class="map col-md-6 ml-1 container">
+        <div class="category row">
+            <button class="form-control col-md-4" name="category" value="39">음식점</button>
+            <button class="form-control col-md-4" name="category" value="12">관광지</button>
+            <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
+        </div>
+        <div id="map"></div>
+    </div>
+
+</form>
+
+    <script src="tour-1.0.0/js/jquery-3.4.1.min.js"></script>
+   <script src="tour-1.0.0/js/popper.min.js"></script>
+   <script src="tour-1.0.0/js/bootstrap.min.js"></script>
+   <script src="tour-1.0.0/js/owl.carousel.min.js"></script>
+   <script src="tour-1.0.0/js/jquery.animateNumber.min.js"></script>
+   <script src="tour-1.0.0/js/jquery.waypoints.min.js"></script>
+   <script src="tour-1.0.0/js/jquery.fancybox.min.js"></script>
+   <script src="tour-1.0.0/js/aos.js"></script>
+   <script src="tour-1.0.0/js/moment.min.js"></script>
+   <script src="tour-1.0.0/js/daterangepicker.js"></script>
+
+   <script src="tour-1.0.0/js/typed.js"></script>
+    <script>
+      $(function() {
+         var slides = $('.slides'),
+         images = slides.find('img');
+
+         images.each(function(i) {
+            $(this).attr('data-id', i + 1);
+         })
+
+         var typed = new Typed('.typed-words', {
+            strings: ["San Francisco."," Paris."," New Zealand.", " Maui.", " London."],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true,
+            preStringTyped: (arrayPos, self) => {
+               arrayPos++;
+               console.log(arrayPos);
+               $('.slides img').removeClass('active');
+               $('.slides img[data-id="'+arrayPos+'"]').addClass('active');
+            }
+
+         });
+      })
+   </script>
+   <script>
+   document.querySelectorAll("#select").forEach(function(button) {
+        button.addEventListener("click", function(event) {
+           
+           event.preventDefault();
+           
+              var inputTime = document.createElement("input");
+               inputTime.setAttribute("type", "time");
+               inputTime.setAttribute("id", "appt");
+               inputTime.setAttribute("name", "appt");
+               
+               var selectedPlace = document.getElementById("selectedPlace");
+               selectedPlace.append(inputTime);
+               
+               var place = this.closest("#place").cloneNode(true);
+               var cancelBtn = place.querySelector('#select');
+
+               cancelBtn.innerText = '취소';
+               selectedPlace.append(place);
+              
+              var hr = document.createElement("hr");
+              
+              selectedPlace.append(hr);
+          
+        });
+    });
+   
+   </script>
+   
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0a4e5f604e58c301ddedd0a6790ec3bf"></script>
+   <script>
+      var container = document.getElementById('map');
+      var options = {
+         center: new kakao.maps.LatLng(33.450701, 126.570667),
+         level: 3
+      };
+
+      var map = new kakao.maps.Map(container, options);
+   </script>
+    <script src="tour-1.0.0/js/custom.js"></script>
+
+</body>
+
+</html>
