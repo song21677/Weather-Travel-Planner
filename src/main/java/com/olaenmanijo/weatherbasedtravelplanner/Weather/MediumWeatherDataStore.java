@@ -26,9 +26,6 @@ public class MediumWeatherDataStore {
         forecastDTOList.add(dto);
     }
 
-    public void clear() {
-        forecastDTOList.clear();
-    }
 
     public List<ShortTermForecastDTO> getForecastDTOList() {
         return forecastDTOList;

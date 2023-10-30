@@ -17,10 +17,10 @@ public class MediumTerForecastDTO {
 	int SECOND_PRECINCT_NO;
 	String ANNOUNCE_DAY;
 	String FORECAST_DAY;
+	String WFAM;
+	String WFPM;
 	int TAMIN;
 	int TAMAX;
 	int RNSTAM;
-	int RNSTFM;
-	String WFAM;
-	String WFPM;
+	int RNSTPM;
 }

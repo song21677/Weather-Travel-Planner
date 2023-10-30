@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,37 +35,43 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
 	    
 	    
 	@Override
-	public void getWeatherData1(String tmFc, String type, String numOfRows, String regid, int no) throws Exception {
+	public void getWeatherData1(String tmFc, String type, String numOfRows, String regid, int no , int no2) throws Exception {
 			String requestUrl = buildRequestUrl1(tmFc, type, numOfRows,regid);
 	        URI uri = new URI(requestUrl);
 	        System.out.println(uri);
 	        String response = restTemplate.getForObject(uri, String.class);
 	        
 	        
-	        // JSON 파싱 및 데이터 추출
-	        JsonNode rootNode = objectMapper.readTree(response);
-	        JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 	        
-	        LocalDate currentDate = LocalDate.parse(tmFc.substring(0, 8),DateTimeFormatter.ofPattern("yyyyMMdd"));
+	        JsonNode itemNode = objectMapper.readTree(response).path("response").path("body").path("items").path("item").get(0);
+	        LocalDate currentDate = LocalDate.parse(tmFc.substring(0, 8),formatter);
+	        String currentHour = tmFc.substring(8, 10); // 시간 부분 추출
 
-	        for (JsonNode item : itemsNode) {
-	        	MediumTerForecastDTO mediumforecastDTO = new MediumTerForecastDTO();
 
 	            for (int i = 3; i <= 10; i++) {
+	            	MediumTerForecastDTO mediumforecastDTO = new MediumTerForecastDTO();
 	                LocalDate forecastDate = currentDate.plusDays(i);
 	                String taMinField = "taMin" + i;
 	                String taMaxField = "taMax" + i;
 	                
 	                mediumforecastDTO.setSECOND_PRECINCT_NO(no);
-	                mediumforecastDTO.setANNOUNCE_DAY(currentDate.toString());
-	                mediumforecastDTO.setFORECAST_DAY(forecastDate.toString());
-	                mediumforecastDTO.setTAMIN(item.path(taMinField).asInt());
-	                mediumforecastDTO.setTAMAX(item.path(taMaxField).asInt());
+	                mediumforecastDTO.setFIRST_PRECINCT_NO(no2);
+	                mediumforecastDTO.setANNOUNCE_DAY(tmFc);
+	                mediumforecastDTO.setFORECAST_DAY(forecastDate.format(formatter));
+	             // 18시인 경우 TAMIN과 TAMAX를 null로 설정
+	                if ("18".equals(currentHour)) {
+	                    mediumforecastDTO.setTAMIN(0);
+	                    mediumforecastDTO.setTAMAX(0);
+	                } else {
+	                    mediumforecastDTO.setTAMIN(itemNode.path(taMinField).asInt());
+	                    mediumforecastDTO.setTAMAX(itemNode.path(taMaxField).asInt());
+	                }
 	                
 	                // 이 시점에서 DTO를 데이터베이스에 저장하거나 리스트에 추가하여 나중에 저장할 수도 있습니다.
 	                submit(mediumforecastDTO);
 	            }
-	        }
+	        
 	    }
 	    
 	    
@@ -76,14 +83,57 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
 	        System.out.println(uri);
 	        String response = restTemplate.getForObject(uri, String.class);
 	        // JSON 파싱 및 데이터 추출
-	        JsonNode rootNode = objectMapper.readTree(response);
-	        JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
-	        String date = tmFc.substring(0, 8);
-	        for (JsonNode item : itemsNode) {
-	            String currentFcstTime = item.path("fcstTime").asText();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+	        
+	        JsonNode itemNode = objectMapper.readTree(response).path("response").path("body").path("items").path("item").get(0);
+	        LocalDate currentDate = LocalDate.parse(tmFc.substring(0, 8),formatter);
+	        
+
+	        for (int day = 3; day <= 10; day++) {
+	        	
+	        	String wfAmField, wfPmField, rnStAmField, rnStPmField;
+	            String wfAm = null;
+	            String wfPm = null;
+	            int rnStAm = 0;
+	            int rnStPm = 0;
+	            MediumTerForecastDTO mediumforecastDTO2= new MediumTerForecastDTO();
+	            LocalDate forecastDate = currentDate.plusDays(day);
+	            
+	            if(day < 8) {
+	            wfAmField = "wf" + day + "Am";
+	            wfPmField = "wf" + day + "Pm";
+	            rnStAmField = "rnSt" + day + "Am";
+	            rnStPmField = "rnSt" + day + "Pm";
+
+	            wfAm = itemNode.path(wfAmField).asText();
+	            wfPm = itemNode.path(wfPmField).asText();
+	            rnStAm = itemNode.path(rnStAmField).asInt();
+	            rnStPm = itemNode.path(rnStPmField).asInt();
+	            }
+	            // 8, 9, 10일 후의 경우 AM, PM 값을 동일하게 저장
+	            if (day >= 8) {
+	            wfAmField = "wf" + day;
+	 	        wfPmField = "wf" + day;
+	 	        rnStAmField = "rnSt" + day;
+	 	        rnStPmField = "rnSt" + day;	
+	            	
+	 	        wfAm = itemNode.path(wfAmField).asText();
+	            wfPm = itemNode.path(wfPmField).asText();
+	            rnStAm = itemNode.path(rnStAmField).asInt();
+	            rnStPm = itemNode.path(rnStPmField).asInt();	
+	            
+	            }
+	            mediumforecastDTO2.setFIRST_PRECINCT_NO(no);
+	            mediumforecastDTO2.setANNOUNCE_DAY(tmFc);
+	            mediumforecastDTO2.setFORECAST_DAY(forecastDate.format(formatter));
+
+	            mediumforecastDTO2.setWFAM(wfAm);
+	            mediumforecastDTO2.setWFPM(wfPm);
+	            mediumforecastDTO2.setRNSTAM(rnStAm);
+	            mediumforecastDTO2.setRNSTPM(rnStPm);
 
 	        
-		
+	            submit(mediumforecastDTO2);
 	}}
 	
 	
@@ -115,9 +165,22 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
     @Override
     @Transactional
     public void submit(MediumTerForecastDTO mediumforecastDTO) {
-    	dao.insertTemp(mediumforecastDTO);
+    	  if (mediumforecastDTO.getRNSTAM()== 0 && mediumforecastDTO.getRNSTPM()==0 && 
+    	      mediumforecastDTO.getWFAM()==null && mediumforecastDTO.getWFPM()==null) {
+    	        dao.insertTemp(mediumforecastDTO);
+    	    } else {
+    	        dao.updateTemp(mediumforecastDTO);
     }
-
+    	  
+    }
+    
+    public void keepdateTemp() {
+    	dao.keepdateTemp();
+    }	  
+    
+    public List<String> findMediumAnn() {
+    	return dao.findMediumAnn();
+    }
 
 
 

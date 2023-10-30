@@ -17,7 +17,8 @@
 	</select>
 
 
- <!-- insertAnnounceData -->
+ <!-- 단기 -->
+ 	<!-- insertAnnounceData -->
     <insert id="insertAnnounceData" parameterType="ShortTermAnnounceDTO" >
         INSERT INTO SHORT_TERM_ANNOUNCE_TB (IDX,ANNOUNCE_DAY, ANNOUNCE_TIME)
         VALUES (SHORT_TERM_ANNOUNCE_IDX.NEXTVAL, #{ANNOUNCE_DAY}, #{ANNOUNCE_TIME})
@@ -51,6 +52,76 @@
     <delete id="deleteById">
         DELETE FROM SHORT_TERM_ANNOUNCE_TB WHERE IDX = #{id}
     </delete>
+    
+    
+    <!-- 장기 -->
+    
+    <insert id="insertTemp" parameterType="MediumTerForecastDTO">
+    	INSERT INTO MEDIUM_TERM_FORECAST_TB (MEDIUM_TERM_FCST_NO, FIRST_PRECINCT_NO, SECOND_PRECINCT_NO, ANNOUNCE_DAY, FORECAST_DAY, WFAM, WFPM, TAMIN, TAMAX, RNSTAM, RNSTPM)
+    	VALUES (MEDIUM_TERM_FCST_SEQ.NEXTVAL , #{FIRST_PRECINCT_NO},#{SECOND_PRECINCT_NO},#{ANNOUNCE_DAY},#{FORECAST_DAY},NULL,NULL,#{TAMIN},#{TAMAX},0,0)
+    </insert>
+    
+    <update id="updateTemp" parameterType="MediumTerForecastDTO">
+    UPDATE MEDIUM_TERM_FORECAST_TB 
+    SET WFAM = #{WFAM},
+        WFPM = #{WFPM},
+        RNSTAM = #{RNSTAM},
+        RNSTPM = #{RNSTPM}
+    WHERE FIRST_PRECINCT_NO = #{FIRST_PRECINCT_NO} 
+    AND ANNOUNCE_DAY = #{ANNOUNCE_DAY} 
+    AND FORECAST_DAY = #{FORECAST_DAY}
+	</update>
 
+
+	<delete id="keepdateTemp">
+	DELETE FROM MEDIUM_TERM_FORECAST_TB
+        WHERE (FIRST_PRECINCT_NO, ANNOUNCE_DAY) IN (
+            SELECT FIRST_PRECINCT_NO, MIN(ANNOUNCE_DAY)
+            FROM (
+                SELECT FIRST_PRECINCT_NO, ANNOUNCE_DAY, 
+                    DENSE_RANK() OVER (PARTITION BY FIRST_PRECINCT_NO ORDER BY ANNOUNCE_DAY) as rnk
+                FROM MEDIUM_TERM_FORECAST_TB
+            )
+            WHERE rnk > 3
+            GROUP BY FIRST_PRECINCT_NO
+        )
+	</delete>
+	
+	<!-- 발표 시각 조회 -->
+	<select id="findMediumAnn" resultType="String">
+ 	  SELECT DISTINCT ANNOUNCE_DAY
+  	  FROM MEDIUM_TERM_FORECAST_TB
+	</select>
+
+
+
+	<!--  예보 -->
+	<delete id="keepdatePreSpecialWeather">
+        DELETE FROM PRELIMINARY_SPECAIL_REPORT_TB
+        WHERE 
+            TO_DATE(SUBSTR(TM_FC, 1, 8), 'YYYYMMDD') <![CDATA[ < ]]> TRUNC(SYSDATE) - 14
+    </delete>
+	
+	
+	<insert id="insertPreSpecialWeather" parameterType="PreSpecialWeatherDTO">
+	INSERT INTO PRELIMINARY_SPECAIL_REPORT_TB (PRE_SPECAIL_REPORT_NO, TM_FC, RRE_PWN, RRE_REM)
+	VALUES (PRELIMINARY_SPECAIL_REPORT_SEQ.NEXTVAL, #{TM_FC}, #{PWN}, #{REM})
+	</insert>
+	
+	<!-- 특보 -->
+	
+	<delete id="keepdateSpecialWeather">
+        DELETE FROM SPECIAL_REPORT_TB
+        WHERE 
+            TO_DATE(SUBSTR(TM_FC, 1, 8), 'YYYYMMDD') <![CDATA[ < ]]> TRUNC(SYSDATE) - 14
+    </delete>
+	
+	
+	<insert id="insertSpecialWeather" parameterType="SpecialWeatherDTO">
+	INSERT INTO SPECIAL_REPORT_TB (SPECIAL_REPORT_NO, TM_FC, AREA_NAME, WARN_VAR, WARN_STRESS, COMMAND, REPORT_TIME, REPORT_CANCEL)
+	VALUES (SPECIAL_REPORT_NO_SEQ.NEXTVAL, #{TM_FC}, #{AREA_NAME}, #{WARN_VAR}, #{WARN_STRESS}, #{COMMAND}, #{REPORT_TIME}, #{REPORT_CANCEL})
+	</insert>
+	
+	 
 
 </mapper>

@@ -22,20 +22,40 @@ public class MediumWeatherScheduler {
 	private LocalDateTime dateTime;
 
 	@Scheduled(cron = "0 0 7,19 * * ?")
-	public void scheduledTask() {
-	    // 현재 시간을 기준으로 1시간 전의 시간을 설정합니다.
-	    LocalDateTime now = LocalDateTime.now();
-	        dateTime = now.minusHours(1).withMinute(0).withSecond(0).withNano(0);
+    public void scheduledTask() {
+        setDateTime();
+        executeTask();
+    }
+    
+    public void setDateTime() {
+        // 현재 시간을 기준으로 1시간 전의 시간을 설정합니다.
+        LocalDateTime now = LocalDateTime.now();
+        dateTime = now.minusHours(1).withMinute(0).withSecond(0).withNano(0);
+    }
+    
+	
+	public void executeTask() {
+		
+		//발표시각이 3개 이상일경우 삭제
+		weatherService.keepdateTemp();
+		
+		String tmFc = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+		//발표시각 데이터 가져오기
+		List<String> gettmFcs = weatherService.findMediumAnn();
+		for (String gettmFc : gettmFcs) {
+			if(gettmFc.contentEquals(tmFc))
+		return;
+		}
         
-        String tmFc = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         String type = "JSON";
         String numOfRows = "100";
         List<Second_precinct_tb_DTO> dataList = getdataService.getSecondPrecinctData();
         for (Second_precinct_tb_DTO dto : dataList) {
 			String regId=dto.getSecond_Precinct_Cd();
 			int no = dto.getSecond_Precinct_No();
+			int no2 = dto.getFirst_Precinct_No();
 			try {
-                weatherService.getWeatherData1(tmFc, type, numOfRows,regId,no);
+                weatherService.getWeatherData1(tmFc, type, numOfRows,regId,no,no2);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -53,28 +73,25 @@ public class MediumWeatherScheduler {
                 e.printStackTrace();
             }
 		}
-        //발표시각이 이미 동일한 값이 있을경우 중복 삽입 방지 
-      /*  List<ShortTermAnnounceDTO> shortTermAnnounceDTOs = weatherService.findAll();
-        boolean isDataAlreadyExists = false;
-        for (ShortTermAnnounceDTO dto : shortTermAnnounceDTOs) {
-            if (baseDate.equals(dto.getANNOUNCE_DAY()) && baseTime.equals(dto.getANNOUNCE_TIME())) {
-                isDataAlreadyExists = true;
-                break;
-            }
-        }
-        
 
-        if (isDataAlreadyExists) {
-            return; // 이미 해당 데이터가 있으므로, 나머지 로직을 중지합니다.
-        }
-       //행이 3개이상일시 번호가 낮은순으로 삭제
-        weatherService.deleteExtraRows();
-        */
         
         
         
 
     }
+	
+	public void getTrigger() {
+		LocalDateTime now = LocalDateTime.now();
+  	    if (now.getHour() >= 19) {
+  	        dateTime = now.withHour(18).withMinute(0).withSecond(0).withNano(0);
+  	    } else {
+  	        dateTime = now.withHour(06).withMinute(0).withSecond(0).withNano(0);
+  	    }
+  	    
+		executeTask();
+	}
+	
+	
 
 
 }

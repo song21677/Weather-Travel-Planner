@@ -21,17 +21,27 @@ public class ShortWeatherScheduler {
     private GetDataService getdataService;
 	
     private LocalDateTime dateTime;
-
+    
     @Scheduled(cron = "0 0 3,6,9,12,15,18,21,0 * * ?")
     public void scheduledTask() {
-        // 현재 시간을 기준으로 1시간 전의 시간을 설정합니다.
+        setDateTime();
+        executeTask();
+    }
+    
+    public void setDateTime() {
+    	 // 현재 시간을 기준으로 1시간 전의 시간을 설정합니다.
         LocalDateTime now = LocalDateTime.now();
         if (now.getHour() == 0) {
             dateTime = now.minusDays(1).withHour(23).withMinute(0).withSecond(0).withNano(0);
         } else {
             dateTime = now.minusHours(1).withMinute(0).withSecond(0).withNano(0);
         }
+    }
+    
+	
 
+    
+    public void executeTask() {
         
         String baseDate = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String baseTime = dateTime.format(DateTimeFormatter.ofPattern("HH00"));
@@ -75,7 +85,7 @@ public class ShortWeatherScheduler {
                 if (index % 50 == 0) { // 트랜잭션 숫자 조절 기능
                 	Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
                 	weatherService.submitDataStore();
-                    Thread.sleep(1 * 20 * 1000); //50초 동안 스레드를 잠시 중지합니다.
+                    Thread.sleep(1 * 40 * 1000); //50초 동안 스레드를 잠시 중지합니다.
                     weatherService.claerDataStore();
                     Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
                 } else {
@@ -92,6 +102,29 @@ public class ShortWeatherScheduler {
         }
 
     }
+    
+    public void getTrigger() {
+		LocalDateTime now = LocalDateTime.now();
+		if (now.getHour() >= 21) {
+	        dateTime = now.withHour(20).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 18) {
+	        dateTime = now.withHour(17).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 15) {
+	        dateTime = now.withHour(14).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 12) {
+	        dateTime = now.withHour(11).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 9) {
+	        dateTime = now.withHour(8).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 6) {
+	        dateTime = now.withHour(5).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 3) {
+	        dateTime = now.withHour(2).withMinute(0).withSecond(0).withNano(0);
+	    } else if (now.getHour() >= 0) {
+	    	dateTime = now.minusDays(1).withHour(23).withMinute(0).withSecond(0).withNano(0);
+	    } 
+		
+		executeTask();
+	}
 
 }
 

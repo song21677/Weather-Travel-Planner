@@ -69,9 +69,7 @@ public class ShortWeatherServiceImpl implements ShortWeatherService {
             //JSON형태로 모든 시간대로 길게 나오기때문에 끊을 지점 선정
             if (prevFcstTime != null && !currentFcstTime.equals(prevFcstTime)) {
                 dataStore.addForecastData(forecastDTO);
-                System.out.println(forecastDTO);
                 forecastDTO = new ShortTermForecastDTO();
-              
             }
 
             
@@ -83,29 +81,31 @@ public class ShortWeatherServiceImpl implements ShortWeatherService {
         int value = item.path("fcstValue").asInt();
         String value2 = item.path("fcstValue").asText();
 
-        if("TMP".equals(category)) {
+        switch (category) {
+        case "TMP":
             forecastDTO.setTMP(value);
-        }
-        if("PTY".equals(category)) {
+            break;
+        case "PTY":
             forecastDTO.setPTY(value2);
-        }
-        if("POP".equals(category)) {
+            break;
+        case "POP":
             forecastDTO.setPOP(value);
-        }
-        if("REH".equals(category)) {
+            break;
+        case "REH":
             forecastDTO.setREH(value);
-        }
-        if("PCP".equals(category)) {
+            break;
+        case "PCP":
             forecastDTO.setPCP(value2);
-        }
-        if("SKY".equals(category)) {
+            break;
+        case "SKY":
             forecastDTO.setSKY(value2);
-        }
-        if("WSD".equals(category)) {
+            break;
+        case "WSD":
             forecastDTO.setWSD(value);
-        }
-        if("WAV".equals(category)) {
+            break;
+        case "WAV":
             forecastDTO.setWAV(value);
+            break;
         }
         
         prevFcstTime = currentFcstTime;
