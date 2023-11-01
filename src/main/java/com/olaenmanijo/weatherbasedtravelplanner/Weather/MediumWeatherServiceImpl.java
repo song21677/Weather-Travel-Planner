@@ -41,6 +41,10 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
 	        System.out.println(uri);
 	        String response = restTemplate.getForObject(uri, String.class);
 	        
+	        if (response.contains("<OpenAPI_ServiceResponse>")) {
+	            // API 응답이 XML인 경우
+	            return;
+	        }
 	        
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 	        
@@ -54,19 +58,13 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
 	                LocalDate forecastDate = currentDate.plusDays(i);
 	                String taMinField = "taMin" + i;
 	                String taMaxField = "taMax" + i;
-	                
 	                mediumforecastDTO.setSECOND_PRECINCT_NO(no);
 	                mediumforecastDTO.setFIRST_PRECINCT_NO(no2);
 	                mediumforecastDTO.setANNOUNCE_DAY(tmFc);
 	                mediumforecastDTO.setFORECAST_DAY(forecastDate.format(formatter));
 	             // 18시인 경우 TAMIN과 TAMAX를 null로 설정
-	                if ("18".equals(currentHour)) {
-	                    mediumforecastDTO.setTAMIN(0);
-	                    mediumforecastDTO.setTAMAX(0);
-	                } else {
 	                    mediumforecastDTO.setTAMIN(itemNode.path(taMinField).asInt());
 	                    mediumforecastDTO.setTAMAX(itemNode.path(taMaxField).asInt());
-	                }
 	                
 	                // 이 시점에서 DTO를 데이터베이스에 저장하거나 리스트에 추가하여 나중에 저장할 수도 있습니다.
 	                submit(mediumforecastDTO);
@@ -82,6 +80,11 @@ public class MediumWeatherServiceImpl implements MediumWeatherService {
 	        URI uri = new URI(requestUrl);
 	        System.out.println(uri);
 	        String response = restTemplate.getForObject(uri, String.class);
+	        
+	        if (response.contains("<OpenAPI_ServiceResponse>")) {
+	            // API 응답이 XML인 경우
+	            return;
+	        }
 	        // JSON 파싱 및 데이터 추출
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 	        

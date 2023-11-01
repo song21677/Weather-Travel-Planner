@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
-@EnableScheduling
 public class ShortWeatherScheduler {
 	
 
@@ -89,7 +88,12 @@ public class ShortWeatherScheduler {
                     weatherService.claerDataStore();
                     Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
                 } else {
-                    Thread.sleep(1000); // 쿼리 호출 시 매번1초 동안 스레드를 잠시 중지합니다. 
+                	try {
+                    Thread.sleep(1000); // 쿼리 호출 시 매번1초 동안 스레드를 잠시 중지합니다.
+                	}
+                	catch(InterruptedException e) {
+                        e.printStackTrace();
+                	}
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

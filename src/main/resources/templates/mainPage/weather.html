@@ -1,5 +1,7 @@
 
     <div th:fragment="div">
+   <p th:text="${weatherList}" id="weatherList" style="display: none;"></p>
+   <p th:text="${weatherList2}" id="weatherList2" style="display: none;"></p>
    
    
 
@@ -60,7 +62,7 @@
                         <th>시간</th>
                         <th>날씨</th>
                         <th>온도 (°C)</th>
-                        <th>강수량 (mm)</th>
+                        <th>강수확률 (%)</th>
                         <th>습도 (%)</th>
                     </tr>
                 </thead>

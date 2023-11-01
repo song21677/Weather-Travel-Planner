@@ -34,6 +34,11 @@ public class PreSpecialWeatherServiceImpl implements PreSpecialWeatherService {
         URI uri = new URI(requestUrl);
         System.out.println(uri);
         String response = restTemplate.getForObject(uri, String.class);
+        
+        if (response.contains("<OpenAPI_ServiceResponse>")) {
+            // API 응답이 XML인 경우
+            return;
+        }
         // JSON 파싱 및 데이터 추출
         JsonNode itemNode = objectMapper.readTree(response).path("response").path("body").path("items").path("item");
         for (JsonNode item : itemNode) {

@@ -41,12 +41,19 @@ public class ShortWeatherServiceImpl implements ShortWeatherService {
         
         System.out.println(uri);
         String response = restTemplate.getForObject(uri, String.class);
+        
+        if (response.contains("<OpenAPI_ServiceResponse>")) {
+            // API 응답이 XML인 경우
+            return;
+        }
 
                       
         // JSON 파싱 및 데이터 추출
         JsonNode rootNode = objectMapper.readTree(response);
         JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
         
+        
+
         
      // dataStore에 AnnounceData가 없는 경우에만 저장
         // 266번 반복해서 쿼리 호출하기때문에 방지위해 삽입

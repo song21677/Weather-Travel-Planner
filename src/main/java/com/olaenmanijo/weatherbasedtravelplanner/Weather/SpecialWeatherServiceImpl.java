@@ -34,6 +34,11 @@ public class SpecialWeatherServiceImpl implements SpecialWeatherService{
         URI uri = new URI(requestUrl);
         System.out.println(uri);
         String response = restTemplate.getForObject(uri, String.class);
+        
+        if (response.contains("<OpenAPI_ServiceResponse>")) {
+            // API 응답이 XML인 경우
+            return;
+        }
         // JSON 파싱 및 데이터 추출
         JsonNode itemNode = objectMapper.readTree(response).path("response").path("body").path("items").path("item");
         for (JsonNode item : itemNode) {
@@ -42,9 +47,9 @@ public class SpecialWeatherServiceImpl implements SpecialWeatherService{
 			 dto.setAREA_NAME(item.path("areaName").asText());
 			 dto.setWARN_VAR(item.path("warnVar").asText());
 			 dto.setWARN_STRESS(item.path("warnStress").asInt());
-			 dto.setCOMMAND(item.path("COMMAND").asInt());
-			 dto.setTIME(item.path("TIME").asText());
-			 dto.setCANCEL(item.path("CANCEL").asInt());
+			 dto.setCOMMAND(item.path("command").asInt());
+			 dto.setTIME(item.path("startTime").asText());
+			 dto.setCANCEL(item.path("cancel").asInt());
 			 dao.setWeatherData(dto);
 		}
         
