@@ -1,0 +1,69 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TravelReviewMapper">
+	<!-- 자랑하기 전체 리스트 -->
+	<select id="communityList" resultType="CommunityListResponse">
+		select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
+		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
+		from TRAVEL_REVIEW_TB
+		where DEL_YN = 0
+	</select>
+	
+	<!-- 자랑하기 전체 갯수 -->
+	<select id="totalCommunity" resultType="int">
+     select count(*)
+     from TRAVEL_REVIEW_TB
+   </select>
+   
+	<!-- 자랑하기 자세히보기 -->
+   <select id="selectCommunity"  resultType="CommunityListResponse" parameterType="int">
+     select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
+		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
+	 from TRAVEL_REVIEW_TB
+     where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   </select>
+   
+   <!-- 자랑하기 플래너번호로 조회 -->
+   <select id="selCommuTravelNo"  resultType="CommunityListResponse" parameterType="int">
+     select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
+		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
+	 from TRAVEL_REVIEW_TB
+     where TRAVEL_PLAN_NO = #{TRAVEL_PLAN_NO}
+   </select>
+   
+   <!-- 자랑하기 글쓰기 저장(insert)-->
+   <insert id="communityWrite" parameterType="CommunityRegistRequest">
+   	insert into TRAVEL_REVIEW_TB (TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE, PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT)
+   	values (TRAVEL_REVIEW_SQ.NEXTVAL, #{TRAVEL_PLAN_NO}, #{MEMBER_NO}, #{PLANNER_REVIEW_TITLE}, #{PLANNER_REVIEW_IMAGE}, #{PLANNER_REVIEW_CONTENT})
+   </insert>
+   
+   <!-- 자랑하기 글쓰기 수정(update)-->
+   <update id="communityUpdate" parameterType="CommunityModifyRequest">
+   	update TRAVEL_REVIEW_TB
+   	set PLANNER_REVIEW_TITLE = #{PLANNER_REVIEW_TITLE}, PLANNER_REVIEW_IMAGE = #{PLANNER_REVIEW_IMAGE}, PLANNER_REVIEW_CONTENT = #{PLANNER_REVIEW_CONTENT}
+   	where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   </update>
+   
+   <!-- 자랑하기 글쓰기 삭제(delete)-->
+   <delete id="communityDelete" parameterType="int">
+     update TRAVEL_REVIEW_TB
+     set DEL_YN = 1
+     where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   </delete>
+   
+	<!-- 자랑하기 조회수 업데이트 -->
+	<update id="readHit" parameterType="int">
+      update TRAVEL_REVIEW_TB
+      set HIT = HIT + 1
+      where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   </update>
+   
+	<!-- 자랑하기 추천하기 업데이트 -->
+	<update id="readRecommend" parameterType="int">
+      update TRAVEL_REVIEW_TB
+      set RECOMMEND = RECOMMEND + 1
+      where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   </update>
+</mapper>
