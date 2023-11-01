@@ -1,0 +1,69 @@
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.scrollable-container {
+	max-height: 850px;
+	overflow-y: auto;
+}
+
+.scrollable-area {
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+.fixed-width-button {
+	width: 120px;
+}
+
+/* star-rating */
+.star-container {
+	width: 200px;
+	display: flex;
+}
+
+.star-widget input {
+	display: none;
+}
+
+.star-widget label {
+	font-size: 18px;
+	color: #444;
+	padding: 5px;
+	float: right;
+	transition: all 0.2s ease;
+}
+
+.star-widget input:not (:checked ) ~ label:hover, .star-widget input:not
+	(:checked )  ~ label:hover ~ label {
+	color: #fd4;
+}
+
+.star-widget input:checked ~ label {
+	color: #fd4;
+}
+
+.star-widget input#rate-5:checked ~ label {
+	color: #fe7;
+	text-shadow: 0 0 10px #952;
+}
+
+.profile-image {
+	width: 50px; 
+	height: 50px; 
+	background-color: #007bff; 
+	border-radius: 50%; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.profile-image img {
+	max-width: 100%; 
+	border-radius: 50%; 
+}
