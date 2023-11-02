@@ -27,18 +27,21 @@ public class PlanController {
 	PlaceDAO placeDAO;
 
 	@GetMapping("/plan")
-	public String plan() {
+	public String plan(@ModelAttribute PlanDTO planDTO) {
 		return "planPage/plan";
 	}
 	
 	@GetMapping("/planForm")
-	public String planHTML() {
+	public String planForm(@ModelAttribute PlanDTO planDTO) {
+		
+		
 		return "planPage/planForm";
 	}
 	
 	@GetMapping("/search")
-	public String search(@RequestParam(required = false) String area, @RequestParam(required = false) String category, Model model) throws IOException, URISyntaxException {
+	public String search(@RequestParam(required = false) String date, @RequestParam(required = false) String area, @RequestParam(required = false) String category, Model model) throws IOException, URISyntaxException {
 		if (area != null && category != null) {
+			model.addAttribute("dateString", date);
 			 
 			Map<String, String> paramMap = new HashMap<>();
 			if (area.equals("6")) area="부산";

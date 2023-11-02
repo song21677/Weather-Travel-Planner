@@ -23,18 +23,5 @@
             <button type="button" class="form-control col-md-3 select">선택</button>
         </div>
     </div>
-                
-    <button class="form-control" id="applyBtn">적용</button>
-   
-    <script>
-    var button = document.getElementById(applyBtn);
-    button.addEventListener("click", function() {
-		 event.preventDefault();
-		 
-           fetch('/planHTML')
-               .then(response => response.text())
-               .then(html => {
-                   document.querySelector('.frame').innerHTML = html;
-               });
-       });
-    </script>
+    <input type="hidden" th:value="${dateString}" id="date"/>
+    <button type="button" class="form-control" id="applyBtn">적용</button>
