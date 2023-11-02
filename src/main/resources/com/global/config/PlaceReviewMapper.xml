@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlaceReviewMapper">
+
+	<!-- 여행지 리뷰 리스트 -->
+	
+	<!-- 여행지 리뷰 저장하기 -->
+	<insert id="placeReviewWrite"
+		parameterType="PlaceReviewRegistRequest">
+		insert INTO PLACE_REVIEW_TB(PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO,
+					PLACE_NO, PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE)
+		values (PLACE_REVIEW_SQ.NEXTVAL, #{DETAIL_PLAN_NO}, #{MEMBER_NO},
+				#{PLACE_NO}, #{PLACE_REVIEW_IMG}, #{PLACE_REVIEW_CONTENT},
+				#{PLACE_REVIEW_SCORE})
+	</insert>
+
+	<!-- 여행지 리뷰 업데이트 -->
+	<update id="placeReviewUpdate"
+		parameterType="PlaceReviewModifyRequest">
+		update PLACE_REVIEW_TB
+		set PLACE_REVIEW_IMG = #{PLACE_REVIEW_IMG}, PLACE_REVIEW_CONTENT =
+			#{PLACE_REVIEW_CONTENT}, PLACE_REVIEW_SCORE = #{PLACE_REVIEW_SCORE}
+		where PLACE_REVIEW_NO = #{PLACE_REVIEW_NO}
+	</update>
+</mapper>

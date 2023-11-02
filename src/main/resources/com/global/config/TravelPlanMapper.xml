@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TravelPlanMapper">
+
+   <!-- 여행일정 리스트 -->
+   <select id="selectPlannerList"  resultType="CommunityPlannerListResponse" parameterType="int">
+     select TRAVEL_PLAN_NO, MEMBER_NO, TRAVEL_PLAN_TITLE, START_YMD, END_YMD
+     from TRAVEL_PLAN_TB
+     where MEMBER_NO = #{MEMBER_NO}
+     order by START_YMD
+   </select>
+   
+</mapper>
