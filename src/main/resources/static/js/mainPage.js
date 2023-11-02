@@ -92,40 +92,181 @@
         return date.toISOString().split('T')[0];
     }
     
-    // 임시 날씨 정보
-    const weatherData = {
-    	    "서울": {
-    	        [getFormattedDate(today)]: {
-    	            "09:00": { weather: "맑음", temp: "20°C", rainfall: "0mm", humidity: "60%" },
-    	            "10:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "12:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "13:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "14:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "15:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	        },
-    	        // ... 다른 날짜에 대한 정보
-    	    },
-    	    "부산": {
-    	        [getFormattedDate(today)]: {
-    	            "09:00": { weather: "맑음", temp: "20°C", rainfall: "0mm", humidity: "60%" },
-    	            "10:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "12:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "13:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "14:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "15:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "16:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "17:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "18:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "19:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "20:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	            "21:00": { weather: "흐림", temp: "21°C", rainfall: "0mm", humidity: "62%" },
-    	        },
-    	        // ... 다른 날짜에 대한 정보
-    	    },
-    	    // ... 다른 지역의 날씨 정보
-    	    
-    	};
+    
+    
+    //////////////////////단기기온
+    
+    function mapSkyToWeather(skyCode) {
+        switch (skyCode) {
+            case "1":
+                return "맑음";
+            case "3":
+                return "구름많음";
+            case "4":
+                return "흐림";
+            default:
+                return "알 수 없음";
+        }
+    }
+    
+    function mapPtyToSky(ptyCode){
+    	switch (ptyCode) {
+        case 1:
+        case 2:
+            return "비"; 
+            break;
+        case 3:
+            return "눈";
+            break;
+        case 4:
+            return"소나기";
+            break;
+        default:
+            break;
+    }
 
+    }
+    
+    var currentDate = new Date(); // 현재 날짜의 날짜 객체 생성
+    var threeDaysLater = new Date();
+    threeDaysLater.setDate(currentDate.getDate() + 2);
+    
+    
+    const locationMap = {
+    		203:"서울",
+     	    229:"부산",
+     	    246:"대구",
+     	    255:"인천",
+     	    265:"광주",
+     	    271:"대전",
+     	    277:"울산",
+     	    283:"세종",
+     	    284:"경기",
+     	    326:"충북",
+     	    341:"충남",
+     	    358:"전북",
+     	    374:"전남",
+     	    397:"경북",
+     	    422:"경남",
+     	    421:"울릉",
+     	    448:"강원",
+     	    445:"제주",
+    	};
+    
+    var weatherListElement = $("#weatherList");
+    var weatherList = JSON.parse(weatherListElement.text());
+    var weatherData = {};
+
+    $.each(weatherList, function(index, item) {
+        var second_PRECINCT_NO = item.second_PRECINCT_NO;
+        var location = locationMap[second_PRECINCT_NO];
+        var forecast_DAY = item.forecast_DAY.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+        var tmp = item.tmp;
+        var reh = item.reh;
+        var pcp = item.pcp;
+        var pty = item.pty;
+        var sky = mapSkyToWeather(item.sky);
+        var forecast_TIME = item.forecast_TIME.replace(/(\d{2})(\d{2})/, '$1:$2');;
+        
+        
+        // 날씨 정보를 업데이트
+        if (pty !== 0 && (pty === 1 || pty === 2)) {
+            sky = mapPtyToSky(pty); // 강수형태가 1 또는 2인 경우에만 업데이트
+        }else if (pcp!=="강수없음" && tmp>0) {
+            sky = "비"; // 강수량이 있는 경우 "비"로 설정
+        } 
+
+        // 만들어진 데이터를 weatherData 객체에 추가
+        if (!weatherData[location]) {
+            weatherData[location] = {};
+        }
+        
+        if (!weatherData[location][forecast_DAY]) {
+            weatherData[location][forecast_DAY] = {};
+        }
+        
+        
+       
+   
+
+        weatherData[location][forecast_DAY][forecast_TIME] = {
+            weather: sky, // "weather" 필드는 "sky" 필드로 설정
+            temp: tmp,
+            rainfall: pcp,
+            humidity: reh
+        };
+       
+    });
+  
+    
+ // forecast_TIME을 기준으로 데이터를 정렬
+    $.each(weatherData, function(location, locationData) {
+        $.each(locationData, function(forecastDay, forecastData) {
+            var sortedForecastData = {};
+            Object.keys(forecastData).sort().forEach(function(time) {
+                sortedForecastData[time] = forecastData[time];
+            });
+            locationData[forecastDay] = sortedForecastData;
+        });
+    });
+
+    
+    
+///////////////////////중기기온
+    
+    var weatherListElement2 = $("#weatherList2");
+    var weatherList2 = JSON.parse(weatherListElement2.text());
+    
+
+    $.each(weatherList2, function(index, item) {
+        var second_PRECINCT_NO2 = item.second_PRECINCT_NO;
+        var location2 = locationMap[second_PRECINCT_NO2];
+        var forecast_DAY2 = item.forecast_DAY.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+        var wfam = item.wfam;
+        var wfpm = item.wfpm;
+        var tamin = item.tamin;
+        var tamax = item.tamax;
+        var rnstam = item.rnstam;
+        var rnstpm = item.rnstpm;
+      
+
+        // "오전" 예보를 저장
+        var forecastTimeMorning = "오전";
+        if (!weatherData[location2]) {
+            weatherData[location2] = {};
+        }
+        if (!weatherData[location2][forecast_DAY2]) {
+            weatherData[location2][forecast_DAY2] = {};
+        }
+        weatherData[location2][forecast_DAY2][forecastTimeMorning] = {
+            time: forecast_DAY2,
+            weather: wfam,
+            temp: tamin,
+            rainfall: rnstam,
+            humidity: "확인 불가"
+        };
+
+        // "오후" 예보를 저장
+        var forecastTimeAfternoon = "오후";
+        if (!weatherData[location2]) {
+            weatherData[location2] = {};
+        }
+        if (!weatherData[location2][forecast_DAY2]) {
+            weatherData[location2][forecast_DAY2] = {};
+        }
+        weatherData[location2][forecast_DAY2][forecastTimeAfternoon] = {
+            time: forecast_DAY2,
+            weather: wfpm,
+            temp: tamax,
+            rainfall: rnstpm,
+            humidity: "확인 불가"
+        };
+       
+    });
+    
+    
+    
+    
     
     $(".locations button[data-location='서울']").addClass('active');
     let selectedLocation = "서울";
@@ -143,23 +284,41 @@
                 const rowTime = time.split(':');
                 const rowHours = parseInt(rowTime[0], 10);
                 const rowMinutes = parseInt(rowTime[1], 10);
+                const rowDate = new Date(selectedDate); // 선택한 날짜의 날짜 객체 생성
 
                 // 현재 시간보다 미래의 행만 추가합니다.
-                if (rowHours >= hours || (rowHours === hours && rowMinutes > minutes)) {
+                if (rowDate <= threeDaysLater) {
+                    if (rowDate >= currentDate || rowHours >= hours || (rowHours === hours && rowMinutes > minutes)) {
+                        const { weather, temp, rainfall, humidity } = weatherForDate[time];
+                        console.log(weatherForDate[time]);
+                        const row = `
+                            <tr>
+                                <td>${time}</td>
+                                <td>${weather}</td>
+                                <td>${temp}°C</td>
+                                <td>${rainfall}</td>
+                                <td>${humidity}%</td>
+                            </tr>
+                        `;
+                        tbody.append(row);
+                        hasFutureData = true;
+                    }
+                } else {
                     const { weather, temp, rainfall, humidity } = weatherForDate[time];
                     const row = `
                         <tr>
                             <td>${time}</td>
                             <td>${weather}</td>
-                            <td>${temp}</td>
-                            <td>${rainfall}</td>
+                            <td>${temp}°C</td>
+                            <td>${rainfall}%</td>
                             <td>${humidity}</td>
                         </tr>
                     `;
                     tbody.append(row);
                     hasFutureData = true;
                 }
-            }
+        }
+        }
 
             // 만약 미래의 데이터가 없다면, 알림 행을 추가합니다.
             if (!hasFutureData) {
@@ -169,11 +328,10 @@
                     </tr>
                 `;
                 tbody.append(row);
-            }
         } else {
             const row = `
                 <tr>
-                    <td colspan="5">해당 값이 없습니다.</td>
+                    <td colspan="5">하루 끝 :)</td>
                 </tr>
             `;
             tbody.append(row);
@@ -206,6 +364,8 @@
         function checkAndDisplayWeather() {
             const weatherForLocation = weatherData[selectedLocation] || {};
             const weatherForDate = weatherForLocation[selectedDate];
+            console.log("Selected location's data:", weatherData[selectedLocation]);
+            console.log("Selected date's data for location:", weatherData[selectedLocation][selectedDate]);
 
             if (selectedDate && selectedLocation) {
                 updateWeatherTable(weatherForDate);
@@ -218,7 +378,7 @@
             return days[date.getDay()];
         }
   
-        const formattedDate2 = `(${mm}. ${dd}) ${hours}시`;
+        const formattedDate2 = `${mm}월 ${dd}일 ${hours}시`;
         const formattedDate3 = `${yyyy}. ${mm}`;
         $("#todayDate").text(formattedDate3); // 오늘 날짜를 HTML 요소에 설정합니다.
         $("#dateOutput2").text(formattedDate2); // 오늘 날짜를 HTML 요소에 설정합니다.

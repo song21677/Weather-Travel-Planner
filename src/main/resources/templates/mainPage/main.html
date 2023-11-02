@@ -16,7 +16,7 @@
     <section>
         <div id="Weather">
             <div id ="nowWeather" th:replace="@{mainPage/weather.html} :: div"></div>
-            <div id ="mapWeather" th:replace="@{mainPage/map.html} :: div"></div>
+            <div id ="mapWeather" draggable="false" th:replace="@{mainPage/map.html} :: div"></div>
         </div>
     </section>
     <section>

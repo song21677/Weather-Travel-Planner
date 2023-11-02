@@ -24,9 +24,12 @@
 	        height:40px;
 	        box-sizing:  border-box; 
 	        float:left; 
-	        color: #007bff; 
 	        font-weight: 100;
 	        }
+	        
+	    .city .clear {color : #FFB000;}
+	    .city .cloud {color : #7D7C7C;}
+	    .city .rain {color : #213555;}
         .city p {
 	        margin: 0px; 
 	        height:10px; 
@@ -34,10 +37,10 @@
 	        }
         
 
-		#seoul { top: 18.75%; left: 29.23%; }
+		#seoul { top: 17.75%; left: 29.23%; }
 		#daegu { top: 50%; left: 60%; }
 		#gangwon { top: 16.25%; left: 56.92%; }
-		#gyeonggi { top: 22.5%; left: 36.46%; }
+		#gyeonggi { top: 20.5%; left: 38.46%; }
 		#daejeon { top: 45.25%; left: 38.46%; }
 		#incheon { top: 23%; left: 20.08%; }
 		#busan { top: 63.75%; left: 69.23%; }
@@ -46,10 +49,10 @@
 		#jeonbuk { top: 54.75%; left: 32.31%; }
 		#jeonnam { top: 70.75%; left: 35.62%; }
 		#kyungbuk { top: 35.75%; left: 65.62%; }
-		#kyungnam { top: 63.75%; left: 50.62%; }
+		#kyungnam { top: 61.75%; left: 51.62%; }
 		#jeju{top: 87.75%; left: 22.62%;}
 		#gwangju{top: 65.75%; left: 25.62%;}
-		#ulleung{top: 28.75%; left: 85.62%;}
+		#ulleung{top: 26.75%; left: 85.62%;}
 		
 		#map_location{
 	  		background-color:#007bff;
@@ -73,14 +76,12 @@
             border-radius: 10px; 
             padding:10px;
             margin-right: 40px;
+            user-select: none;
         }
-         #map_container h1{
-         	font-size: 20px;
-         	padding: 10px;
-         }
+
          #dateOut {
          	position: absolute;
-         	bottom: 3%;
+         	bottom: 0%;
          	right : 3%;
          }
        
@@ -197,7 +198,7 @@
         .slider li > .userImg {width:320px; height: 180px; margin: 10px;}
         .slider li > h1 {width: 180px; height: 30px; margin: 10px; line-height: 30px; font-size: 20px;}
         .slider li > p {width: 180px; height: 30px; margin: 10px; line-height: 30px;}
-        .slider li img+p{font-size: 12px; height: 20px;  line-height: 20px;}
+        .slider li img+p{font-size: 12px; height: 20px;  line-height: 20px; }
         
 		
 		
@@ -216,6 +217,7 @@
 		    height: 80px;
 		    opacity: 0.8;
 		    pointer-events: none;
+		    user-select: none;
 		}
 
 		

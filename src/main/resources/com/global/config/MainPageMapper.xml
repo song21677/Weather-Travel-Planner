@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MainPageMapper">
+
+<select id="getNowWeather" resultType="GetNowWeatherDTO">
+		SELECT s.SECOND_PRECINCT_NO, s.FORECAST_DAY, s.FORECAST_TIME, s.TMP, s.PTY, s.PCP, s.SKY, s.REH
+		FROM (
+		    SELECT t.SECOND_PRECINCT_NO, t.FORECAST_DAY, t.FORECAST_TIME, t.TMP, t.PTY, t.PCP, t.SKY, t.REH,
+		           RANK() OVER (PARTITION BY t.SECOND_PRECINCT_NO ORDER BY t.IDX DESC) as rnk
+		    FROM SHORT_TERM_FORECAST_TB t
+		    WHERE t.SECOND_PRECINCT_NO IN (203, 229, 246, 255, 265, 271, 277, 283, 284, 326, 
+		                                   341, 358, 374, 397, 422, 421, 448, 445)
+		         AND TO_DATE(t.FORECAST_DAY, 'YYYYMMDD') <![CDATA[<=]]> (SYSDATE + 2)
+		) s
+		WHERE s.rnk = 1
+</select>
+
+<select id="getMediumWeather" resultType="GetMediumWeatherDTO">
+SELECT s.SECOND_PRECINCT_NO, s.FORECAST_DAY, s.WFAM, s.WFPM, s.TAMIN, s.TAMAX, s.RNSTAM, s.RNSTPM
+FROM (
+    SELECT t.SECOND_PRECINCT_NO, t.FORECAST_DAY, t.WFAM, t.WFPM, t.TAMIN, t.TAMAX, t.RNSTAM, t.RNSTPM,
+           RANK() OVER (PARTITION BY t.SECOND_PRECINCT_NO ORDER BY t.ANNOUNCE_DAY DESC) AS rnk
+    FROM MEDIUM_TERM_FORECAST_TB t
+    WHERE t.SECOND_PRECINCT_NO IN (203, 229, 246, 255, 265, 271, 277, 283, 284, 326, 341, 358, 374, 397, 422, 421, 448, 445)
+    AND TO_DATE(t.FORECAST_DAY, 'YYYYMMDD') <![CDATA[>]]> (SYSDATE + 2)
+) s
+WHERE s.rnk = 1
+</select>
+
+
+	 
+
+</mapper>

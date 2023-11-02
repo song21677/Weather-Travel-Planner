@@ -1,91 +1,214 @@
-<body th:fragment="div">
+<body th:fragment="div" >
    
     
 
 <p id ="map_location">현재 위치 : <span id="resultLocation"></span></p>
 <div id="map_container">
-    <h1>현재 날씨</h1>
     <p id ="dateOut">기준 : <span id="dateOutput2"></span></p>
-    <div class="city" id="seoul">
-        <p>서울</p>
-        <p><span>☀</span></p>
-        <p>21°C</p>
-    </div>
-    <div class="city" id="incheon">
-        <p>인천</p>
-        <p><span>☁</span></p>
-        <p>19°C</p>
-    </div>
-    <div class="city" id="daegu">
-        <p>대구</p>
-        <p><span>☁</span></p>
-        <p>19°C</p>
-    </div>
-    <div class="city" id="busan">
-        <p>부산</p>
-        <p><span>☁</span></p>
-        <p>19°C</p>
-    </div>
-    <div class="city" id="daejeon">
-        <p>대전</p>
-        <p><span>☁</span></p>
-        <p>19°C</p>
-    </div>
-    <div class="city" id="gyeonggi">
-        <p>경기</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="gangwon">
-        <p>강원</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="chungbuk">
-        <p>충북</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="chungnam">
-        <p>충남</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="jeonbuk">
-        <p>전북</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="jeonnam">
-        <p>전남</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="kyungbuk">
-        <p>경북</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="kyungnam">
-        <p>경남</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-        <div class="city" id="gwangju">
-        <p>광주</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-     <div class="city" id="ulleung">
-        <p>울릉</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
-    <div class="city" id="jeju">
-        <p>제주</p>
-        <p><span>🌧</span></p>
-        <p>20°C</p>
-    </div>
+    
+    	 <div th:if="${#lists.isEmpty(list)}" class="city" th:id="seoul">
+		    <p>서울</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="incheon">
+		    <p>인천</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="daegu">
+		    <p>대구</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="busan">
+		    <p>부산</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="daejeon">
+		    <p>대전</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="gyeonggi">
+		    <p>경기</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="gangwon">
+		    <p>강원</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="chungbuk">
+		    <p>충북</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" th:id="chungnam">
+		    <p>충남</p>
+		    <p><span>☁</span></p>
+		    <p>null</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="jeonbuk">
+      		<p>전북</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="jeonnam">
+	        <p>전남</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="kyungbuk">
+	        <p>경북</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="kyungnam">
+	        <p>경남</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="gwangju">
+	        <p>광주</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	     <div th:if="${#lists.isEmpty(list)}" class="city" id="ulleung">
+	        <p>울릉</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    <div th:if="${#lists.isEmpty(list)}" class="city" id="jeju">
+	        <p>제주</p>
+	        <p><span>🌧</span></p>
+	        <p>20°C</p>
+	    </div>
+	    
+	    
+	    
+	    
+	    
+         <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 203 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="seoul">
+		    <p>서울</p>
+		    <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+		    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+			<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+		    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+    
+        	
+	    <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 255 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="incheon">
+			    <p>인천</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+	     <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 246 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="daegu">
+			    <p>대구</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+	    <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 229 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="busan">
+			    <p>부산</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 271 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="daejeon">
+			    <p>대전</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 284 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="gyeonggi">
+			    <p>경기</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 448 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="gangwon">
+			    <p>강원</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 326 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="chungbuk">
+			    <p>충북</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 341 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="chungnam">
+			    <p>충남</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 358 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="jeonbuk">
+			    <p>전북</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 374 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="jeonnam">
+			    <p>전남</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 397 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="kyungbuk">
+			    <p>경북</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 422 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="kyungnam">
+			    <p>경남</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 265 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="gwangju">
+			    <p>광주</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 421 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="ulleung">
+			    <p>울릉</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		 <div th:each="city : ${list}" th:if="${city.SECOND_PRECINCT_NO == 445 and city.FORECAST_TIME == currentTime and city.FORECAST_DAY == currentDate}" class="city" th:id="jeju">
+			    <p>제주</p>
+			  <p th:if="${city.SKY == '1'}" class="clear"><span>☀</span></p>
+			    <p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP != '강수없음'}" class="rain"><span>🌧</span></p>
+				<p th:if="${(city.SKY == '3' or city.SKY == '4') and city.PCP == '강수없음'}" class="cloud"><span>☁</span></p>
+			    <p th:text="${city.TMP + '&deg;C'}"></p>
+		</div>
+		
+		
+
 
 </div>
 </body>
