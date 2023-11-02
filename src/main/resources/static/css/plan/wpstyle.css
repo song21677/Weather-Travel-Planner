@@ -1,0 +1,104 @@
+/*모든 태그 여백 초기화*/
+* {
+    margin: 0;
+    padding: 0;
+}
+/* form 속성 값과 같음 */
+.frame {
+    /*overflow-y: scroll;*/
+    /*position: relative;*/
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    /*z-index: 9;*/
+    padding: 30px;
+    background: #ffffff;
+    /* width: 400px; */
+    height: 520px;
+    margin-top:100px;
+    display: inline-block;
+}
+
+.map {
+    margin-top: 100px;
+    /* width: 700px; */
+    height: 520px;
+    display: inline-block;
+}
+/* input, 블록 */
+.form-control {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.form-control, .custom-select {
+    border: 2px solid #e9ecef;
+    font-size: 16px;
+    height: 45px;
+}
+
+.form-control2 {
+    border: 2px solid #e9ecef;
+    font-size: 16px;
+}
+
+.h2 {
+    font-size: 32px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color:cornflowerblue;
+    width: 100%;
+    margin: 0; /*이거 도대체 뭘까?*/
+}
+
+.form {
+}
+
+.plan {
+    /*position: sticky;
+    top: 0;*/
+}
+
+.details {
+    height: 219px;
+    overflow-y: scroll;
+}
+
+.category {
+    /* display: inline-block; */
+}
+
+.test1 {
+    display: inline-block;
+}
+
+#places {
+	overflow-y: scroll;
+	height: 370px;
+}
+
+#place {
+	padding-top: 15px;
+}
+
+#applyBtn {
+	text-align: center;
+	padding-top: 10px;
+}
+
+#selectedPlace {
+	padding-top: 15px;
+}
+
+hr {
+	margin-bottom: 1px;
+}
