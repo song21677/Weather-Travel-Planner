@@ -49,19 +49,6 @@
         SELECT IDX,ANNOUNCE_DAY, ANNOUNCE_TIME
         FROM SHORT_TERM_ANNOUNCE_TB
     </select>
-
-	<delete id="deleteLowestIDX">
-    DELETE FROM SHORT_TERM_ANNOUNCE_TB
-    WHERE IDX IN (
-        SELECT IDX
-        FROM (
-            SELECT IDX
-            FROM SHORT_TERM_ANNOUNCE_TB
-            ORDER BY IDX ASC
-        )
-        WHERE ROWNUM <![CDATA[ <= ]]> (SELECT COUNT(*) - 3 FROM SHORT_TERM_ANNOUNCE_TB)
-    )
-	</delete>
     
     
     <!-- 장기 -->
