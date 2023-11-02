@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <meta
+        name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        	  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link th:href="@{/css/community/community.css}" rel="stylesheet" type="text/css">
+        <title>자랑하기</title>
+    </head>
+    <body>
+        <main class="container">
+            <!-- page title -->
+            <div class="container py-5 ">
+                <p class="h1">여행기 쓰기</p>
+            </div>
+            <!-- page content -->
+            <div class="container">
+                <!-- Planner search -->
+                <!-- offcanvas -->
+                <div class="offcanvas offcanvas-start" id="selplan"> 
+                    <div class="offcanvas-header">
+                        <h1 class="offcanvas-title">일정 선택</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="scrollable-area py-3">
+                            <div class="card shadow border-light" 
+                            	 style="width: 350px" 
+                            	 th:each="list:${CommunityPlannerListResponse}" 
+                            	 onmouseover="this.classList.remove('border-light'); this.classList.add('border-primary');" 
+                            	 onmouseout="this.classList.add('border-light'); this.classList.remove('border-primary');" 
+                            	 th:plannerid="${list.TRAVEL_PLAN_NO}" 
+                            	 th:onclick="loadPlannerData(this.getAttribute('plannerId'))" 
+                            	 data-bs-dismiss="offcanvas">
+                                <div class="row">
+                                    <div class="col">
+                                        <image class="img-thumnail float-start" 
+                                        	   th:src="@{/images/community/image19.png}" 
+                                        	   width="100%" height="100%"/>
+                                    </div>
+                                    <div class="col">
+                                    	<div class="card-header bg-white border-0"></div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${list.TRAVEL_PLAN_TITLE}"></h5>
+                                            <p class="card-text" th:text="'시작일: '+${list.START_YMD + ' 복귀일: ' + list.END_YMD}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" 
+                		class="btn btn-primary mb-3" 
+                		data-bs-toggle="offcanvas" 
+                		data-bs-target="#selplan">
+                    	여행일정 불러오기
+                </button>
+                <th:block th:if="${CommunityListResponse}" th:replace="@{community/communityWriteContent.html} :: content"></th:block>
+                <div th:unless="${CommunityListResponse}" id="write-content"></div>
+                
+            </div>
+        </main>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+    		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+    		crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/community/community.js}"></script>
+</html>

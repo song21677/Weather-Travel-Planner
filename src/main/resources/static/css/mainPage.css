@@ -1,0 +1,224 @@
+ 
+ 		section{margin-top: 70px;}
+ 
+ /* 지도 */
+		
+        
+        .container_mt_5{
+        	overflow:hidden;
+        	margin-top:60px;
+       		height:610px; 
+       		width:800px; 
+       		display: inline-block; 
+       		float:left;
+       		border:dashed 1px rgba(0,125,255,0.5); 
+       		padding:10px;}
+
+        .city {
+            position: absolute;
+            font-size: 14px;
+            text-align: center;
+        }
+        .city span {
+	        font-size: 2.5em;  
+	        height:40px;
+	        box-sizing:  border-box; 
+	        float:left; 
+	        font-weight: 100;
+	        }
+	        
+	    .city .clear {color : #FFB000;}
+	    .city .cloud {color : #7D7C7C;}
+	    .city .rain {color : #213555;}
+        .city p {
+	        margin: 0px; 
+	        height:10px; 
+	        font-weight: 400;
+	        }
+        
+
+		#seoul { top: 17.75%; left: 29.23%; }
+		#daegu { top: 50%; left: 60%; }
+		#gangwon { top: 16.25%; left: 56.92%; }
+		#gyeonggi { top: 20.5%; left: 38.46%; }
+		#daejeon { top: 45.25%; left: 38.46%; }
+		#incheon { top: 23%; left: 20.08%; }
+		#busan { top: 63.75%; left: 69.23%; }
+		#chungbuk { top: 32.5%; left: 43.08%; }
+		#chungnam { top: 41.75%; left: 27.69%; }
+		#jeonbuk { top: 54.75%; left: 32.31%; }
+		#jeonnam { top: 70.75%; left: 35.62%; }
+		#kyungbuk { top: 35.75%; left: 65.62%; }
+		#kyungnam { top: 61.75%; left: 51.62%; }
+		#jeju{top: 87.75%; left: 22.62%;}
+		#gwangju{top: 65.75%; left: 25.62%;}
+		#ulleung{top: 26.75%; left: 85.62%;}
+		
+		#map_location{
+	  		background-color:#007bff;
+	  		color:white;
+	  		display: inline-block; 
+	  		float: right;  
+	  		margin-right: 40px; 
+	  		font-size: 18px; 
+	  		padding: 10px;
+	  		border-radius: 10px;
+	  		}
+	  		
+        #map_container {
+     		float: right;
+            position: relative;
+            width: 500px;  /* 지도 이미지의 크기 */
+            height: 610px;
+            background-image: url('../images/m_map_city.png');
+            background-size :cover;  /* 지도 이미지의 경로 */
+            border: dashed 1px rgba(0,125,255,0.5);
+            border-radius: 10px; 
+            padding:10px;
+            margin-right: 40px;
+            user-select: none;
+        }
+
+         #dateOut {
+         	position: absolute;
+         	bottom: 0%;
+         	right : 3%;
+         }
+       
+  /* 날씨 */       
+  
+  
+  		.table-container {
+		    max-height: 350px; /* 예: 6행 x 50px(행 높이) + 20px(헤더) */
+		    overflow-y: auto; /* 세로 스크롤 */
+		}
+		
+		.table-container::-webkit-scrollbar {
+   			 display: none; /* Chrome, Safari, Edge */
+			}
+  		
+  		.mt-5 {margin-top: 0!important; }
+  
+		  #todayDate {
+		  
+		    margin:10px 30px;
+		    font-size:14px;
+		    display: inline-block;
+		    padding: 5px 10px;    
+		    border-radius: 10%;        /* 텍스트 주위의 여백 */
+		    border: 1px dashed rgba(192,192,192,0.5);      /* 원형 테두리 */
+		    position: relative;
+		    border-radius:10%;
+		    line-height: 14px;
+		}
+		
+		#todayDate:before, #todayDate:after {
+			
+		    content: "";                  /* 점선을 생성하기 위한 빈 콘텐츠 */
+		    position: absolute;
+		    top: 50%;
+		    width: 1000px;                 /* 점선의 길이를 설정합니다. 원하는 길이로 조정하실 수 있습니다. */
+		    height: 2px;                 /* 점선의 높이 */
+		    border-top: 1px dashed rgba(192,192,192,0.5); /* 점선 스타일 */
+		    transform: translateY(-50%); /* 세로 중앙 정렬 */
+		}
+		
+		#todayDate:before {
+		    left: -1000px;
+		                    /* 텍스트 왼쪽으로 점선을 이동 */
+		}
+		
+		#todayDate:after {
+		    right: -1000px;      /* 텍스트 오른쪽으로 점선을 이동 */
+		}
+  
+  
+  
+  		
+        #Weather{height:700px; width:1400px; margin: 0 auto; }
+        
+		 .locations-sizing {
+		    position: relative;
+		    overflow: hidden; 
+		    margin: 0 auto;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+		
+		.locations-wrapper {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    width: 100%;
+		    margin: 0 auto;
+		     overflow: hidden;
+		}
+		
+		.locations {
+			display: flex;
+		    transition: transform 0.3s;
+		    flex-grow: 1;
+		    width:auto;
+		    transform: translateX(200px);
+		}
+		
+		#prevSlide, #nextSlide {
+		    margin:10px;
+		    background-color: #007bff;
+		}
+						
+		
+		
+		
+ /* 추천 */
+		
+        .slider-wrapper {
+        	margin : 0 auto;
+            overflow: hidden;
+            width: 1500px;  /* 원하는 너비를 설정하세요 */
+            height: auto;  /* 원하는 높이를 설정하세요 */
+        }
+        
+        .slider {
+            align-items: center;
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 20px;
+        }
+        
+        .slider li {
+        	position :relative;
+            margin: 10px;
+            flex: 0 0 auto;
+            width: 400px;  /* slider-wrapper와 동일한 너비를 설정하세요 */
+            background-color: white;
+        }
+        .slider li > .userImg {width:320px; height: 180px; margin: 10px;}
+        .slider li > h1 {width: 180px; height: 30px; margin: 10px; line-height: 30px; font-size: 20px;}
+        .slider li > p {width: 180px; height: 30px; margin: 10px; line-height: 30px;}
+        .slider li img+p{font-size: 12px; height: 20px;  line-height: 20px; }
+        
+		
+		
+			
+		.default-image {
+   		 position: relative;
+   		 filter: brightness(70%);
+}
+
+		/* 워터마크 스타일 */
+		.watermark {
+		    position: absolute;
+		    bottom: 220px;
+		    right: 190px;
+		    width: 80px;
+		    height: 80px;
+		    opacity: 0.8;
+		    pointer-events: none;
+		    user-select: none;
+		}
+
+		
+        

@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+
+
+body {
+		font-family: 'Noto Sans', sans-serif;
+		width : 1600px;
+		margin : 0 auto;
+		height: auto;
+		}
+		
+		
+/*menu*/
+
+header {
+	box-sizing:border-box;
+	border-bottom:1px dashed rgba(0,123,255,0.2);
+	margin-bottom:60px;
+    height: 120px;
+    line-height: 80px;
+    background-color: white;
+    padding-top:5px;
+    padding-bottom:50px;
+}
+
+/* 아이템 간격 및 호버 효과 */
+.navbar-nav .nav-item {
+    margin-left: 15px;
+}
+
+.navbar-nav .nav-link {
+    padding: 0;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007BFF; /* 파란색으로 호버 효과 */
+}
+
+/* 로그인 버튼 스타일 강조 */
+.btn-primary {
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* 조금 더 진한 파란색으로 변경 */
+}
