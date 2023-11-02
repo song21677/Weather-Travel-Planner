@@ -168,18 +168,8 @@ public class ShortWeatherServiceImpl implements ShortWeatherService {
 	
 	//발표시각이 4개 이상일 경우 낮은순서부터 삭제
 	public void deleteExtraRows() {
-		
-        int rowCount = dao.countRows();
-
-        if (rowCount > 2) {
-            List<Integer> ids = dao.fetchIdsOrdered();
-            int rowsToDelete = rowCount - 2;
-
-            for (int i = 0; i < rowsToDelete; i++) {
-            	dao.deleteById(ids.get(i));
-            }
-        }
-    }
+		dao.deleteLowestIDX();
+	}
 	
 	public List<ShortTermAnnounceDTO> findAll() {
 		return dao.findAll();

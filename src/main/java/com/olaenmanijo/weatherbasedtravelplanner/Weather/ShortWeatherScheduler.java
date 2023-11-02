@@ -84,7 +84,7 @@ public class ShortWeatherScheduler {
                 if (index % 50 == 0) { // 트랜잭션 숫자 조절 기능
                 	Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
                 	weatherService.submitDataStore();
-                    Thread.sleep(1 * 40 * 1000); //50초 동안 스레드를 잠시 중지합니다.
+                    Thread.sleep(1 * 40 * 1000); //40초 동안 스레드를 잠시 중지합니다.
                     weatherService.claerDataStore();
                     Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
                 } else {

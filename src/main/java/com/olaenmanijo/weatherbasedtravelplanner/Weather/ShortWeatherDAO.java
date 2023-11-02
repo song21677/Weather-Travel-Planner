@@ -29,16 +29,8 @@ SqlSessionTemplate session;
 		return session.selectList("WeatherMapper.findAll");
 	}
 	
-	public int countRows() {
-        return session.selectOne("WeatherMapper.countRows");
-    }
-
-    public List<Integer> fetchIdsOrdered() {
-        return session.selectList("WeatherMapper.fetchIdsOrdered");
-    }
-
-    public void deleteById(int id) {
-    	session.delete("WeatherMapper.deleteById", id);
+	public void deleteLowestIDX() {
+    	session.delete("WeatherMapper.deleteLowestIDX");
     }
 
 }

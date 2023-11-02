@@ -29,6 +29,20 @@
         INSERT INTO SHORT_TERM_FORECAST_TB (SHORT_TERM_FORECAST_NO, IDX, SECOND_PRECINCT_NO, FORECAST_DAY, FORECAST_TIME, TMP, PTY, POP, REH, PCP, SKY, WSD, WAV)
         VALUES (SHORT_TERM_FORECAST_SEQ.NEXTVAL, SHORT_TERM_ANNOUNCE_IDX.CURRVAL, #{SECOND_PRECINCT_NO}, #{FORECAST_DAY}, #{FORECAST_TIME}, #{TMP}, #{PTY}, #{POP}, #{REH}, #{PCP}, #{SKY}, #{WSD}, #{WAV})
     </insert>
+    
+    
+    <delete id="deleteLowestIDX">
+    DELETE FROM SHORT_TERM_ANNOUNCE_TB
+    WHERE IDX IN (
+        SELECT IDX
+        FROM (
+            SELECT IDX
+            FROM SHORT_TERM_ANNOUNCE_TB
+            ORDER BY IDX ASC
+        )
+        WHERE ROWNUM <![CDATA[ <= ]]> (SELECT COUNT(*) - 3 FROM SHORT_TERM_ANNOUNCE_TB)
+    )
+	</delete>
 
 		 <!-- 발표 시각 조회 -->
     <select id="findAll" resultType="ShortTermAnnounceDTO">
@@ -36,22 +50,18 @@
         FROM SHORT_TERM_ANNOUNCE_TB
     </select>
 
-	 <!-- 행의 개수 조회 -->
-    <select id="countRows" resultType="int">
-        SELECT COUNT(*) FROM SHORT_TERM_ANNOUNCE_TB
-    </select>
-
-    <!-- IDX 기준으로 정렬된 ID 리스트 조회 -->
-    <select id="fetchIdsOrdered" resultType="int">
+	<delete id="deleteLowestIDX">
+    DELETE FROM SHORT_TERM_ANNOUNCE_TB
+    WHERE IDX IN (
         SELECT IDX
-        FROM SHORT_TERM_ANNOUNCE_TB
-        ORDER BY IDX ASC
-    </select>
-
-    <!-- IDX 기준으로 행 삭제 -->
-    <delete id="deleteById">
-        DELETE FROM SHORT_TERM_ANNOUNCE_TB WHERE IDX = #{id}
-    </delete>
+        FROM (
+            SELECT IDX
+            FROM SHORT_TERM_ANNOUNCE_TB
+            ORDER BY IDX ASC
+        )
+        WHERE ROWNUM <![CDATA[ <= ]]> (SELECT COUNT(*) - 3 FROM SHORT_TERM_ANNOUNCE_TB)
+    )
+	</delete>
     
     
     <!-- 장기 -->
