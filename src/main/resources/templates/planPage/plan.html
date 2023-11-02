@@ -15,19 +15,18 @@
 </head>
 
 <body>
-	<form action="" method="get" class="row" id="schedule-container">
-    <div th:replace="~{planPage/planForm :: copy}"></div>
-    
-    <div class="map col-md-6 ml-1 container">
-        <div class="category row">
-            <button class="form-control col-md-4" name="category" id="category" value="39">음식점</button>
-            <button class="form-control col-md-4" name="category" value="12">관광지</button>
-            <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
-        </div>
-        <div id="map"></div>
-    </div>
-
-</form>
+	<div class="row" id="schedule-container">
+	    <div th:insert="~{planPage/planForm :: copy}" class="frame col-md-4 mr-1 container"></div>
+	    
+	    <div class="map col-md-6 ml-1 container">
+	        <div class="category row">
+	            <button type="button" class="form-control col-md-4" name="category" id="category" value="39">음식점</button>
+	            <button class="form-control col-md-4" name="category" value="12">관광지</button>
+	            <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
+	        </div>
+	        <div id="map"></div>
+	    </div>
+	</div>
 
     <script src="js/plan/jquery-3.4.1.min.js"></script>
 	<script src="js/plan/bootstrap.min.js"></script>
@@ -46,7 +45,6 @@
 	</script>
 
 	<script>
-	
 	$(function() {
 		  $('input[name="daterange"]').daterangepicker({
 		    opens: 'left'
@@ -88,8 +86,8 @@
 				 button.setAttribute("class", "form-control");
 				 button.setAttribute("id", "add-schedule-button");
 				 button.innerText = "일정 추가";
+				 button.type = "button"
 				 button.addEventListener("click", function() {
-					 event.preventDefault();
 					 
 	                    fetch('/search')
 	                        .then(response => response.text())
@@ -103,71 +101,72 @@
 				 var br = document.createElement("br");
 				 detailsElement.append(br);
 			 }
-			
-			var form = document.querySelector('form');
-			 
-			 form.addEventListener("submit", function() {
-				 event.preventDefault();
-				 
-			        const area = document.getElementById('area').value;
-			        const category = document.getElementById('category').value;
-				 
-		           fetch(`/search?area=${area}&category=${category}`)
-		               .then(response => response.text())
-		               .then(html => {
-		                   document.querySelector('.frame').innerHTML = html;
-		               });
-		       });
-			 
 		  });
 		});
     </script>
     
     <script>
-   var isSelected = false;
-   
-   document.querySelectorAll("#select").forEach(function(button) {
-       button.addEventListener("click", function(event) {
+	    var categoryBtn = document.getElementById('category');
+		 
+	    categoryBtn.addEventListener('click', function() {
+			 
+	    		// area에는 지역 선택 부분이 없어도 현재 위치의 위경도가 들어가게 할것임.
+		        const area = document.getElementById('area').value;	
+		        const category = categoryBtn.value;
+		        
+		        function addEventListeners() {
+		        	var isSelected = false;
+		        	   
+		        	   document.querySelectorAll(".select").forEach(function(button) {
+		        	       button.addEventListener("click", function(event) {
 
-           event.preventDefault();
-
-           if (!isSelected) {
-        	   isSelected = true;
-        	   
-	           var frame = document.querySelector(".frame");
-	
-	           var selectedPlace = document.createElement("div");
-	           selectedPlace.setAttribute("id", "selectedPlace");
-	
-	           var inputTime = document.createElement("input");
-	           inputTime.setAttribute("type", "time");
-	           inputTime.setAttribute("id", "appt");
-	           inputTime.setAttribute("name", "appt");
-	
-	           selectedPlace.append(inputTime);
-	
-	           var place = this.closest("#place").cloneNode(true);
-	           var cancelBtn = place.querySelector('#select');
-	           cancelBtn.innerText = '취소';
-	
-	           selectedPlace.append(place);
-	
-	           frame.insertBefore(selectedPlace, frame.firstElementChild.nextSibling);
-	
-	           var hr = document.createElement("hr");
-	
-	           selectedPlace.append(hr);
-	
-	           cancelBtn.addEventListener("click", function(event) {
-	               event.preventDefault();
-	               isSelected = false;
-	               this.closest("#selectedPlace").remove();
-	           });
-           }
-       });
-   });
-   </script>
-    
+		        	           if (!isSelected) {
+		        	        	   isSelected = true;
+		        	        	   
+		        		           var frame = document.querySelector(".frame");
+		        		
+		        		           var selectedPlace = document.createElement("div");
+		        		           selectedPlace.setAttribute("id", "selectedPlace");
+		        		
+		        		           var inputTime = document.createElement("input");
+		        		           inputTime.setAttribute("type", "time");
+		        		           inputTime.setAttribute("id", "appt");
+		        		           inputTime.setAttribute("name", "appt");
+		        		
+		        		           selectedPlace.append(inputTime);
+		        		
+		        		           var place = this.closest("#place").cloneNode(true);
+		        		           var cancelBtn = place.querySelector('.select');
+		        		           cancelBtn.innerText = '취소';
+		        		
+		        		           // 첫 번째 frame 요소의 첫 번째 자식 요소 뒤에 새로운 div를 추가
+		        		           selectedPlace.append(place);
+		        		
+		        		           frame.insertBefore(selectedPlace, frame.firstElementChild.nextSibling);
+		        		
+		        		           var hr = document.createElement("hr");
+		        		
+		        		           selectedPlace.append(hr);
+		        		
+		        		           cancelBtn.addEventListener("click", function(event) {
+		        		               event.preventDefault();
+		        		               isSelected = false;
+		        		               this.closest("#selectedPlace").remove();
+		        		           });
+		        	           }
+		        	       });
+		        	   });
+		        }
+			 
+	          fetch(`/search?area=${area}&category=${category}`)
+	              .then(response => response.text())
+	              .then(html => {
+	                  document.querySelector('.frame').innerHTML = html;
+	                  
+	                  addEventListeners();
+	              });
+	      });
+    </script>
 </body>
 
 </html>

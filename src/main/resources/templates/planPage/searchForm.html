@@ -20,57 +20,11 @@
                 </div> 
             </div>
     
-            <button class="form-control col-md-3" id="select">선택</button>
+            <button type="button" class="form-control col-md-3 select">선택</button>
         </div>
     </div>
                 
     <button class="form-control" id="applyBtn">적용</button>
-    
-    <script>
-   var isSelected = false;
-   
-   document.querySelectorAll("#select").forEach(function(button) {
-       button.addEventListener("click", function(event) {
-
-           event.preventDefault();
-
-           if (!isSelected) {
-        	   isSelected = true;
-        	   
-	           var frame = document.querySelector(".frame");
-	
-	           var selectedPlace = document.createElement("div");
-	           selectedPlace.setAttribute("id", "selectedPlace");
-	
-	           var inputTime = document.createElement("input");
-	           inputTime.setAttribute("type", "time");
-	           inputTime.setAttribute("id", "appt");
-	           inputTime.setAttribute("name", "appt");
-	
-	           selectedPlace.append(inputTime);
-	
-	           var place = this.closest("#place").cloneNode(true);
-	           var cancelBtn = place.querySelector('#select');
-	           cancelBtn.innerText = '취소';
-	
-	           // 첫 번째 frame 요소의 첫 번째 자식 요소 뒤에 새로운 div를 추가
-	           selectedPlace.append(place);
-	
-	           frame.insertBefore(selectedPlace, frame.firstElementChild.nextSibling);
-	
-	           var hr = document.createElement("hr");
-	
-	           selectedPlace.append(hr);
-	
-	           cancelBtn.addEventListener("click", function(event) {
-	               event.preventDefault();
-	               isSelected = false;
-	               this.closest("#selectedPlace").remove();
-	           });
-           }
-       });
-   });
-   </script>
    
     <script>
     var button = document.getElementById(applyBtn);
