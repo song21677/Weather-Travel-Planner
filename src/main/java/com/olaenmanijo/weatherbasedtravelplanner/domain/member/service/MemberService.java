@@ -83,23 +83,17 @@ public class MemberService {
 	 * @return 회원 상세정보
 	 */
 	public MemberResponse login(final String memberId, final String password) {
-		System.out.println("login memberId : " + memberId);
-		System.out.println("login password : " + password);
 		// 1. 회원 정보 및 비밀번호 조회
 		MemberResponse member = findMemberByLoginId(memberId);
-		System.out.println("login member : " + member);
 		String encodedPassword = (member == null) ? "" : member.getPassword();
-		System.out.println("login encodedPassword : " + encodedPassword);
 
 		// 2. 회원 정보 및 비밀번호 체크
 		if (member == null || passwordEncoder.matches(password, encodedPassword) == false) {
-			System.out.println("회원정보 및 비밀번호 체크 해서 null 값 리턴 : member "+ member + " match " + passwordEncoder.matches(password, encodedPassword));
 			return null;
 		}
 
 		// 3. 회원 응답 객체에서 비밀번호를 제거한 후 회원 정보 리턴
 		member.clearPassword();
-		System.out.println("회원정보 및 비밀번호 제거한 후 회원 정보 리턴");
 		return member;
 	}
 }
