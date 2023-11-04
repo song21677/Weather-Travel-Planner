@@ -9,14 +9,12 @@
     <link rel="stylesheet" href="css/plan/bootstrap.min.css">
    <link rel="stylesheet" href="css/plan/daterangepicker.css">
    <link rel="stylesheet" href="css/plan/style.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}" />
+    
     <!-- Custom styles for WeatherPlanner-->
     <link rel="stylesheet" href="css/plan/wpstyle.css"> 
 </head>
 
 <body>
-<header th:replace="@{mainPage/menu.html} :: header"></header>
    <div class="row" id="schedule-container">
        <div th:insert="~{planPage/planForm :: copy}" class="frame col-md-4 mr-1 container"></div>
        
