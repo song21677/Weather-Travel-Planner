@@ -9,6 +9,7 @@
 		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
 		from TRAVEL_REVIEW_TB
 		where DEL_YN = 0
+		order by TRAVEL_REVIEW_NO DESC
 	</select>
 	
 	<!-- 자랑하기 전체 갯수 -->
@@ -36,7 +37,7 @@
    <!-- 자랑하기 글쓰기 저장(insert)-->
    <insert id="communityWrite" parameterType="CommunityRegistRequest">
    	insert into TRAVEL_REVIEW_TB (TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE, PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT)
-   	values (TRAVEL_REVIEW_SQ.NEXTVAL, #{TRAVEL_PLAN_NO}, #{MEMBER_NO}, #{PLANNER_REVIEW_TITLE}, #{PLANNER_REVIEW_IMAGE}, #{PLANNER_REVIEW_CONTENT})
+   	values (TRAVEL_REVIEW_SQ.NEXTVAL+1, #{travelPlanNo}, #{memberNo}, #{plannerReviewTitle}, #{plannerReviewImage}, #{plannerReviewContent})
    </insert>
    
    <!-- 자랑하기 글쓰기 수정(update)-->

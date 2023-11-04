@@ -71,7 +71,6 @@ public class MemberController {
 	@PostMapping("/login")
 	@ResponseBody
 	public MemberResponse login(HttpServletRequest request, @RequestParam Map<String, String> params) {
-		System.out.println("login : " + params);
 		// 1. 회원 정보 조회
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
@@ -79,7 +78,6 @@ public class MemberController {
 
 		// 2. 세션에 회원 정보 저장 & 세션 유지 시간 설정 (30분)
 		if (member != null) {
-			System.out.println("login member null : " + member);
 			HttpSession session = request.getSession();
 			session.setAttribute("loginMember", member);
 			session.setMaxInactiveInterval(60 * 30);
@@ -92,6 +90,7 @@ public class MemberController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/login.do";
+//		return "redirect:/login.do";
+		return "redirect:/main";
 	}
 }
