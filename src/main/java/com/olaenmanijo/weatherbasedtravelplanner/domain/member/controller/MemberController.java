@@ -90,6 +90,7 @@ public class MemberController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/login.do";
+//		return "redirect:/login.do";
+		return "redirect:/main";
 	}
 }

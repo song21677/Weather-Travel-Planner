@@ -107,7 +107,7 @@ function login() {
 		},
 		async : false,
 		success : function (response) {
-			location.href = '/communities';
+			location.href = '/main';
 		},
 		error : function (request, status, error) {
 			alert('아이디와 비밀번호를 확인해 주세요.');

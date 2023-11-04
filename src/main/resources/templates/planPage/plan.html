@@ -6,15 +6,18 @@
     <title>Document</title>
 
     <!-- Bootstrap core CSS -->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="css/plan/bootstrap.min.css">
-	<link rel="stylesheet" href="css/plan/daterangepicker.css">
+  	<link rel="stylesheet" href="css/plan/daterangepicker.css">
 	<link rel="stylesheet" href="css/plan/style.css">
-    
+      <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+	 <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}" />
     <!-- Custom styles for WeatherPlanner-->
     <link rel="stylesheet" href="css/plan/wpstyle.css"> 
 </head>
 
 <body>
+<header th:replace="@{mainPage/menu.html} :: header"></header>
 	<form action="" method="get" class="row" id="schedule-container">
     <div th:replace="~{planPage/planForm :: copy}"></div>
     
