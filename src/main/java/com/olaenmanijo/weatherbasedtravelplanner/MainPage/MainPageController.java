@@ -37,7 +37,7 @@ public class MainPageController {
 	    model.addAttribute("weatherList2", weatherList2);
 	    model.addAttribute("list",list);
 	    
-	    return "/mainPage/main";
+	    return "mainPage/main";
 	}
 	
 	

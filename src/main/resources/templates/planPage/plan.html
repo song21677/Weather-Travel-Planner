@@ -7,167 +7,219 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="css/plan/bootstrap.min.css">
-	<link rel="stylesheet" href="css/plan/daterangepicker.css">
-	<link rel="stylesheet" href="css/plan/style.css">
+   <link rel="stylesheet" href="css/plan/daterangepicker.css">
+   <link rel="stylesheet" href="css/plan/style.css">
+     <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}" />
     
     <!-- Custom styles for WeatherPlanner-->
     <link rel="stylesheet" href="css/plan/wpstyle.css"> 
 </head>
 
 <body>
-	<form action="" method="get" class="row" id="schedule-container">
-    <div th:replace="~{planPage/planForm :: copy}"></div>
-    
-    <div class="map col-md-6 ml-1 container">
-        <div class="category row">
-            <button class="form-control col-md-4" name="category" id="category" value="39">음식점</button>
-            <button class="form-control col-md-4" name="category" value="12">관광지</button>
-            <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
-        </div>
-        <div id="map"></div>
-    </div>
-
-</form>
+<header th:replace="@{mainPage/menu.html} :: header"></header>
+   <div class="row" id="schedule-container">
+       <div th:insert="~{planPage/planForm :: copy}" class="frame col-md-4 mr-1 container"></div>
+       
+       <div class="map col-md-6 ml-1 container">
+           <div class="category row">
+               <button type="button" class="form-control col-md-4" name="category" id="category" value="39">음식점</button>
+               <button class="form-control col-md-4" name="category" value="12">관광지</button>
+               <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
+           </div>
+           <div id="map"></div>
+       </div>
+   </div>
 
     <script src="js/plan/jquery-3.4.1.min.js"></script>
-	<script src="js/plan/bootstrap.min.js"></script>
-	<script src="js/plan/moment.min.js"></script>
-	<script src="js/plan/daterangepicker.js"></script>
-	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0a4e5f604e58c301ddedd0a6790ec3bf"></script>
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
+   <script src="js/plan/bootstrap.min.js"></script>
+   <script src="js/plan/moment.min.js"></script>
+   <script src="js/plan/daterangepicker.js"></script>
+   
+   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0a4e5f604e58c301ddedd0a6790ec3bf"></script>
+   <script>
+      var container = document.getElementById('map');
+      var options = {
+         center: new kakao.maps.LatLng(33.450701, 126.570667),
+         level: 3
+      };
 
-		var map = new kakao.maps.Map(container, options);
-	</script>
+      var map = new kakao.maps.Map(container, options);
+   </script>
 
-	<script>
-	
-	$(function() {
-		  $('input[name="daterange"]').daterangepicker({
-		    opens: 'left'
-		  }, function(start, end, label) {
-		    const startDate = new Date(start.format('YYYY-MM-DD'));
-		    const endDate = new Date(end.format('YYYY-MM-DD'));
-		 	// 날짜 차이를 계산
-			 const timeDiff = Math.abs(endDate - startDate);
+   <script>
+   $(function() {
+        $('input[name="daterange"]').daterangepicker({
+          opens: 'left'
+        }, function(start, end, label) {
+          const startDate = new Date(start.format('YYYY-MM-DD'));
+          console.log(startDate);
+          const endDate = new Date(end.format('YYYY-MM-DD'));
+          // 날짜 차이를 계산
+          const timeDiff = Math.abs(endDate - startDate);
 
-			 // 날짜 차이를 밀리초(ms)에서 일(Day)로 변환
-			 const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+          // 날짜 차이를 밀리초(ms)에서 일(Day)로 변환
+          const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
 
-			 console.log(`기간: ${daysDiff} 일`);
-			 
-			 const detailsElement = document.querySelector('.details');
-			 console.log(detailsElement);
-			 
-			 const childElements = Array.from(detailsElement.children);
-			 
-			 console.log(childElements);
-			
-			 childElements.forEach((element) => {
-				    element.remove();
-				});
-
-			for (let i=1; i<=daysDiff; i++) {
-				 var daySchedule = document.createElement("div");
-				 daySchedule.setAttribute("class", "form-control2");
-				 
-				 detailsElement.append(daySchedule);
-				 
-				 var h2 = document.createElement("h2");
-				 h2.setAttribute("class", "h2");
-				 h2.innerText = "DAY " + i; 
-				 
-				 daySchedule.append(h2);
-				 
-				 var button = document.createElement("button");
-				 button.setAttribute("class", "form-control");
-				 button.setAttribute("id", "add-schedule-button");
-				 button.innerText = "일정 추가";
-				 button.addEventListener("click", function() {
-					 event.preventDefault();
-					 
-	                    fetch('/search')
-	                        .then(response => response.text())
-	                        .then(html => {
-	                            document.querySelector('.frame').innerHTML = html;
-	                        });
-	                });
-				 
-				 daySchedule.append(button);
-				 
-				 var br = document.createElement("br");
-				 detailsElement.append(br);
-			 }
-			
-			var form = document.querySelector('form');
-			 
-			 form.addEventListener("submit", function() {
-				 event.preventDefault();
-				 
-			        const area = document.getElementById('area').value;
-			        const category = document.getElementById('category').value;
-				 
-		           fetch(`/search?area=${area}&category=${category}`)
-		               .then(response => response.text())
-		               .then(html => {
-		                   document.querySelector('.frame').innerHTML = html;
-		               });
-		       });
-			 
-		  });
-		});
+          console.log(`기간: ${daysDiff} 일`);
+          
+          const detailsElement = document.querySelector('.details');
+          console.log(detailsElement);
+          
+          const childElements = Array.from(detailsElement.children);
+          
+          console.log(childElements);
+         
+          childElements.forEach((element) => {
+                element.remove();
+            });
+          
+          const date = new Date(start.format('YYYY-MM-DD'));
+         for (let i=1; i<=daysDiff; i++) {
+             var daySchedule = document.createElement("div");
+             daySchedule.setAttribute("class", "form-control2");
+             
+             detailsElement.append(daySchedule);
+             
+             var h2 = document.createElement("h2");
+             h2.setAttribute("class", "h2");
+             h2.innerText = "DAY " + i; 
+             
+             daySchedule.append(h2);
+             
+             var button = document.createElement("button");
+             button.setAttribute("class", "form-control");
+             button.setAttribute("id", "add-schedule-button");
+             button.innerText = "일정 추가";
+             button.type = "button"
+             
+             // button value
+             date.setDate(date.getDate() + 1);
+             button.value = date.toISOString().slice(0, 10).replace(/-/g, '');
+             
+             button.addEventListener("click", function() {
+                var button = document.getElementById('add-schedule-button');
+                console.log(button);
+                var date = button.value;
+                console.log(date);
+                       fetch(`/search?date=${date}`)
+                           .then(response => response.text())
+                           .then(html => {
+                               document.querySelector('.frame').innerHTML = html;
+                           });
+                   });
+             
+             daySchedule.append(button);
+             
+             var br = document.createElement("br");
+             detailsElement.append(br);
+          }
+        });
+      });
     </script>
     
     <script>
-   var isSelected = false;
-   
-   document.querySelectorAll("#select").forEach(function(button) {
-       button.addEventListener("click", function(event) {
+       var categoryBtn = document.getElementById('category');
+       
+       categoryBtn.addEventListener('click', function() {
+              
+              function addEventListeners() {
+                 var isSelected = false;
+                    
+                 // selectBtn
+                    document.querySelectorAll(".select").forEach(function(button) {
+                        button.addEventListener("click", function(event) {
 
-           event.preventDefault();
-
-           if (!isSelected) {
-        	   isSelected = true;
-        	   
-	           var frame = document.querySelector(".frame");
-	
-	           var selectedPlace = document.createElement("div");
-	           selectedPlace.setAttribute("id", "selectedPlace");
-	
-	           var inputTime = document.createElement("input");
-	           inputTime.setAttribute("type", "time");
-	           inputTime.setAttribute("id", "appt");
-	           inputTime.setAttribute("name", "appt");
-	
-	           selectedPlace.append(inputTime);
-	
-	           var place = this.closest("#place").cloneNode(true);
-	           var cancelBtn = place.querySelector('#select');
-	           cancelBtn.innerText = '취소';
-	
-	           selectedPlace.append(place);
-	
-	           frame.insertBefore(selectedPlace, frame.firstElementChild.nextSibling);
-	
-	           var hr = document.createElement("hr");
-	
-	           selectedPlace.append(hr);
-	
-	           cancelBtn.addEventListener("click", function(event) {
-	               event.preventDefault();
-	               isSelected = false;
-	               this.closest("#selectedPlace").remove();
-	           });
-           }
-       });
-   });
-   </script>
-    
+                            if (!isSelected) {
+                               isSelected = true;
+                               
+                               var frame = document.querySelector(".frame");
+                    
+                               var selectedPlace = document.createElement("div");
+                               selectedPlace.setAttribute("id", "selectedPlace");
+                    
+                               var inputTime = document.createElement("input");
+                               inputTime.setAttribute("type", "time");
+                               inputTime.setAttribute("id", "appt");
+                               inputTime.setAttribute("name", "appt");
+                    
+                               selectedPlace.append(inputTime);
+                    
+                               var place = this.closest("#place").cloneNode(true);
+                               var cancelBtn = place.querySelector('.select');
+                               cancelBtn.innerText = '취소';
+                    
+                               // 첫 번째 frame 요소의 첫 번째 자식 요소 뒤에 새로운 div를 추가
+                               selectedPlace.append(place);
+                    
+                               frame.insertBefore(selectedPlace, frame.firstElementChild.nextSibling);
+                    
+                               var hr = document.createElement("hr");
+                    
+                               selectedPlace.append(hr);
+                    
+                            // applyBtn
+                              var button = document.getElementById('applyBtn');
+                               button.addEventListener('click', function() {
+                                  const date = document.getElementById('date').value;
+                                  const time = document.getElementById('appt').value;
+                                  const placeNo = selectedPlace.querySelector('.select').value;
+                                  const placeName = selectedPlace.querySelector('#placeName').textContent;
+                                  const placeCategory = selectedPlace.querySelector('#placeCategory').textContent;
+                                  const placeAddr = selectedPlace.querySelector('#placeAddr').textContent;
+                                   
+                                  const planDTO = {
+                                		  "date": date,
+                                		  "time": time,
+                                		  "place": {
+                                			  "place_no": placeNo,
+                                			  "place_name": placeName,
+                                		   	  "place_category": placeCategory,
+                                		      "place_road_name_adr": placeAddr
+                                		   }
+                                   };
+                                  
+                                  const jsonData = JSON.stringify(planDTO);
+                                  
+                                      fetch('/planForm', {
+                                    	  method: 'POST',
+                                    	  headers: {
+                                    		  'Content-Type': 'application/json',
+                                    		  'Accept': 'application/json'
+                                    	  },
+                                    	  body:jsonData
+                                      })
+                                      .then(response => response.json())
+                                      .then(data => {
+                                    	  console.log(data);
+                                       });
+                                  });
+                           
+                                  // cancelBtn
+                               cancelBtn.addEventListener("click", function(event) {
+                                   event.preventDefault();
+                                   isSelected = false;
+                                   this.closest("#selectedPlace").remove();
+                               });
+                            }
+                        });
+                    });
+              }
+              
+               // area에는 지역 선택 부분이 없어도 현재 위치의 위경도가 들어가게 할것임.
+               const area = document.getElementById('area').value;   
+               const category = categoryBtn.value;
+               const date = document.getElementById('date').value;
+             
+                fetch(`/search?date=${date}&area=${area}&category=${category}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.querySelector('.frame').innerHTML = html;
+                        
+                        addEventListeners();
+                    });
+         });
+    </script>
 </body>
 
 </html>

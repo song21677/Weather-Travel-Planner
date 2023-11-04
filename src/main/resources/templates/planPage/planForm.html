@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<body>
-	    <div class="frame col-md-4 mr-1 container" th:fragment="copy">
-	        <div class="plan">
-	            <input type="text" class="form-control"> <br>
-	            <input type="text" class="form-control" name="daterange">
-	        </div>
-	        <br>
-	        <div class="details">
-	                
-	        </div> <br>
-	        <button class="form-control">저장</button>
-	    </div>
+		<form th:fragment="copy">
+		        <div class="plan">
+		            <input type="text" class="form-control"> <br>
+		            <input type="text" class="form-control" name="daterange">
+		        </div>
+		        <br>
+		        <div class="details">
+		        	<div th:text=${planDTO.date}></div>
+		        	<div th:text=${planDTO.time}></div>
+		        	<div th:text=${planDTO.place}></div>
+		        </div> <br>
+		        <button class="form-control">저장</button>
+	    </form>
     </body>
 </html>
