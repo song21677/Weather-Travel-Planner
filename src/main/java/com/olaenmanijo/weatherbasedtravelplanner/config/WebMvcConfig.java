@@ -1,11 +1,13 @@
 package com.olaenmanijo.weatherbasedtravelplanner.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.olaenmanijo.weatherbasedtravelplanner.domain.member.interceptor.LoggerInterceptor;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.member.interceptor.LoginCheckInterceptor;
 
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -23,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**", "/images/**", "/js/**");
 
         registry.addInterceptor(new LoginCheckInterceptor())
-                .addPathPatterns("/**/*.do")
+                .addPathPatterns("/**/*.do", "/communities/**", "/plan/**")
                 .excludePathPatterns("/log*");
     }
 }
