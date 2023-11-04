@@ -137,6 +137,8 @@
   		
         #Weather{height:700px; width:1400px; margin: 0 auto; }
         
+        #Weather .container_mt_5 hr {color : white; margin-bottom: 10px; margin-top: 10px;}
+        
 		 .locations-sizing {
 		    position: relative;
 		    overflow: hidden; 
@@ -156,16 +158,21 @@
 		}
 		
 		.locations {
+			padding-left:100px;
 			display: flex;
 		    transition: transform 0.3s;
 		    flex-grow: 1;
 		    width:auto;
-		    transform: translateX(200px);
+		    transform: translateX(100px);
 		}
+		
+			
+		.locations button {margin-right:10px;}
 		
 		#prevSlide, #nextSlide {
 		    margin:10px;
 		    background-color: #007bff;
+		    color: white;
 		}
 						
 		

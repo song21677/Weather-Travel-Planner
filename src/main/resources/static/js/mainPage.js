@@ -417,7 +417,7 @@
             });
 
             function updateSlide() {
-                const offset = 200 + currentSlide * -210;  // 버튼의 너비와 마진을 고려한 이동 간격
+                const offset = 100 + currentSlide * -600;  // 버튼의 너비와 마진을 고려한 이동 간격
                 $locations.css('transform', `translateX(${offset}px)`);
             };
             

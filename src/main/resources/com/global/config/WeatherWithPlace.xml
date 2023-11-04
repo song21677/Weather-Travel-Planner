@@ -21,4 +21,33 @@ WHERE
 </select>
 	 
 
+
+<select id ="withShortWeather" resultType="GetShortWeatherWithDTO">
+SELECT f.TMP, f.PTY, f.POP, f.REH, f.PCP, f.SKY, f.WSD, f.WAV, f.IDX, f.FORECAST_DAY , f.FORECAST_TIME
+FROM SHORT_TERM_FORECAST_TB f
+WHERE f.idx = (
+    SELECT MAX(f1.IDX)
+    FROM SHORT_TERM_FORECAST_TB f1
+  )
+  AND f.SECOND_PRECINCT_NO = (
+    SELECT s.SECOND_PRECINCT_NO
+    FROM SECOND_PRECINCT_TB s
+    WHERE s.SECOND_PRECINCT = #{address}
+  )
+</select>
+
+<select id="withMediumWeather" resultType="MediumTerForecastDTO">
+SELECT f.WFAM, f.WFPM, f.TAMIN, f.TAMAX, f.RNSTAM, f.RNSTPM, f.FORECAST_DAY
+FROM MEDIUM_TERM_FORECAST_TB f
+WHERE f.ANNOUNCE_DAY = (
+    SELECT MAX(f1.ANNOUNCE_DAY)
+    FROM MEDIUM_TERM_FORECAST_TB f1
+    )
+    AND f.SECOND_PRECINCT_NO = (
+    SELECT s.SECOND_PRECINCT_NO
+    FROM SECOND_PRECINCT_TB s
+    WHERE s.SECOND_PRECINCT = #{address})
+    ORDER BY f.FORECAST_DAY
+</select>
+
 </mapper>
