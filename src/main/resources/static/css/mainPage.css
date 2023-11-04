@@ -97,7 +97,7 @@
    			 display: none; /* Chrome, Safari, Edge */
 			}
   		
-  		.mt-5 {margin-top: 0!important; }
+  		.mt-5 {margin-top: 20px!important; }
   
 		  #todayDate {
 		  
@@ -137,8 +137,8 @@
   		
         #Weather{height:700px; width:1400px; margin: 0 auto; }
         
-        #Weather .container_mt_5 hr {color : white; margin-bottom: 10px; margin-top: 10px;}
-        
+        #Weather .container_mt_5 hr {color : #ccc; margin-bottom: 10px; margin-top: 10px;}
+		        
 		 .locations-sizing {
 		    position: relative;
 		    overflow: hidden; 
@@ -169,6 +169,8 @@
 			
 		.locations button {margin-right:10px;}
 		
+		#Weather tbody tr {height:40px; line-height: 40px; box-sizing: border-box;}
+		
 		#prevSlide, #nextSlide {
 		    margin:10px;
 		    background-color: #007bff;
@@ -176,8 +178,11 @@
 		}
 						
 		
-		
-		
+		.maxTemp td:nth-child(3) {color:red;}
+		.minTemp td:nth-child(3) {color:blue;}
+		.maxHumidity td:nth-child(5) {color:red;}
+		.minHumidity td:nth-child(5) {color:blue;}
+		.rainfall td:nth-child(4){color:blue;}
  /* 추천 */
 		
         .slider-wrapper {
