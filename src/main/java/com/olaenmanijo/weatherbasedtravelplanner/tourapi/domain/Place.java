@@ -1,13 +1,22 @@
 package com.olaenmanijo.weatherbasedtravelplanner.tourapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Place {
 
-	String place_category;
-	String place_name;
-	String road_name_adr;
-	int longitude;
-	int latitude;
+	private int place_no;
+	private String place_category;
+	private String place_name;
+	private String road_name_adr;
+	private int longitude;
+	private int latitude;
 	
+	public int getPlace_no() {
+		return place_no;
+	}
+	public void setPlace_no(int place_no) {
+		this.place_no = place_no;
+	}
 	public String getPlace_category() {
 		return place_category;
 	}
@@ -40,7 +49,7 @@ public class Place {
 	}
 	@Override
 	public String toString() {
-		return "Place [place_category=" + place_category + ", place_name=" + place_name + ", road_name_adr="
+		return "Place [place_no=" + place_no + ", place_category=" + place_category + ", place_name=" + place_name + ", road_name_adr="
 				+ road_name_adr + ", longitude=" + longitude + ", latitude=" + latitude + "]";
 	}
 }

@@ -9,7 +9,7 @@
 	</insert>
 	
 	<select id="selectByNameAndCategory" parameterType="java.util.Map" resultType="Place">
-		select place_category, place_name, road_name_adr
+		select place_no, place_category, place_name, road_name_adr
 		from place_tb
 		where place_category = #{category} and substr(road_name_adr, 1, 2) = #{location}
 	</select>
