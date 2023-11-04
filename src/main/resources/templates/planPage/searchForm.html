@@ -9,19 +9,18 @@
     </div>
         
     <div id="places">
-        <div class="row" id="place" th:each="place : ${places}">
-            <div class="col-md-9">
-                <div>
-                    <span th:text=${place.place_name}>칠암사계</span>
-                    <span th:text=${place.place_category}>먹거리, 베이커리/디저트</span>
-                </div>
-                <div>
-                    <span th:text=${place.road_name_adr}>부산 기장군 일광읍 칠암1길 7-10</span>
-                </div> 
+    <div class="row" id="place" th:each="place : ${places}">
+        <div class="col-md-9">
+            <div>
+                <span id="placeName" th:text="${place.place_name}">칠암사계</span>
+                <span id="placeCategory" th:text="${place.place_category}">먹거리, 베이커리/디저트</span>
             </div>
-    
-            <button type="button" class="form-control col-md-3 select">선택</button>
+            <div>
+                <span id="placeAddr" th:text="${place.road_name_adr}">부산 기장군 일광읍 칠암1길 7-10</span>
+            </div> 
         </div>
+        <button type="button" class="form-control col-md-3 select" th:value="${place.place_no}">선택</button>
     </div>
-    <input type="hidden" th:value="${dateString}" id="date"/>
+</div>
+    <input type="hidden" th:value=${dateString} id="date"/>
     <button type="button" class="form-control" id="applyBtn">적용</button>

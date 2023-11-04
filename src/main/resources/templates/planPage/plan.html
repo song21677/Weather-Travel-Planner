@@ -159,16 +159,37 @@
                               var button = document.getElementById('applyBtn');
                                button.addEventListener('click', function() {
                                   const date = document.getElementById('date').value;
-                                  console.log(date);
+                                  const time = document.getElementById('appt').value;
+                                  const placeNo = selectedPlace.querySelector('.select').value;
+                                  const placeName = selectedPlace.querySelector('#placeName').textContent;
+                                  const placeCategory = selectedPlace.querySelector('#placeCategory').textContent;
+                                  const placeAddr = selectedPlace.querySelector('#placeAddr').textContent;
+                                   
+                                  const planDTO = {
+                                		  "date": date,
+                                		  "time": time,
+                                		  "place": {
+                                			  "place_no": placeNo,
+                                			  "place_name": placeName,
+                                		   	  "place_category": placeCategory,
+                                		      "place_road_name_adr": placeAddr
+                                		   }
+                                   };
                                   
-                                   const time = document.getElementById('appt').value;
-                                   console.log(time);
+                                  const jsonData = JSON.stringify(planDTO);
                                   
-                                      fetch(`/planForm?date=${date}&time=${time}`)
-                                          .then(response => response.text())
-                                          .then(html => {
-                                              document.querySelector('.frame').innerHTML = html;
-                                          });
+                                      fetch('/planForm', {
+                                    	  method: 'POST',
+                                    	  headers: {
+                                    		  'Content-Type': 'application/json',
+                                    		  'Accept': 'application/json'
+                                    	  },
+                                    	  body:jsonData
+                                      })
+                                      .then(response => response.json())
+                                      .then(data => {
+                                    	  console.log(data);
+                                       });
                                   });
                            
                                   // cancelBtn
@@ -181,14 +202,13 @@
                         });
                     });
               }
-                    
-              
               
                // area에는 지역 선택 부분이 없어도 현재 위치의 위경도가 들어가게 할것임.
                const area = document.getElementById('area').value;   
                const category = categoryBtn.value;
+               const date = document.getElementById('date').value;
              
-                fetch(`/search?area=${area}&category=${category}`)
+                fetch(`/search?date=${date}&area=${area}&category=${category}`)
                     .then(response => response.text())
                     .then(html => {
                         document.querySelector('.frame').innerHTML = html;
