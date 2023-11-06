@@ -34,11 +34,11 @@ public class APIService {
 		String url = new StringBuilder(baseUrl + subUrl)
                 .append("?serviceKey=").append(serviceKey)
                 .append("&pageNo=").append(URLEncoder.encode("1", "UTF-8"))
-                .append("&numOfRows=").append(URLEncoder.encode("10", "UTF-8"))
+                .append("&numOfRows=").append(URLEncoder.encode("55000", "UTF-8"))
                 .append("&MobileOS=").append(URLEncoder.encode("ETC", "UTF-8"))
                 .append("&MobileApp=").append(URLEncoder.encode("WeatherPlan", "UTF-8"))
-                .append("&areaCode=").append(URLEncoder.encode("6", "UTF-8"))
-                .append("&contentTypeId=").append(URLEncoder.encode("39", "UTF-8"))
+                //.append("&areaCode=").append(URLEncoder.encode("6", "UTF-8"))
+                //.append("&contentTypeId=").append(URLEncoder.encode("39", "UTF-8"))
                 .append("&_type=").append(URLEncoder.encode("json", "UTF-8"))
                 .toString();
 
@@ -72,6 +72,12 @@ public class APIService {
             ResponseDTO responseBody = response.getBody();
             if (responseBody != null && responseBody.getResponse() != null) {
                 List<Item> items = responseBody.getResponse().getBody().getItems().getItem();
+                
+                int i=0;
+                for (Item item : items) {
+                	System.out.println(i + " " + item);
+                	i++;
+                }
                 return items;
             }
         }

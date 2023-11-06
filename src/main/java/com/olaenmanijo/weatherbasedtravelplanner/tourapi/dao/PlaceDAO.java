@@ -16,7 +16,7 @@ public class PlaceDAO {
 	@Autowired
 	SqlSessionTemplate session;  
 	
-	public int insertPlace(Item place) {
+	public int insertPlace(Place place) {
 		return session.insert("PlaceMapper.insertPlace", place);
 	}
 

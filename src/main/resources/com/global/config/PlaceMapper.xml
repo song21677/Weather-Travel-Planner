@@ -3,9 +3,9 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="PlaceMapper">
-	<insert id="insertPlace" parameterType="Item">
-		insert into place_tb (place_no, place_name, road_name_adr, longitude, latitude, score)
-		values (place_sq.nextval, #{title}, #{addr1}, 123, 123, 5)
+	<insert id="insertPlace" parameterType="Place">
+		insert into place_tb (place_no, place_name, road_name_adr, area, sigungu, zip_code, longitude, latitude, place_category, create_time, modified_time, score)
+		values (place_sq.nextval, #{place_name}, #{road_name_adr}, #{area, jdbcType=VARCHAR}, #{sigungu}, #{zip_code}, #{longitude}, #{latitude}, #{place_category}, #{create_time}, #{modified_time}, 0)
 	</insert>
 	
 	<select id="selectByNameAndCategory" parameterType="java.util.Map" resultType="Place">

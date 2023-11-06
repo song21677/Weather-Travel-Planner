@@ -1,55 +1,70 @@
 package com.olaenmanijo.weatherbasedtravelplanner.tourapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.olaenmanijo.weatherbasedtravelplanner.plan.PlaceDTO;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@NoArgsConstructor
+@Setter
+@Getter
 public class Place {
 
 	private int place_no;
 	private String place_category;
 	private String place_name;
 	private String road_name_adr;
-	private int longitude;
-	private int latitude;
+	private String area;
+	private String sigungu;
+	private String zip_code;
+	private double longitude;
+	private double latitude;
+	private LocalDateTime create_time;
+	private LocalDateTime modified_time;
 	
-	public int getPlace_no() {
-		return place_no;
-	}
-	public void setPlace_no(int place_no) {
-		this.place_no = place_no;
-	}
-	public String getPlace_category() {
-		return place_category;
-	}
-	public void setPlace_category(String place_category) {
+	public Place(String place_category, String place_name, String road_name_adr, String area,
+			String sigungu, String zipcode, double longitude, double latitude, LocalDateTime createdtime,
+			LocalDateTime modifiedtime) {
 		this.place_category = place_category;
-	}
-	public String getPlace_name() {
-		return place_name;
-	}
-	public void setPlace_name(String place_name) {
 		this.place_name = place_name;
+		this.road_name_adr = road_name_adr;
+		this.area = area;
+		this.sigungu = sigungu;
+		this.zip_code = zipcode;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.create_time = createdtime;
+		this.modified_time = modifiedtime;
 	}
-	public String getRoad_name_adr() {
-		return road_name_adr;
-	}
-	public void setRoad_name_adr(String road_name_adr) {
+
+	public Place(int place_no, String place_category, String place_name, String road_name_adr) {
+		super();
+		this.place_no = place_no;
+		this.place_category = place_category;
+		this.place_name = place_name;
 		this.road_name_adr = road_name_adr;
 	}
-	public int getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(int longitude) {
-		this.longitude = longitude;
-	}
-	public int getLatitude() {
-		return latitude;
-	}
-	public void setLatitude(int latitude) {
-		this.latitude = latitude;
-	}
-	@Override
-	public String toString() {
-		return "Place [place_no=" + place_no + ", place_category=" + place_category + ", place_name=" + place_name + ", road_name_adr="
-				+ road_name_adr + ", longitude=" + longitude + ", latitude=" + latitude + "]";
-	}
+
+	public Place(PlaceDTO placeDTO) {
+		this.place_no = placeDTO.getPlace_no();
+		this.place_name = placeDTO.getPlace_name();
+		this.place_category = placeDTO.getPlace_category();
+		this.road_name_adr = placeDTO.getRoad_name_adr();
+		this.area = "area";
+		this.sigungu = "sigungu";
+		this.zip_code = "zipcode";
+		this.longitude = 123.45;
+		this.latitude = 123.45;
+		this.create_time = LocalDateTime.now();
+		this.modified_time = LocalDateTime.now();
+	}	
+	
+	
 }
