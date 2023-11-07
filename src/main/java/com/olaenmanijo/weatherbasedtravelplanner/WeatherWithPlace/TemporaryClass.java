@@ -17,7 +17,6 @@ public class TemporaryClass {
 	@GetMapping("/givecode")
 	public String giveyourcode() {
 		service.getDetailPlan(1);
-		
 		return null;
 	}
 

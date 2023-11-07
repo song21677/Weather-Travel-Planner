@@ -176,13 +176,18 @@
 		    background-color: #007bff;
 		    color: white;
 		}
+		.table {
+ 		 --bs-table-bg: unset;
+			}
 						
 		
 		.maxTemp td:nth-child(3) {color:red;}
 		.minTemp td:nth-child(3) {color:blue;}
 		.maxHumidity td:nth-child(5) {color:red;}
 		.minHumidity td:nth-child(5) {color:blue;}
-		.rainfall td:nth-child(4){color:blue;}
+		.rainfall {--bs-bg-opacity: .2;
+		  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;}
+			      
  /* 추천 */
 		
         .slider-wrapper {

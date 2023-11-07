@@ -293,7 +293,6 @@
 
                 // 현재 시간보다 미래의 행만 추가합니다.
                 if (rowDate <= threeDaysLater) {
-                    if (rowDate >= currentDate || rowHours >= hours || (rowHours === hours && rowMinutes > minutes)) {
                         const { weather, temp, rainfall, humidity } = weatherForDate[time];
                         const row = `
                             <tr>
@@ -317,7 +316,7 @@
                         if (rainfall !== '강수없음') {
                             $("table tbody tr td:contains('" + rainfall + "')").closest("tr").addClass("rainfall");
                         }
-                    }
+                    
                     
                     
                     

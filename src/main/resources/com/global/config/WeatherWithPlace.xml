@@ -9,7 +9,7 @@ SELECT
     D.DETAIL_PLAN_NO,
     D.DETAIL_PLAN_YMD,
     D.DETAIL_PLAN_HOUR,
-    D.DETAIL_PLAN_DATE,
+    D.DETAIL_PLAN_HOUR_END,
     P.ROAD_NAME_ADR,
     P.PLACE_CATEGORY
 FROM
@@ -22,7 +22,7 @@ WHERE
 	 
 
 
-<select id ="withShortWeather" resultType="GetShortWeatherWithDTO">
+<select id ="withShortWeather" resultType="GetShortWeatherWithDTO" parameterType="SetAddressDTO">
 SELECT f.TMP, f.PTY, f.POP, f.REH, f.PCP, f.SKY, f.WSD, f.WAV, f.IDX, f.FORECAST_DAY , f.FORECAST_TIME
 FROM SHORT_TERM_FORECAST_TB f
 WHERE f.idx = (
@@ -33,21 +33,34 @@ WHERE f.idx = (
     SELECT s.SECOND_PRECINCT_NO
     FROM SECOND_PRECINCT_TB s
     WHERE s.SECOND_PRECINCT = #{address}
+    AND FORECAST_DAY = #{date}
+    <if test="startTime != null and endTime != null">
+      AND f.FORECAST_TIME BETWEEN #{startTime} AND #{endTime}
+    </if>
   )
 </select>
 
-<select id="withMediumWeather" resultType="MediumTerForecastDTO">
-SELECT f.WFAM, f.WFPM, f.TAMIN, f.TAMAX, f.RNSTAM, f.RNSTPM, f.FORECAST_DAY
-FROM MEDIUM_TERM_FORECAST_TB f
-WHERE f.ANNOUNCE_DAY = (
-    SELECT MAX(f1.ANNOUNCE_DAY)
-    FROM MEDIUM_TERM_FORECAST_TB f1
-    )
-    AND f.SECOND_PRECINCT_NO = (
+<select id="withMediumWeather" resultType="MediumTerForecastDTO" parameterType="SetAddressDTO">
+  SELECT f.TMP, f.PTY, f.POP, f.REH, f.PCP, f.SKY, f.WSD, f.WAV, f.IDX, f.FORECAST_DAY, f.FORECAST_TIME
+  FROM SHORT_TERM_FORECAST_TB f
+  WHERE f.idx = (
+    SELECT MAX(f1.IDX)
+    FROM SHORT_TERM_FORECAST_TB f1
+  )
+  AND f.SECOND_PRECINCT_NO = (
     SELECT s.SECOND_PRECINCT_NO
     FROM SECOND_PRECINCT_TB s
-    WHERE s.SECOND_PRECINCT = #{address})
-    ORDER BY f.FORECAST_DAY
+    WHERE s.SECOND_PRECINCT = #{address}
+    AND FORECAST_DAY = #{date}
+    <if test="startTime != null and endTime != null">
+      AND f.FORECAST_TIME BETWEEN #{startTime} AND #{endTime}
+    </if>
+  );
 </select>
+
+<insert id="setBlock" parameterType="SetBlockDTO">
+	INSERT INTO DETAIL_PLAN_BLOCK_TB (DETAIL_PLAN_NO, COLOR, REASON) 
+	VALUES (#{plan_No}, #{color}, #{Reason})
+</insert>
 
 </mapper>

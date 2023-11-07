@@ -1,6 +1,7 @@
 package com.olaenmanijo.weatherbasedtravelplanner.WeatherWithPlace;
 
 
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,12 +18,16 @@ public class WeatherWithPlaceDAO {
 		return session.selectOne("WeatherWithPlace.getDetailPlan",no);
 	};
 	
-	public List<GetShortWeatherWithDTO> withShortWeather(String address) {
-		return session.selectList("WeatherWithPlace.withShortWeather",address);
+	public List<GetShortWeatherWithDTO> withShortWeather(SetAddressDTO dto) {
+		return session.selectList("WeatherWithPlace.withShortWeather",dto);
 		
 	};
 	
-	public List<GetMediumWeatherWithDTO> withMediumWeather(String address) {
-		return session.selectList("WeatherWithPlace.withMediumWeather",address);
+	public List<GetMediumWeatherWithDTO> withMediumWeather(SetAddressDTO dto) {
+		return session.selectList("WeatherWithPlace.withMediumWeather",dto);
 	};
+	
+	public void SetBlock(SetBlockDTO dto) {
+		session.insert("WeatherWithPlace.setBlock",dto);
+	}
 }
