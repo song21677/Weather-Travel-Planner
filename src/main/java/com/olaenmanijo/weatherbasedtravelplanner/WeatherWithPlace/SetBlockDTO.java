@@ -13,7 +13,7 @@ import lombok.ToString;
 public class SetBlockDTO {
 
 	int plan_No;
-	int color;
+	String color;
 	int Reason;
 	
 }

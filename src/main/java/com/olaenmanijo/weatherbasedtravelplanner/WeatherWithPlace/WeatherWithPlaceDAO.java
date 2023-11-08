@@ -23,11 +23,20 @@ public class WeatherWithPlaceDAO {
 		
 	};
 	
-	public List<GetMediumWeatherWithDTO> withMediumWeather(SetAddressDTO dto) {
-		return session.selectList("WeatherWithPlace.withMediumWeather",dto);
+	public GetMediumWeatherWithDTO withMediumWeather(SetAddressDTO dto) {
+		return session.selectOne("WeatherWithPlace.withMediumWeather",dto);
 	};
 	
 	public void SetBlock(SetBlockDTO dto) {
 		session.insert("WeatherWithPlace.setBlock",dto);
 	}
+	
+	public void setBlockUpdate(SetBlockDTO dto) {
+		session.update("WeatherWithPlace.setBlockUpdate",dto);
+	}
+	
+	public SetBlockDTO checkBlock () {
+		return session.selectOne("WeatherWithPlace.checkBlock");
+	}
+	
 }
