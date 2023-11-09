@@ -58,20 +58,20 @@ public class APIController {
 	@GetMapping("/set")
 	public void set() throws IOException, URISyntaxException {
 		
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	
 		
 		APIService apiService = new APIService();
 		List<Item> items = apiService.requestToTourListBasedAreaAPI();
 		if (items != null) {
 			for (Item item : items) {
-				LocalDateTime createdTime = LocalDateTime.parse(item.getCreatedtime(), format);
-				LocalDateTime modifiedTime = LocalDateTime.parse(item.getModifiedtime(), format);
+				//LocalDateTime createdTime = LocalDateTime.parse(item.getCreatedtime(), format);
+				//LocalDateTime modifiedTime = LocalDateTime.parse(item.getModifiedtime(), format);
 				
 				Place place = new Place(category.get(item.getContenttypeid()), item.getTitle(), 
 						item.getAddr1(), area.get(item.getAreacode()), item.getSigungucode(),
 						item.getZipcode(), Double.parseDouble(item.getMapx()), Double.parseDouble(item.getMapy()),
-						createdTime, modifiedTime);
+						item.getCreatedtime(), item.getModifiedtime());
 				placeDAO.insertPlace(place);
 			}
 		}

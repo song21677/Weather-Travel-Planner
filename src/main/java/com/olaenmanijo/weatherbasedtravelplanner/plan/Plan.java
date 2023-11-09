@@ -31,6 +31,7 @@ public class Plan implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	private int id;
 	@JsonProperty
 	String startDate;
 	@JsonProperty

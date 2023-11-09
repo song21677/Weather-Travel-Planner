@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<form th:fragment="copy">
+		<form th:fragment="copy" action="/addPlan">
 		        <div class="plan">
 		            <input type="text" class="form-control"> <br>
-		            <input type="text" class="form-control" name="daterange">
+		            <input type="text" class="form-control daterange" name="daterange">
 		        </div>
 		        <br>
 		        <div class="details">
-		        	<div th:text=${planDTO.date}></div>
-		        	<div th:text=${planDTO.time}></div>
-		        	<div th:text=${planDTO.place}></div>
+		        	<div class="startDate" th:text=${plan.startDate}></div>
+		        	<div th:text=${plan.endDate}></div>
+		        <div th:each="place : ${plan.places}">
+		        	<div th:text=${place.date}></div>
+		        	<div th:text=${place.time}></div>
+		        	<div th:text=${place.place.place_name}></div>
+		        	<div th:text=${place.place.longitude}></div>
 		        </div> <br>
+		       </div>
 		        <button class="form-control">저장</button>
 	    </form>
     </body>

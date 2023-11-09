@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,14 +66,20 @@ public class PlanController {
 		plan.add(plan2);
 		
 		log.error("{}, {}, {}", String.valueOf(place.getPlace_no()), place.getPlace_name(), place.getPlace_category());
-		//planDAO.insertPlan(plan);
 		
 		// 일정 저장
+		planDAO.insertPlan(plan);
+		log.error("뭘까? {}", String.valueOf(plan.getId()));
+		
+		// 일정 아이디 세부 일정에 저장
+		plan2.setPlanNo(plan.getId());
+		log.error("{}", plan2);
+		// 세부 일정 저장
 		for (PlanDTO2 planDTO2 : plan.getPlaces()) {
 			planDAO.insertDetailPlan(planDTO2);
 		}
 		
-		//model.addAttribute("plan", plan);
+		model.addAttribute("plan", plan);
 		
 		//placeDAO.selectByNo();
 		

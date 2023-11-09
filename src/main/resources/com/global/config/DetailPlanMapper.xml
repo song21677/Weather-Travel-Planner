@@ -7,7 +7,7 @@
 	<!-- 여행기 쓰기 여행블럭 정보 불러오기 -->
 	<select id="selectPlannerDetail" resultType="CommunityDetailResponse"
 		parameterType="int">
-		SELECT TP.TRAVEL_PLAN_NO, TP.MEMBER_NO,
+		SELECT TP.TRAVEL_PLAN_NO, TP.MEMBER_sNO,
 		TRAVEL_PLAN_TITLE, START_YMD, END_YMD,
 		DP.DETAIL_PLAN_NO, DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR, DETAIL_PLAN_DATE,
 		COLOR, BLOCK_ORD, PL.PLACE_NO, PLACE_CATEGORY, PLACE_NAME, ROAD_NAME_ADR,
@@ -23,4 +23,36 @@
 		ORDER BY TP.MEMBER_NO, DP.DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR
 	</select>
 
+<insert id="insertDetailPlan" parameterType="PlanDTO2" >
+INSERT INTO detail_plan_tb (
+    	detail_plan_no, 
+    	travel_plan_no,
+    	place_no,
+    	detail_plan_ymd, 
+    	detail_plan_hour
+    )
+    VALUES (
+    	detail_plan_sq.nextval,
+    			#{planNo},
+    			#{place.place_no}, 
+    			#{date}, 
+    			#{time}
+    )
+</insert>
+<insert id="insertDetailPlan2" parameterType="java.util.List">
+    INSERT INTO detail_plan_tb (
+    	detail_plan_no, 
+    	travel_plan_no, 
+    	detail_plan_ymd, 
+    	detail_plan_hour
+    )
+        <foreach collection="list" item="planDTO2" separator="UNION ALL">
+            SELECT 
+            	detail_plan_sq.nextval,
+    			1, 
+    			#{planDTO2.date}, 
+    			#{planDTO2.time}
+            FROM DUAL
+        </foreach>
+</insert>
 </mapper>

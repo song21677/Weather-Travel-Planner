@@ -26,12 +26,14 @@ public class Place {
 	private String zip_code;
 	private double longitude;
 	private double latitude;
-	private LocalDateTime create_time;
-	private LocalDateTime modified_time;
+	//private LocalDateTime create_time;
+	private String create_time;
+	//private LocalDateTime modified_time;
+	private String modified_time;
 	
 	public Place(String place_category, String place_name, String road_name_adr, String area,
-			String sigungu, String zipcode, double longitude, double latitude, LocalDateTime createdtime,
-			LocalDateTime modifiedtime) {
+			String sigungu, String zipcode, double longitude, double latitude, String createdtime,
+			String modifiedtime) {
 		this.place_category = place_category;
 		this.place_name = place_name;
 		this.road_name_adr = road_name_adr;
@@ -50,21 +52,6 @@ public class Place {
 		this.place_category = place_category;
 		this.place_name = place_name;
 		this.road_name_adr = road_name_adr;
-	}
-
-	public Place(PlaceDTO placeDTO) {
-		this.place_no = placeDTO.getPlace_no();
-		this.place_name = placeDTO.getPlace_name();
-		this.place_category = placeDTO.getPlace_category();
-		this.road_name_adr = placeDTO.getRoad_name_adr();
-		this.area = "area";
-		this.sigungu = "sigungu";
-		this.zip_code = "zipcode";
-		this.longitude = 123.45;
-		this.latitude = 123.45;
-		this.create_time = LocalDateTime.now();
-		this.modified_time = LocalDateTime.now();
 	}	
-	
-	
+
 }

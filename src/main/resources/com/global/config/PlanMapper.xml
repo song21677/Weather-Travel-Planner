@@ -3,7 +3,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="PlanMapper">
-	<insert id="insertPlan" parameterType="Plan">
+	<insert id="insertPlan" parameterType="Plan" useGeneratedKeys="true" keyColumn="travel_plan_no" keyProperty="id">
 		insert into travel_plan_tb (travel_plan_no, travel_plan_title, start_ymd, end_ymd)
 		values (travel_plan_sq.nextval, #{title}, #{startDate}, #{endDate})
 	</insert>
