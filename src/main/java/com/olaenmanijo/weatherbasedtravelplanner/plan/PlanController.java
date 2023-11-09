@@ -37,26 +37,51 @@ public class PlanController {
 	@Autowired
 	PlaceDAO placeDAO;
 	
+	@Autowired
+	PlanDAO planDAO;
+	
 	// @Autowired
 	Plan plan = new Plan();
 
 	@GetMapping("/plan")
-	public String plan(@ModelAttribute PlanDTO planDTO) {
+	public String plan(@ModelAttribute Plan plan) {
 		return "planPage/plan";
 	}
 	
-	@ResponseBody
-	@PostMapping("/planForm")
-	public Plan planForm(@RequestBody PlanDTO planDTO) {
+	//@ResponseBody
+	@PostMapping("/addPlan")
+	public String planForm(@RequestBody PlanDTO planDTO, Model model) {
 		//Plan plan = new Plan();
-		plan.setDaterange("dd");
-		plan.setTitle("ddd");
-		// placeDAO.selectByNo();
-		plan.add(new Item(planDTO.getPlace()));
-		log.error("{}", planDTO); 
-		log.error("{}, {}, {}", plan.getDaterange(), plan.getTitle(), plan.getPlaces().get(0));
+		//plan.setDaterange("dd");
+		plan.setStartDate("20231130");
+		plan.setEndDate("20231207");
+		plan.setTitle("즐거운 여행");
 		
-		return plan;
+		// 장소 가져오기
+		Place place = placeDAO.selectByPlaceNo(Integer.parseInt(planDTO.getPlace_no()));
+		
+		// 장소 정보와 장소 방문 날짜, 시간 세팅
+		PlanDTO2 plan2 = new PlanDTO2(planDTO.getDate(), "14", place);
+		plan.add(plan2);
+		
+		log.error("{}, {}, {}", String.valueOf(place.getPlace_no()), place.getPlace_name(), place.getPlace_category());
+		//planDAO.insertPlan(plan);
+		
+		// 일정 저장
+		for (PlanDTO2 planDTO2 : plan.getPlaces()) {
+			planDAO.insertDetailPlan(planDTO2);
+		}
+		
+		//model.addAttribute("plan", plan);
+		
+		//placeDAO.selectByNo();
+		
+		//plan.add(new Item(planDTO.getPlace()));
+		log.error("{}", planDTO); 
+		log.error("{}", plan);
+		//log.error("{}, {}, {}", plan.getDaterange(), plan.getTitle(), plan.getPlaces().get(0));
+		
+		return "planPage/planForm";
 	}
 	
 //	@GetMapping("/test")
@@ -81,7 +106,7 @@ public class PlanController {
 			
 	        // ArrayList<Place> places = (ArrayList<Place>) placeDAO.selectByNameAndCategory(paramMap);
 	        ArrayList<Place> places = new ArrayList<>();
-	        places.add(new Place("음식점", "또오리", "충경로 135", "경기도", "고양시", "123", 123.456, 123.456, LocalDateTime.now(), LocalDateTime.now()));
+	        places.add(new Place("음식점", "또오리", "충경로 135", "경기도", "고양시", "123", 123.456, 123.456, "20231109", "20231109"));
 	        model.addAttribute("places", places);
 	        
 		}

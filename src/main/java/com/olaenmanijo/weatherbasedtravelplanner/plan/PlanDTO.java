@@ -19,21 +19,21 @@ public class PlanDTO {
 
    private String date;
    private String time;
-   private PlaceDTO place;
+   private String place_no;
    
    
    public PlanDTO() {   
    }
    
    
-   public PlanDTO(String date, String time, PlaceDTO place) {
+   public PlanDTO(String date, String time, String place_no) {
       this.date = date;
       this.time = time;
-      this.place = place;
+      this.place_no = place_no;
    }
    
    @Override
    public String toString() {
-      return "PlanDTO [date=" + date + ", time=" + time + ", place=" + place + "]";
+      return "PlanDTO [date=" + date + ", time=" + time + ", place_no=" + place_no + "]";
    }
 }

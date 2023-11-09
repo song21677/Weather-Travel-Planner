@@ -13,4 +13,10 @@
 		from place_tb
 		where place_category = #{category} and substr(road_name_adr, 1, 2) = #{location}
 	</select>
+	
+	<select id="selectByPlaceNo" parameterType="int" resultType="Place">
+		select place_no, place_category, place_name, road_name_adr, longitude, latitude
+		from place_tb
+		where place_no = #{no}
+	</select>
 </mapper>

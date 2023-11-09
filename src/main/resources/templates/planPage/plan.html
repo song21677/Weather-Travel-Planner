@@ -157,6 +157,7 @@
                     
                             // applyBtn
                               var button = document.getElementById('applyBtn');
+                            
                                button.addEventListener('click', function() {
                                   const date = document.getElementById('date').value;
                                   const time = document.getElementById('appt').value;
@@ -173,30 +174,25 @@
                                   const planDTO = {
                                 		  "date": date,
                                 		  "time": time,
-                                		  "place": {
-                                			  "place_no": placeNo,
-                                			  "place_name": placeName,
-                                		   	  "place_category": placeCategory,
-                                		      "road_name_adr": placeAddr
-                                		   }
+                                		  "place_no": placeNo
                                    };
                                   
                                   const jsonData = JSON.stringify(planDTO);
                                   
-                                      fetch('/planForm', {
+                                      fetch('/addPlan', {
                                     	  method: 'POST',
                                     	  headers: {
                                     		  'Content-Type': 'application/json',
-                                    		  'Accept': 'application/json'
                                     	  },
                                     	  body:jsonData
                                       })
-                                      .then(response => response.json())
-                                      .then(data => {
-                                    	  console.log(data);
-                                       });
+                                      .then(response => response.text())
+                                      .then(html => {
+                                          document.querySelector('.frame').innerHTML = html;
+                                      });
+                                     
                                   });
-                           
+                        
                                   // cancelBtn
                                cancelBtn.addEventListener("click", function(event) {
                                    event.preventDefault();

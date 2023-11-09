@@ -32,16 +32,18 @@ public class Plan implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty
-	String daterange;
+	String startDate;
+	@JsonProperty
+	String endDate;
 	@JsonProperty
 	String title;
 	@JsonProperty
-	List<Item> places = new ArrayList<>();
+	List<PlanDTO2> places = new ArrayList<>();
 	
 	public Plan() {
 	}
 	
-	public void add(Item place) {
+	public void add(PlanDTO2 place) {
 		places.add(place);
 	}
 }

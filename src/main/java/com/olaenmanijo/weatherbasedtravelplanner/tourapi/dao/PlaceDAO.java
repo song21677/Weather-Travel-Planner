@@ -3,6 +3,7 @@ package com.olaenmanijo.weatherbasedtravelplanner.tourapi.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.ResultHandler;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,9 @@ public class PlaceDAO {
 		List<Place> list = session.selectList("PlaceMapper.selectByNameAndCategory", paramMap);
 		return list;
 	}
+
+	public Place selectByPlaceNo(int no) {
+		return session.selectOne("PlaceMapper.selectByPlaceNo", no);
+	}
+	
 }
