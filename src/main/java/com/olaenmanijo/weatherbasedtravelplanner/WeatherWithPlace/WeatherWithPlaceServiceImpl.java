@@ -21,8 +21,12 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	String checkday = null;
 	
 	public void getDetailPlan(int no){
-		
-		setColorBlock(dao.getDetailPlan(no));
+		GetDetailPlanDTO dto = dao.getDetailPlan(no);
+		if(dto==null) {
+			System.out.println("해당값이 없어요");
+			return;
+			}
+		setColorBlock(dto);
 		
 	}
 	
@@ -31,16 +35,41 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		int plan_No = dto.getDETAIL_PLAN_NO();
 		String plan_Hour = dto.getDETAIL_PLAN_HOUR();
 		String plan_Hour_end = dto.getDETAIL_PLAN_HOUR_END();
-		if(plan_Hour!=null&&plan_Hour_end!=null) {
-			plan_Hour = plan_Hour +"00";
-			plan_Hour_end = plan_Hour_end +"00";
-		}
-		
 		String plan_Ymd = dto.getDETAIL_PLAN_YMD();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		LocalDate planLocalDateTime = LocalDate.parse(plan_Ymd, formatter);
 		String road_Name_Adr = dto.getROAD_NAME_ADR();
 		String address = giveMeYourPlace(road_Name_Adr);
+		
+		/////이전 날짜일시 리턴
+		if(plan_Hour!=null&&plan_Hour_end!=null) {
+			if(planLocalDateTime.isBefore(dateTime.toLocalDate()) ) {
+				System.out.println("지난 일은 수정이 불가합니다.");
+				return;
+			}
+		}
+		if(planLocalDateTime.isBefore(dateTime.toLocalDate()) ||  (planLocalDateTime.isEqual(dateTime.toLocalDate()) && dateTime.getHour() >= Integer.parseInt(plan_Hour))){
+			System.out.println("지난 일은 수정이 불가합니다.");
+			return;
+		}
+		
+		
+		//시간데이터 한개가 null일경우 return
+		if (plan_Hour == null && plan_Hour_end == null) {
+		} else {
+		    if (plan_Hour == null || plan_Hour_end == null) {
+		    	System.out.println("시간 값이 하나라서 로직을 실행할 수 없어요.");
+		    	return;
+		    }
+		}
+		
+		///
+		
+		
+		if(plan_Hour!=null&&plan_Hour_end!=null) {
+			plan_Hour = plan_Hour +"00";
+			plan_Hour_end = plan_Hour_end +"00";
+		}
 		
 		// 날짜 차이 계산
 		long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(dateTime.toLocalDate(),planLocalDateTime);
@@ -141,11 +170,45 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	
 	public void withShortWeather(SetAddressDTO dto,String category,int plan_No) {
 		List<GetShortWeatherWithDTO> getdtos = dao.withShortWeather(dto);
+		///
+		boolean nullpoint = false;
+		String starttimes = dto.getStartTime();
+		String endtimes = dto.getEndTime();
+		List<LocalTime> hourlyDataList = new ArrayList<>();
+		if(starttimes==null&& endtimes==null) {
+			starttimes = "0000";
+			endtimes= "2300";
+			hourlyDataList.add(LocalTime.of(23, 0));
+			nullpoint = true;
+		}
+				
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
+		LocalTime starttime = LocalTime.parse(starttimes, formatter);
+		LocalTime endtime = LocalTime.parse(endtimes, formatter);
+
+		// 시작 시간부터 종료 시간까지 1시간 간격으로 정각 데이터 생성
+		LocalTime currentTime = starttime;
+		while (!currentTime.isAfter(endtime) && !currentTime.equals(endtime)) {
+		    hourlyDataList.add(currentTime);
+		    currentTime = currentTime.plusHours(1);
+		}
+	
+		////
+		
 		if(getdtos==null) {
 			checkday = "checked";
 			defaultacculate(dto,category,plan_No,checkday);
 		}
+		else if (getdtos.size()!=24 || getdtos.size()!=hourlyDataList.size()) {
+			checkday = "checked";
+			defaultacculate(dto,category,plan_No,checkday);
+		} 
+			
 		else {
+			////
+			
+			
+			////
 			SetBlockDTO blockdto = new SetBlockDTO();
 			blockdto.setPlan_No(plan_No);
 			boolean isLastDto = false;
@@ -154,7 +217,6 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 			for (GetShortWeatherWithDTO getdto : getdtos) {
 			    String day = getdto.getFORECAST_DAY();
 			    String time = getdto.getFORECAST_TIME();
-			    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 			    LocalTime times = LocalTime.parse(time, formatter);
 			    int tmp = getdto.getTMP();
 			    String pty = getdto.getPTY();
@@ -166,13 +228,12 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 				int wav = getdto.getWAV();
 				
 				///////////최우선 로직
-				if (category.equals("관광지") || category.equals("쇼핑") || category.equals("음식점") || category.equals("문화센터") || category.equals("레포츠") || category.equals("행사/공연/축제")) {
-					if(times.getHour()>23 || times.getHour() <7) {
-						blockdto.setReason(21);
-						blockdto.setColor("RD");
-					}
-				break;
+				if (isPlaceCategory(category) && isLateNightTime(times) && nullpoint==false) {
+				    blockdto.setReason(21);
+				    blockdto.setColor("RD");
+				    break;
 				}
+
 				
 				if(category.equals("숙박")) {
 					blockdto.setReason(1);
@@ -253,10 +314,16 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 				}
 				
 			
-			}
+			}//for each end
+			
 			if(countyellow>0) {
 				blockdto.setColor("YL");
 				blockdto.setReason(31);
+			}
+			
+			if(blockdto.getColor()==null) {
+				blockdto.setReason(200);
+				blockdto.setColor("GY");
 			}
 			
 			if(dao.checkBlock()!=null) {
@@ -285,23 +352,24 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 			int countyellow = 0;
 			String starttimes = dto.getStartTime();
 			String endtimes = dto.getEndTime();
+			
 			if(starttimes==null && endtimes==null) {
 				starttimes = "1100";
-				endtimes = "1300";
+				endtimes = "1400";
 			}
 
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 			LocalTime starttime = LocalTime.parse(starttimes, formatter);
 			LocalTime endtime = LocalTime.parse(endtimes, formatter);
+			 
 			List<LocalTime> hourlyDataList = new ArrayList<>();
 
 	        // 시작 시간부터 종료 시간까지 1시간 간격으로 정각 데이터 생성
 			LocalTime currentTime = starttime;
-	        while (!currentTime.isAfter(endtime)) {
-	            hourlyDataList.add(currentTime);
-	            currentTime = currentTime.plusHours(1);
-	        }
-			
+			while (!currentTime.isAfter(endtime) && !currentTime.equals(endtime)) {
+			    hourlyDataList.add(currentTime);
+			    currentTime = currentTime.plusHours(1);
+			}
 			String day = getdto.getFORECAST_DAY();
 			int rnst = 0;
 			int ta = 0;
@@ -320,12 +388,10 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 					wf = getdto.getWFAM();
 				}
 					///////////최우선 로직
-					if (category.equals("관광지") || category.equals("쇼핑") || category.equals("음식점") || category.equals("문화센터") || category.equals("레포츠") || category.equals("행사/공연/축제")) {
-						if(times.getHour()>23 || times.getHour() <7) {
-							blockdto.setReason(21);
-							blockdto.setColor("RD");
-						}
-					break;
+					if (isPlaceCategory(category) && isLateNightTime(times)) {
+				    blockdto.setReason(21);
+				    blockdto.setColor("RD");
+				    break;
 					}
 					
 					if(category.equals("숙박")) {
@@ -376,7 +442,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 					
 					
 										
-					isLastDto = times.equals(endtime);
+					isLastDto = times.equals(endtime.minusHours(1));
 					if (isLastDto && countyellow==0) {
 					    blockdto.setColor("GN");
 					    blockdto.setReason(1);
@@ -388,6 +454,13 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 					blockdto.setColor("YL");
 					blockdto.setReason(31);
 				}
+				
+				if(blockdto.getColor()==null) {
+					blockdto.setReason(200);
+					blockdto.setColor("GY");
+				}
+				
+				
 				if(dao.checkBlock()!=null) {
 					dao.setBlockUpdate(blockdto);
 				}
@@ -439,13 +512,12 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		for (LocalTime times : hourlyDataList) {
 			
 	///////////최우선 로직
-	if (category.equals("관광지") || category.equals("쇼핑") || category.equals("음식점") || category.equals("문화센터") || category.equals("레포츠") || category.equals("행사/공연/축제")) {
-		if(times.getHour()>23 || times.getHour() <7) {
-			blockdto.setReason(21);
-			blockdto.setColor("RD");
-		}
-		break;
-	}	
+	if (isPlaceCategory(category) && isLateNightTime(times)) {
+	    blockdto.setReason(21);
+	    blockdto.setColor("RD");
+	    break;
+	}
+
 	
 	if(category.equals("숙박")) {
 		blockdto.setReason(1);
@@ -489,6 +561,11 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		blockdto.setColor("GY");
 		}
 		
+		if(blockdto.getColor()==null) {
+			blockdto.setReason(200);
+			blockdto.setColor("GY");
+		}
+		
 	    if(dao.checkBlock()!=null) {
 			dao.setBlockUpdate(blockdto);
 		}
@@ -498,6 +575,21 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	}
 		
 	}
+	
+	private boolean isPlaceCategory(String category) {
+	    return category.equals("관광지") || 
+	           category.equals("쇼핑") || 
+	           category.equals("음식점") || 
+	           category.equals("문화센터") || 
+	           category.equals("레포츠") || 
+	           category.equals("행사/공연/축제");
+	}
+
+	private boolean isLateNightTime(LocalTime times) {
+	    int hour = times.getHour();
+	    return hour > 23 || hour < 7;
+	}
+
 	
 	
 }
