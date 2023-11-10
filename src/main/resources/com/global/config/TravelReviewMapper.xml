@@ -2,9 +2,24 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="TravelReviewMapper">
+<mapper namespace="com.olaenmanijo.weatherbasedtravelplanner.domain.community.mapper.CommunityMapper">
+	
+	<!-- TRAVEL_REVIEW_TB 테이블 전체 컬럼 -->
+    <resultMap id="CommunityResponseMap" type="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityResponse">
+        <id property="travelReviewNo" column="TRAVEL_REVIEW_NO" />
+        <result property="travelPlanNo" column="TRAVEL_PLAN_NO" />
+        <result property="memberNo" column="MEMBER_NO" />
+        <result property="plannerReviewTitle" column="PLANNER_REVIEW_TITLE" />
+        <result property="plannerReviewImage" column="PLANNER_REVIEW_IMAGE" />
+        <result property="plannerReviewContent" column="PLANNER_REVIEW_CONTENT" />
+        <result property="writeDate" column="WRITE_DATE" />
+        <result property="hit" column="HIT" />
+        <result property="recommend" column="RECOMMEND" />
+        <result property="delYn" column="DEL_YN" />
+    </resultMap>
+
 	<!-- 자랑하기 전체 리스트 -->
-	<select id="communityList" resultType="CommunityListResponse">
+	<select id="travelReviewFindAll" resultMap="CommunityResponseMap">
 		select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
 		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
 		from TRAVEL_REVIEW_TB
@@ -13,58 +28,58 @@
 	</select>
 	
 	<!-- 자랑하기 전체 갯수 -->
-	<select id="totalCommunity" resultType="int">
+	<select id="travelReviewCount" resultType="int">
      select count(*)
      from TRAVEL_REVIEW_TB
    </select>
    
 	<!-- 자랑하기 자세히보기 -->
-   <select id="selectCommunity"  resultType="CommunityListResponse" parameterType="int">
+   <select id="travelReviewFindById"  resultMap="CommunityResponseMap" parameterType="long">
      select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
 		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
 	 from TRAVEL_REVIEW_TB
-     where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+     where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </select>
    
    <!-- 자랑하기 플래너번호로 조회 -->
-   <select id="selCommuTravelNo"  resultType="CommunityListResponse" parameterType="int">
+   <select id="travelReviewFindByTravelNo"  resultMap="CommunityResponseMap" parameterType="long">
      select TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE,
 		PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT,WRITE_DATE,HIT,RECOMMEND,DEL_YN
 	 from TRAVEL_REVIEW_TB
-     where TRAVEL_PLAN_NO = #{TRAVEL_PLAN_NO}
+     where TRAVEL_PLAN_NO = #{travelPlanNo}
    </select>
    
    <!-- 자랑하기 글쓰기 저장(insert)-->
-   <insert id="communityWrite" parameterType="CommunityRegistRequest">
+   <insert id="travelReviewSave" parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.CommunityRequest">
    	insert into TRAVEL_REVIEW_TB (TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE, PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT)
    	values (TRAVEL_REVIEW_SQ.NEXTVAL+1, #{travelPlanNo}, #{memberNo}, #{plannerReviewTitle}, #{plannerReviewImage}, #{plannerReviewContent})
    </insert>
    
    <!-- 자랑하기 글쓰기 수정(update)-->
-   <update id="communityUpdate" parameterType="CommunityModifyRequest">
+   <update id="travelReviewUpdate" parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.CommunityRequest">
    	update TRAVEL_REVIEW_TB
-   	set PLANNER_REVIEW_TITLE = #{PLANNER_REVIEW_TITLE}, PLANNER_REVIEW_IMAGE = #{PLANNER_REVIEW_IMAGE}, PLANNER_REVIEW_CONTENT = #{PLANNER_REVIEW_CONTENT}
-   	where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+   	set PLANNER_REVIEW_TITLE = #{plannerReviewTitle}, PLANNER_REVIEW_IMAGE = #{plannerReviewImage}, PLANNER_REVIEW_CONTENT = #{plannerReviewContent}
+   	where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </update>
    
    <!-- 자랑하기 글쓰기 삭제(delete)-->
-   <delete id="communityDelete" parameterType="int">
+   <delete id="travelReviewDeleteById" parameterType="long">
      update TRAVEL_REVIEW_TB
      set DEL_YN = 1
-     where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+     where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </delete>
    
 	<!-- 자랑하기 조회수 업데이트 -->
-	<update id="readHit" parameterType="int">
+	<update id="travelReviewReadHit" parameterType="long">
       update TRAVEL_REVIEW_TB
       set HIT = HIT + 1
-      where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+      where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </update>
    
 	<!-- 자랑하기 추천하기 업데이트 -->
-	<update id="readRecommend" parameterType="int">
+	<update id="travelReviewReadRecommend" parameterType="int">
       update TRAVEL_REVIEW_TB
       set RECOMMEND = RECOMMEND + 1
-      where TRAVEL_REVIEW_NO = #{TRAVEL_REVIEW_NO}
+      where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </update>
 </mapper>

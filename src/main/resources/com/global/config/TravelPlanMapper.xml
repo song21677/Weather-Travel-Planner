@@ -2,13 +2,22 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="TravelPlanMapper">
+<mapper namespace="com.olaenmanijo.weatherbasedtravelplanner.domain.community.mapper.CommunityMapper">
+
+	<!-- PLACE_REVIEW_TB 테이블 전체 컬럼 -->
+    <resultMap id="PlanListResponseMap" type="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityPlanListResponse">
+        <id property="travelPlanNo" column="TRAVEL_PLAN_NO" />
+        <result property="memberNo" column="MEMBER_NO" />
+        <result property="travelPlanTitle" column="TRAVEL_PLAN_TITLE" />
+        <result property="startYMD" column="START_YMD" />
+        <result property="endYMD" column="END_YMD" />
+    </resultMap>
 
    <!-- 여행일정 리스트 -->
-   <select id="selectPlannerList"  resultType="CommunityPlannerListResponse" parameterType="int">
+   <select id="travelPlanFindByMemberNo"  resultMap="PlanListResponseMap" parameterType="long">
      select TRAVEL_PLAN_NO, MEMBER_NO, TRAVEL_PLAN_TITLE, START_YMD, END_YMD
      from TRAVEL_PLAN_TB
-     where MEMBER_NO = #{MEMBER_NO}
+     where MEMBER_NO = #{memberNo}
      order by START_YMD
    </select>
    
