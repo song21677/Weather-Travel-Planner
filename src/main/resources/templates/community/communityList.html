@@ -26,7 +26,7 @@
 				<a th:href="@{/communities/new}" class="btn btn-primary float-end">글쓰기</a>
 			</div>
 			<div class="container scrollable-container">
-				<div class="row row-cols-lg-3 g-3" th:with="lists=${CommunityListResponse}">
+				<div class="row row-cols-lg-3 g-3" th:with="lists=${CommunityResponse}">
 				
 							<!-- 자랑하기 카드 -->
 					<div class="col" th:each="list, varStatus:${lists}">
@@ -39,26 +39,26 @@
 								<rect width="100%" height="100%" fill="#55595c" />
 								<a th:href="@{http://naver.com}">
 								<image class="img-thumnail float-start"
-										th:href="@{(${list.PLANNER_REVIEW_IMAGE})}" width="100%"
+										th:href="@{(${list.plannerReviewImage})}" width="100%"
 										height="100%" />
 								</a>
 								
 							</svg>
 							<div class="card-body">
 								<p class="card-text text-secondary">찬호님의 일정 2박3일</p>
-								<h2 class="card-text h5" th:text="${list.PLANNER_REVIEW_TITLE}"></h2>
-								<p class="card-text h6 text-secondary" th:text="${list.PLANNER_REVIEW_CONTENT}"></p>
+								<h2 class="card-text h5" th:text="${list.plannerReviewTitle}"></h2>
+								<p class="card-text h6 text-secondary" th:text="${list.plannerReviewContent}"></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group btn-group-sm">
 										<button type="button"
 											class="btn btn-outline-danger fixed-width-button"
-											th:text="${list.RECOMMEND}">
+											th:text="${list.recommend}">
 										</button>
 										<button type="button"
 											class="btn btn-outline-info fixed-width-button">내
 											일정에 추가</button>
 									</div>
-									<small class="text-body-secondary" th:text="${list.HIT}+조회수"></small>
+									<small class="text-body-secondary" th:text="${list.hit}+조회수"></small>
 								</div>
 							</div>
 						</div>
