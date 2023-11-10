@@ -139,42 +139,24 @@ public class CommunityController {
 		System.out.println(params);
 		return service.placeReviewWrite(params);
 	}
+	
+	
+	// 여행기 자세히보기
+	@GetMapping("/communities/{travelReviewNo}")
+	public String communityRetrieve(@PathVariable final long travelReviewNo, HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
+		Long memberNo = memberResponse.getMemberNo();
+		
+		CommunityResponse communityResponse = service.travelReviewfindById(travelReviewNo);
+		Map<String, List<CommunityDetailResponse>> groupedData = service.detailFindByTravelNo(communityResponse.getTravelPlanNo());
+		model.addAttribute("groupedData", groupedData);
+		System.out.println(groupedData);
+		model.addAttribute("CommunityResponse", communityResponse);
+		System.out.println(communityResponse);
+		model.addAttribute("MemeberNo",memberNo);
+		System.out.println(memberNo);
+		return "community/communityRetrieve";
+	}
 
-	
-	/*-
-	-Community 목록 보기:
-	HTTP 메서드: GET
-	URL 매핑: /communities
-	설명: 커뮤니티 게시물 목록을 조회하는 페이지.
-	
-	-Community 글 쓰기 페이지 (글 작성 양식 표시):
-	HTTP 메서드: GET
-	URL 매핑: /communities/new
-	설명: 새로운 글을 작성하기 위한 페이지. 글 작성 양식을 표시하는 페이지.
-	
-	-Community 글 작성 (글 작성 처리):
-	HTTP 메서드: POST
-	URL 매핑: /communities
-	설명: 새로운 글을 작성하고 서버에 저장하는 엔드포인트. 사용자가 글 작성 양식을 제출할 때 호출됩니다.
-	
-	Community 글 자세히 보기:
-	HTTP 메서드: GET
-	URL 매핑: /communities/{글ID}
-	설명: 특정 글의 자세한 내용을 보여주는 페이지. {글ID}는 글의 고유 식별자입니다.
-	
-	Community 글 수정 페이지 (글 수정 양식 표시):
-	HTTP 메서드: GET
-	URL 매핑: /communities/{글ID}/edit
-	설명: 특정 글을 수정하기 위한 페이지. 글 수정 양식을 표시하는 페이지.
-	
-	Community 글 수정 (글 수정 처리):
-	HTTP 메서드: PUT 또는 PATCH
-	URL 매핑: /communities/{글ID}
-	설명: 특정 글을 수정하고 서버에 업데이트하는 엔드포인트. 사용자가 글 수정 양식을 제출할 때 호출됩니다.
-	
-	Community 글 삭제:
-	HTTP 메서드: DELETE
-	URL 매핑: /communities/{글ID}
-	설명: 특정 글을 삭제하는 엔드포인트. 글의 고유 식별자를 사용하여 글을 삭제합니다.
-	*/
 }
