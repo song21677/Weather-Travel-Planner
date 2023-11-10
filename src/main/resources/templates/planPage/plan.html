@@ -21,9 +21,9 @@
        
        <div class="map col-md-6 ml-1 container">
            <div class="category row">
-               <button type="button" class="form-control col-md-4" name="category" id="category" value="39">음식점</button>
-               <button class="form-control col-md-4" name="category" value="12">관광지</button>
-               <button class="form-control col-md-4" name="category" value="15">행사/공연/축제</button>
+               <button type="button" class="form-control col-md-4" name="category" id="category" value="음식점">음식점</button>
+               <button class="form-control col-md-4" name="category" value="관광지">관광지</button>
+               <button class="form-control col-md-4" name="category" value="행사/공연/축제">행사/공연/축제</button>
            </div>
            <div id="map"></div>
        </div>
@@ -33,7 +33,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
    <script src="js/plan/bootstrap.min.js"></script>
    <script src="js/plan/moment.min.js"></script>
-   <script src="js/plan/daterangepicker.js"></script>
+   <script src="js/plan/daterangepicker.js" class="test2"></script>
    
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0a4e5f604e58c301ddedd0a6790ec3bf"></script>
    <script>
@@ -46,12 +46,10 @@
       var map = new kakao.maps.Map(container, options);
    </script>
 
-   <script src="js/plan/planperiodcalculator.js"></script>
+   <script src="js/plan/planperiodcalculator.js" class="test2"></script>
     
     <script src="js/plan/clickcategoryandselectandcancelandapply.js"></script>
-    <script>
-    
-    </script>
+    <!-- <script src="js/plan/clicksavebtn.js"></script>  -->
     
 </body>
 

@@ -2,6 +2,7 @@ package com.olaenmanijo.weatherbasedtravelplanner.plan;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -47,4 +48,10 @@ public class Plan implements Serializable {
 	public void add(PlanDTO2 place) {
 		places.add(place);
 	}
+	
+	public void sortPlaces() {
+        places.sort(Comparator
+                .comparing(PlanDTO2::getDate)
+                .thenComparingInt(PlanDTO2::getStartHour));
+    }
 }

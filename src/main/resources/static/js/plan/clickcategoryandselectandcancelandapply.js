@@ -149,19 +149,34 @@ var categoryBtn = document.getElementById('category');
                                           function loadScript(src, callback) {
                                       	    let script = document.createElement('script');
                                       	    script.src = src;
+                                      	  script.setAttribute("class", "test2");
                                       	    script.addEventListener('load', callback);
                                       	    document.body.appendChild(script);
                                       	}
                                          //https://code.jquery.com/ui/1.12.1/jquery-ui.js
                                       	// 첫 번째 스크립트 로드 후 두 번째 스크립트 로드
+                                          var remove = document.querySelectorAll('.test2');
+
+                                          // 가져온 요소를 순회하면서 삭제
+                                          remove.forEach(function(element) {
+                                              element.remove();
+                                          });
+                                          
+                                          var hh = document.querySelector('.daterangepicker');
+                                          
+                                          if (hh) {
+                                          hh.remove();
+                                          }
+                                         
                                       
                                         	 loadScript('js/plan/daterangepicker.js', function () {
                                         		 loadScript('js/plan/planperiodcalculator.js', function () {
-                                      	       
+                                        			 loadScript('js/plan/addblock.js', function() {
+                                        				 
+                                        			 })
                                         		 });
                                         	 });
-                                       
-                                         
+                                       	
                                       });
                                      
                                   });
@@ -178,13 +193,16 @@ var categoryBtn = document.getElementById('category');
               }
               
                // area에는 지역 선택 부분이 없어도 현재 위치의 위경도가 들어가게 할것임.
-               const area = document.getElementById('area').value;   
+               const area = document.getElementById('area').value; 
+               console.log(area);
                const category = categoryBtn.value;
                const date = document.getElementById('date').value;
                const startDateString = document.getElementById('startDate').value;
                const endDateString = document.getElementById('endDate').value;
+               const title = document.getElementById('title').value;
+               console.log(title);
                
-                fetch(`/search?date=${date}&area=${area}&category=${category}&startDate=${startDateString}&endDate=${endDateString}`)
+                fetch(`/search?area=${area}&category=${category}&startDate=${startDateString}&endDate=${endDateString}&date=${date}&title=${title}`)
                     .then(response => response.text())
                     .then(html => {
                         document.querySelector('.frame').innerHTML = html;
@@ -192,3 +210,4 @@ var categoryBtn = document.getElementById('category');
                         addEventListeners();
                     });
          });
+       

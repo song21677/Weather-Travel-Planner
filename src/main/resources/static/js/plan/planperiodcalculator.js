@@ -28,53 +28,75 @@ $(function() {
                let daySchedule = document.createElement("div");
                daySchedule.setAttribute("class", "form-control2");
                
-               detailsElement.append(daySchedule);
+               detailsElement.appendChild(daySchedule);
                
                let h2 = document.createElement("h2");
                h2.setAttribute("class", "h2");
                h2.innerText = "DAY " + i; 
                
-               daySchedule.append(h2);
+               daySchedule.appendChild(h2);
                
                let button = document.createElement("button");
                button.setAttribute("class", "form-control");
                button.setAttribute("id", "add-schedule-button");
                button.innerText = "일정 추가";
-               button.type = "button"
+               button.type = "button";
                
                // button value
                //nextDate.setDate(nextDate.getDate() + 1);
                //button.value = nextDate.toISOString().slice(0, 10).replace(/-/g, '');
                button.value = i-1;
-               const startDateString = moment(startDate).format('YYYYMMDD');
-               const endDateString = moment(endDate).format('YYYYMMDD');
-               console.log(startDateString);
-               console.log(endDateString);
+               
                
                button.addEventListener("click", function() {
-                  console.log(button);
-                  let date = button.value;
-                  console.log(date);
-                         fetch(`/search?date=${date}&startDate=${startDateString}&endDate=${endDateString}`)
+            	   let title = document.querySelector('.title').value;
+            	   let startDateString = moment(startDate).format('YYYYMMDD');
+                   let endDateString = moment(endDate).format('YYYYMMDD');
+                   let date = button.value;
+                   console.log(title);
+                   // console.log(date);
+                   
+                         fetch(`/search?title=${title}&startDate=${startDateString}&endDate=${endDateString}&date=${date}`)
                              .then(response => response.text())
                              .then(html => {
                                  document.querySelector('.frame').innerHTML = html;
+                                 
+                                 function loadScript(src, callback) {
+                               	    let script = document.createElement('script');
+                               	    script.src = src;
+                               	  script.setAttribute("class", "test3");
+                               	    script.addEventListener('load', callback);
+                               	    document.body.appendChild(script);
+                               	}
+                                 
+                                 var remove = document.querySelectorAll('.test3');
+
+                                 // 가져온 요소를 순회하면서 삭제
+                                 remove.forEach(function(element) {
+                                     element.remove();
+                                 });
+                                 
+                                 loadScript('js/plan/search.js', function () {
+                            	 });
+                                 
                              });
                      });
                
-               daySchedule.append(button);
+               daySchedule.appendChild(button);
                
                let br = document.createElement("br");
-               detailsElement.append(br);
+               detailsElement.appendChild(br);
             }
           })
           
         var start = document.querySelector(".startDate");
         var end = document.querySelector(".endDate");
         //console.log(start);
-        if (start.textContent) {
-	        var startValue = moment(start.textContent, 'YYYYMMDD').format('MM/DD/YYYY');
-	        var endValue = moment(end.textContent, 'YYYYMMDD').format('MM/DD/YYYY');
+        if (start.value) {
+	        var startValue = moment(start.value, 'YYYYMMDD').format('MM/DD/YYYY');
+	        var endValue = moment(end.value, 'YYYYMMDD').format('MM/DD/YYYY');
+	        console.log(startValue);
+	        console.log(endValue);
 	        //var start2 = '03/01/2014';
 	        //console.log(start2);
 	        //console.log(start.textContent);

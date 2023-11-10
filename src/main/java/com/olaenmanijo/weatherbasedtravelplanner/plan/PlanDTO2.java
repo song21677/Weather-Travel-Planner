@@ -14,11 +14,11 @@ public class PlanDTO2 {
 	private int planNo;
 	String date;
 	String realDate;
-	String startHour;
-	String endHour;
+	int startHour;
+	int endHour;
 	Place place;
 	
-	public PlanDTO2(String date, String startHour, String endHour, Place place) {
+	public PlanDTO2(String date, int startHour, int endHour, Place place) {
 		this.date = date;
 		this.startHour = startHour;
 		this.endHour = endHour;

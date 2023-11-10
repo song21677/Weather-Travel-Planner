@@ -29,14 +29,16 @@ INSERT INTO detail_plan_tb (
     	travel_plan_no,
     	place_no,
     	detail_plan_ymd, 
-    	detail_plan_hour
+    	detail_plan_hour,
+    	detail_plan_hour_end
     )
     VALUES (
     	detail_plan_sq.nextval,
     			#{planNo},
     			#{place.place_no}, 
     			#{realDate}, 
-    			#{time}
+    			#{startHour},
+    			#{endHour}
     )
 </insert>
 <insert id="insertDetailPlan2" parameterType="java.util.List">

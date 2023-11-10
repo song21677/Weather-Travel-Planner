@@ -1,11 +1,17 @@
     <div class="row" id="search">
         <select name="area" id="area" class="form-control custom-select col-md-3">
             <option value="">장소</option>
-            <option value="6">부산</option>
-            <option value="2">강릉</option>
+            <option value="가평">가평</option>
+            <option value="강릉">강릉</option>
+            <option value="경주">경주</option>
+            <option value="부산">부산</option>
+            <option value="여수">여수</option>
+            <option value="인천">인천</option>
+            <option value="전주">전주</option>
+            <option value="제주">제주</option>
         </select>
         
-        <input class="form-control col-md-9" type="text" name="keyword">
+        <input class="form-control col-md-9" id="search" type="text" name="keyword">
     </div>
         
     <div id="places">
@@ -20,11 +26,11 @@
 	                <span id="placeAddr" th:text="${place.road_name_adr}">부산 기장군 일광읍 칠암1길 7-10</span>
 	            </div> 
 	        </div>
-	        <button type="button" class="form-control col-md-3 select" th:value="220593">선택</button>
+	        <button type="button" class="form-control col-md-3 select" th:value="${place.place_no}">선택</button>
 	    </div>
 </div>
     <input type="hidden" th:value=${dateString} id="date"/>
     <input type="hidden" th:value=${plan.startDate} id="startDate"/>
     <input type="hidden" th:value=${plan.endDate} id="endDate"/>
+     <input type="hidden" th:value=${plan.title} id="title"/>
     <button type="button" class="form-control" id="applyBtn">적용</button>
-    
