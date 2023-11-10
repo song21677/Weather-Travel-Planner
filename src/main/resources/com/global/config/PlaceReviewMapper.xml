@@ -2,26 +2,70 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="PlaceReviewMapper">
-
-	<!-- 여행지 리뷰 리스트 -->
+<mapper namespace="com.olaenmanijo.weatherbasedtravelplanner.domain.community.mapper.CommunityMapper">
 	
+	<!-- PLACE_REVIEW_TB 테이블 전체 컬럼 -->
+    <resultMap id="PlaceReviewResponseMap" type="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.PlaceReviewResponse">
+        <id property="placeReviewNo" column="PLACE_REVIEW_NO" />
+        <result property="detailPlanNo" column="DETAIL_PLAN_NO" />
+        <result property="memberNo" column="MEMBER_NO" />
+        <result property="placeNo" column="PLACE_NO" />
+        <result property="placeReviewImg" column="PLACE_REVIEW_IMG" />
+        <result property="placeReviewContent" column="PLACE_REVIEW_CONTENT" />
+        <result property="placeReviewScore" column="PLACE_REVIEW_SCORE" />
+        <result property="writeDate" column="WRITE_DATE" />
+    </resultMap>
+	
+	<!-- 여행지 리뷰 여행블럭으로 자세히보기(여행기페이지) -->
+   <select id="placeReviewFindByDetailNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
+     select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
+			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+	 from PLACE_REVIEW_TB
+     where DETAIL_PLAN_NO = #{detailPlanNo}
+   </select>
+	
+	<!-- 여행지 리뷰 멤버로 자세히보기(마이페이지) -->
+   <select id="placeReviewFindByMemberNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
+     select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
+			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+	 from PLACE_REVIEW_TB
+     where MEMBER_NO = #{memberNo}
+   </select>
+   
+	<!-- 여행지 리뷰 여행지로 자세히보기(여행정보) -->
+   <select id="placeReviewFindByPlaceNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
+     select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
+			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+	 from PLACE_REVIEW_TB
+     where PLACE_NO = #{placeNo}
+   </select>
+   
+       <!-- 여행지 리뷰 수 카운팅 (수정인지 등록인지 여부 체크) -->
+   <select id="countBydetailPlanNo" parameterType="long" resultType="long">
+    SELECT
+            COUNT(*)
+        FROM
+            PLACE_REVIEW_TB
+        WHERE
+            DETAIL_PLAN_NO = #{detailPlanNo}
+   </select>
+
 	<!-- 여행지 리뷰 저장하기 -->
 	<insert id="placeReviewWrite"
-		parameterType="PlaceReviewRegistRequest">
+		parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.PlaceReviewRequest">
 		insert INTO PLACE_REVIEW_TB(PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO,
 					PLACE_NO, PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE)
-		values (PLACE_REVIEW_SQ.NEXTVAL, #{DETAIL_PLAN_NO}, #{MEMBER_NO},
-				#{PLACE_NO}, #{PLACE_REVIEW_IMG}, #{PLACE_REVIEW_CONTENT},
-				#{PLACE_REVIEW_SCORE})
+		values (PLACE_REVIEW_SQ.NEXTVAL, #{detailPlanNo}, #{memberNo},
+				#{placeNo}, #{placeReviewImg}, #{placeReviewContent},
+				#{placeReviewScore})
 	</insert>
 
 	<!-- 여행지 리뷰 업데이트 -->
 	<update id="placeReviewUpdate"
-		parameterType="PlaceReviewModifyRequest">
+		parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.PlaceReviewRequest">
 		update PLACE_REVIEW_TB
-		set PLACE_REVIEW_IMG = #{PLACE_REVIEW_IMG}, PLACE_REVIEW_CONTENT =
-			#{PLACE_REVIEW_CONTENT}, PLACE_REVIEW_SCORE = #{PLACE_REVIEW_SCORE}
-		where PLACE_REVIEW_NO = #{PLACE_REVIEW_NO}
+		set PLACE_REVIEW_IMG = #{placeReviewImg}, PLACE_REVIEW_CONTENT =
+			#{placeReviewContent}, PLACE_REVIEW_SCORE = #{placeReviewScore}
+		where PLACE_REVIEW_NO = #{placeReviewNo}
 	</update>
 </mapper>

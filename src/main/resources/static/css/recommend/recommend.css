@@ -1,0 +1,30 @@
+<style>
+        #filters {
+            text-align: left;
+            margin: 20px;
+        }
+
+        #content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        
+
+        .item {
+            width: 30%;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+
+	        }
+	     .location li {
+            display: inline-block;
+            list-style: none;
+            margin-right: 10px;
+        }
+        li{  list-style:none;}
+
+
+</style>

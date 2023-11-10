@@ -9,9 +9,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
         	  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link th:href="@{/css/community/community.css}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
         <title>자랑하기</title>
     </head>
     <body>
+    	<header th:replace="@{mainPage/menu.html} :: header"></header>
         <main class="container">
             <!-- page title -->
             <div class="container py-5 ">
@@ -28,12 +30,12 @@
                     </div>
                     <div class="offcanvas-body">
                         <div class="scrollable-area py-3">
-                            <div class="card shadow border-light" 
+                            <div class="card shadow border-light py-4" 
                             	 style="width: 350px" 
-                            	 th:each="list:${CommunityPlannerListResponse}" 
+                            	 th:each="list:${CommunityPlanListResponse}" 
                             	 onmouseover="this.classList.remove('border-light'); this.classList.add('border-primary');" 
                             	 onmouseout="this.classList.add('border-light'); this.classList.remove('border-primary');" 
-                            	 th:plannerid="${list.TRAVEL_PLAN_NO}" 
+                            	 th:plannerid="${list.travelPlanNo}" 
                             	 th:onclick="loadPlannerData(this.getAttribute('plannerId'))" 
                             	 data-bs-dismiss="offcanvas">
                                 <div class="row">
@@ -45,8 +47,8 @@
                                     <div class="col">
                                     	<div class="card-header bg-white border-0"></div>
                                         <div class="card-body">
-                                            <h5 class="card-title" th:text="${list.TRAVEL_PLAN_TITLE}"></h5>
-                                            <p class="card-text" th:text="'시작일: '+${list.START_YMD + ' 복귀일: ' + list.END_YMD}"></p>
+                                            <h5 class="card-title" th:text="${list.travelPlanTitle}"></h5>
+                                            <p class="card-text" th:text="'시작일: '+${list.startYMD + ' 복귀일: ' + list.endYMD}"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -60,8 +62,8 @@
                 		data-bs-target="#selplan">
                     	여행일정 불러오기
                 </button>
-                <th:block th:if="${CommunityListResponse}" th:replace="@{community/communityWriteContent.html} :: content"></th:block>
-                <div th:unless="${CommunityListResponse}" id="write-content"></div>
+                <th:block th:if="${CommunityRequest}" th:replace="@{community/communityWriteContent.html} :: content"></th:block>
+                <div th:unless="${CommunityRequest}" id="write-content"></div>
                 
             </div>
         </main>

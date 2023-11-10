@@ -2,16 +2,44 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="DetailPlanMapper">
+<mapper namespace="com.olaenmanijo.weatherbasedtravelplanner.domain.community.mapper.CommunityMapper">
+
+	<!-- TRAVEL_REVIEW_TB 테이블 전체 컬럼 -->
+	<resultMap id="CommunityDetailResponseMap" type="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityDetailResponse">
+	    <id property="travelPlanNo" column="TRAVEL_PLAN_NO" />
+	    <result property="memberNo" column="MEMBER_NO" />
+	    <result property="travelPlanTitle" column="TRAVEL_PLAN_TITLE" />
+	    <result property="startYMD" column="START_YMD" />
+	    <result property="endYMD" column="END_YMD" />
+	    <result property="detailPlanNo" column="DETAIL_PLAN_NO" />
+	    <result property="detailPlanYMD" column="DETAIL_PLAN_YMD" />
+	    <result property="detailPlanHour" column="DETAIL_PLAN_HOUR" />
+	    <result property="detailPlanHourEnd" column="DETAIL_PLAN_HOUR_END" />
+	    <result property="color" column="COLOR" />
+	    <result property="placeNo" column="PLACE_NO" />
+	    <result property="placeCategory" column="PLACE_CATEGORY" />
+	    <result property="placeName" column="PLACE_NAME" />
+	    <result property="roadNameAdr" column="ROAD_NAME_ADR" />
+	    <result property="lotNumberAdr" column="LOT_NUMBER_ADR" />
+	    <result property="score" column="SCORE" />
+	    <result property="area" column="AREA" />
+	    <result property="longitude" column="LONGITUDE" />
+	    <result property="latitude" column="LATITUDE" />
+	    <result property="placeReviewNo" column="PLACE_REVIEW_NO" />
+	    <result property="placeReviewImg" column="PLACE_REVIEW_IMG" />
+	    <result property="placeReviewContent" column="PLACE_REVIEW_CONTENT" />
+	    <result property="placeReviewScore" column="PLACE_REVIEW_SCORE" />
+	    <result property="writeDate" column="WRITE_DATE" />
+	</resultMap>
 
 	<!-- 여행기 쓰기 여행블럭 정보 불러오기 -->
-	<select id="selectPlannerDetail" resultType="CommunityDetailResponse"
-		parameterType="int">
-		SELECT TP.TRAVEL_PLAN_NO, TP.MEMBER_sNO,
+	<select id="travelDetailPlanFindByTravelNo" resultMap="CommunityDetailResponseMap"
+		parameterType="long">
+		SELECT TP.TRAVEL_PLAN_NO, TP.MEMBER_NO,
 		TRAVEL_PLAN_TITLE, START_YMD, END_YMD,
-		DP.DETAIL_PLAN_NO, DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR, DETAIL_PLAN_DATE,
-		COLOR, BLOCK_ORD, PL.PLACE_NO, PLACE_CATEGORY, PLACE_NAME, ROAD_NAME_ADR,
-		LOT_NUMBER_ADR, LONGITUDE, LATITUDE, SCORE,
+		DP.DETAIL_PLAN_NO, DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR, DETAIL_PLAN_HOUR_END,
+		COLOR, PL.PLACE_NO, PLACE_CATEGORY, PLACE_NAME, ROAD_NAME_ADR,
+		LOT_NUMBER_ADR, SCORE, AREA, LONGITUDE, LATITUDE,
 		PR.PLACE_REVIEW_NO, PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE,
 		WRITE_DATE
 		FROM TRAVEL_PLAN_TB TP
@@ -19,41 +47,41 @@
 		LEFT JOIN DETAIL_PLAN_BLOCK_TB DB ON DP.DETAIL_PLAN_NO = DB.DETAIL_PLAN_NO
 		LEFT JOIN PLACE_TB PL ON DP.PLACE_NO = PL.PLACE_NO
 		LEFT JOIN PLACE_REVIEW_TB PR ON DP.DETAIL_PLAN_NO = PR.DETAIL_PLAN_NO
-		WHERE TP.TRAVEL_PLAN_NO = #{TRAVEL_PLAN_NO}
-		ORDER BY TP.MEMBER_NO, DP.DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR
+		WHERE TP.TRAVEL_PLAN_NO = #{travelPlanNo}
+		ORDER BY TP.MEMBER_NO, DP.DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR, DP.DETAIL_PLAN_NO
 	</select>
-
-<insert id="insertDetailPlan" parameterType="PlanDTO2" >
+	
+	<insert id="insertDetailPlan" parameterType="PlanDTO2" >
 INSERT INTO detail_plan_tb (
-    	detail_plan_no, 
-    	travel_plan_no,
-    	place_no,
-    	detail_plan_ymd, 
-    	detail_plan_hour,
-    	detail_plan_hour_end
+       detail_plan_no, 
+       travel_plan_no,
+       place_no,
+       detail_plan_ymd, 
+       detail_plan_hour,
+       detail_plan_hour_end
     )
     VALUES (
-    	detail_plan_sq.nextval,
-    			#{planNo},
-    			#{place.place_no}, 
-    			#{realDate}, 
-    			#{startHour},
-    			#{endHour}
+       detail_plan_sq.nextval,
+             #{planNo},
+             #{place.place_no}, 
+             #{realDate}, 
+             #{startHour},
+             #{endHour}
     )
 </insert>
 <insert id="insertDetailPlan2" parameterType="java.util.List">
     INSERT INTO detail_plan_tb (
-    	detail_plan_no, 
-    	travel_plan_no, 
-    	detail_plan_ymd, 
-    	detail_plan_hour
+       detail_plan_no, 
+       travel_plan_no, 
+       detail_plan_ymd, 
+       detail_plan_hour
     )
         <foreach collection="list" item="planDTO2" separator="UNION ALL">
             SELECT 
-            	detail_plan_sq.nextval,
-    			1, 
-    			#{planDTO2.realDate}, 
-    			#{planDTO2.time}
+               detail_plan_sq.nextval,
+             1, 
+             #{planDTO2.realDate}, 
+             #{planDTO2.time}
             FROM DUAL
         </foreach>
 </insert>
