@@ -10,10 +10,8 @@
 	rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" th:href="@{/css/community/community.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/css/mainPage.css}" />
 <title>자랑하기</title>
 
 </head>
@@ -37,7 +35,7 @@
 								preserveAspectRatio="xMidYMid slice" focusable="false">
 								
 								<rect width="100%" height="100%" fill="#55595c" />
-								<a th:href="@{http://naver.com}">
+								<a th:href="@{'/communities/'+ ${list.travelReviewNo}}">
 								<image class="img-thumnail float-start"
 										th:href="@{(${list.plannerReviewImage})}" width="100%"
 										height="100%" />

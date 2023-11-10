@@ -57,7 +57,6 @@ function saveTravelReview(reviewNo, planNo) {
 			plannerReviewTitle : form.elements.namedItem("title").value,
 			plannerReviewContent : form.elements.namedItem("content").value
 		};
-		console.log(communityRequest);
 		callApi("/communities", "put", communityRequest);
 	}
 	// 여행기 수정
@@ -67,7 +66,6 @@ function saveTravelReview(reviewNo, planNo) {
 			plannerReviewTitle : form.elements.namedItem("title").value,
 			plannerReviewContent : form.elements.namedItem("content").value
 		};
-		console.log(communityRequest);
 		callApi("/communities", "post", communityRequest);
 	}
 
@@ -108,19 +106,22 @@ function saveTravelReview(reviewNo, planNo) {
 								placeReviewContent : contentElement ? contentElement.value
 										: ''
 							});
-					console.log('PlaceReviewRequest:', placeReviewRequest);
-					var placeReviewCount = getJson(`/placeReview-count`, { detailPlanNo : detailPlanNoElement.value });
-					if (placeReviewCount > 0){
+					var placeReviewCount = getJson(`/placeReview-count`, {
+						detailPlanNo : detailPlanNoElement.value
+					});
+					if (placeReviewCount > 0) {
 						callApi("/communities", "put", placeReviewRequest);
 					}
-					if (placeReviewCount==0){
+					if (placeReviewCount == 0) {
 						callApi("/communities", "post", placeReviewRequest);
 					}
 				}
 			});
 
-	var travelReviewNo = getJson(`/travel-Review`, { travelPlanNo : parseInt(planNo) });
-	var endUrl = "/communities/"+ travelReviewNo + "/edit";
+	var travelReviewNo = getJson(`/travel-Review`, {
+		travelPlanNo : parseInt(planNo)
+	});
+	var endUrl = "/communities/" + travelReviewNo + "/edit";
 	callApi(endUrl, "get", null);
 }
 
