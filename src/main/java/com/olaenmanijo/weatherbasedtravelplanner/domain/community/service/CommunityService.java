@@ -32,6 +32,7 @@ public class CommunityService {
 	 */
 	@Transactional
 	public Long travelReviewSave(final CommunityRequest params) {
+		System.out.println("params : " + params);
 		communityMapper.travelReviewSave(params);
 		return params.getTravelReviewNo();
 	}

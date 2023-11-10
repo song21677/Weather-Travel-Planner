@@ -22,15 +22,21 @@ import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.Pl
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityDetailResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityPlanListResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityResponse;
-import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.PlaceReviewResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.service.CommunityService;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.member.dto.response.MemberResponse;
+import com.olaenmanijo.weatherbasedtravelplanner.global.file.controller.CloudFileUpload;
+import com.olaenmanijo.weatherbasedtravelplanner.global.file.controller.FileUtils;
+import com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.request.TravelReviewFileRequest;
+import com.olaenmanijo.weatherbasedtravelplanner.global.file.service.FileService;
 
 @Controller
 public class CommunityController {
 
 	@Autowired
 	CommunityService service;
+	FileService fileService;
+	FileUtils fileUtils;
+	CloudFileUpload cloudFileUpload;
 
 	// Community 글 쓰기 페이지
 	@GetMapping("/communities/new")
@@ -66,7 +72,9 @@ public class CommunityController {
 	@GetMapping("/travel-Review")
 	@ResponseBody
 	public Long convertPlanNoToTravelReviewNo(@RequestParam final Long travelPlanNo) {
+		System.out.println("travelPlanNo : " + travelPlanNo);
 		Long travelReviewNo = service.travelReviewFindByTravelNo(travelPlanNo).getTravelReviewNo();
+		System.out.println("travelReviewNo : " + travelReviewNo);
 		return travelReviewNo;
 	}
 	
@@ -92,13 +100,29 @@ public class CommunityController {
 	@PostMapping("/communities")
 	@ResponseBody
 	public Long communityWrite(HttpServletRequest request, @RequestBody final CommunityRequest params) {
+		
+		
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		params.setMemberNo(memberResponse.getMemberNo());
+		
+		// 파일업로드 추가 
+		Long travelReviewNo = params.getTravelReviewNo();
+		System.out.println("params:"+  params);
+		/*
+		List<TravelReviewFileRequest> files = fileUtils.uploadTravelReviewFiles(params.getFiles());
+		fileService.saveTravelReviewFiles(travelReviewNo, files);
+		params.setPlannerReviewImage(cloudFileUpload(files.get(0).getOriginalName(),files.get(0)));
+		System.out.println(params.getPlannerReviewImage());*/
 		return service.travelReviewSave(params);
 	}
 
 	
+	private String cloudFileUpload(String originalName, TravelReviewFileRequest travelReviewFileRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// Community 글 수정 (글 수정 처리)
 	@PutMapping("/communities")
 	@ResponseBody

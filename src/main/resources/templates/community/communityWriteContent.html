@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head>
-        <meta charset="UTF-8">
-        <meta
-        name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link th:href="@{/css/community/community.css}" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
-        <title>자랑하기</title>
-    </head>
-    <body>
-    	<main>
-            
+
         <div id="write-content" th:with="groupedData=${groupedData}" th:fragment="content">
-            <form id="reviewForm">
+            <form id="reviewForm" th:method="${CommunityResponse} != null?'PUT':'POST'" enctype="multipart/form-data">
                 <!-- Img input -->
+            <tr>
+		        <td colspan="3">
+		            <div class="file_list">
+		                <div>
+		                    <div class="file_input">
+		                        <input type="text" readonly />
+		                        <label>첨부파일
+		                            <input type="file" name="files" onchange="selectFile(this);"/>
+		                        </label>
+		                    </div>
+		                    <button type="button" onclick="removeFile(this);" class="btns del_btn">삭제</button>
+		                    <button type="button" onclick="addFile();" class="btns fn_add_btn">파일추가</button>
+		                </div>
+		            </div>
+		        </td>
+		    </tr>
                 <!-- title input -->
                 <div class="form-floating mb-3"> 
                 <input type="text" class="form-control" 
@@ -94,7 +95,6 @@
                         </ul>
                     </div>
                     <!-- dayItineray -->
-                        <p th:text="${groupedData.entrySet()[0].value[0].travelPlanNo}"></p>
                   <button type="button" th:if="${CommunityResponse != null}" th:onclick="'saveTravelReview(' + ${CommunityResponse.travelReviewNo} + ', ' + ${CommunityResponse.travelPlanNo} + ')'" class="btn btn-primary float-end" th:text="'수정하기'"></button>
 				<button type="button" th:if="${CommunityResponse == null}" th:onclick="'saveTravelReview(undefined, ' + ${groupedData.entrySet()[0].value[0].travelPlanNo} + ')'" class="btn btn-primary float-end" th:text="'등록하기'"></button>
                 </div>
@@ -103,9 +103,4 @@
 
             </form>
         </div>
-        </main>
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/community/community.js}"></script>
-</html>
+        

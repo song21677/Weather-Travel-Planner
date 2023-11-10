@@ -25,7 +25,7 @@ public class CloudFileUpload {
     @Value("${naver.cloud.secret}")
 	String secretKey;
     
-	public String cloudUpload(String uploadName, String filePath) {
+	public String cloudUpload(String uploadName, File file) {
 
 		// S3 client
 		final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
@@ -59,7 +59,7 @@ public class CloudFileUpload {
 		String uploadUrl = endPoint + '/' + bucketName + '/' + objectName;
 
 		try {
-			s3.putObject(new PutObjectRequest(bucketName, objectName, new File(filePath))
+			s3.putObject(new PutObjectRequest(bucketName, objectName, file)
 					.withCannedAcl(CannedAccessControlList.PublicRead));
 			System.out.format("Object %s has been created.\n", objectName);
 			

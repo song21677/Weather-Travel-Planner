@@ -1,0 +1,54 @@
+@charset "UTF-8";
+/* 테이블 스타일 ------------------------------- */
+.tb {width:100%; border:1px solid #dedede; margin-top:20px;}
+.tb:first-child {margin-top:0;}
+.tb th, .tb td {border:1px solid #dedede; padding:10px 5px; box-sizing:border-box;}
+.tb th {color:#555;}
+
+.tb_col th {border-bottom:1px solid #a2a2a2;}
+.tb_col td {text-align:center;}
+.tb_col thead th {background:#6f8294; border-color:rgba(255,255,255,0.2); color:#fff;}
+.tb_col tbody tr:nth-child(even) {background:#f6f7f8;}
+.tb_col .no_data_msg {padding:50px 0;}
+
+.tb_row {border-top:2px solid #6f8294;}
+.tb_row th, .tb_row td {padding:8px 12px;}
+.tb_row th {background:#f6f7f8; text-align:left;}
+.tb_row td {height:40px;}
+.tb_row .btns {height:38px; line-height:38px;}
+.viewcon {min-height:100px;}
+/* 입력불가 */
+input[readonly], select[readonly], textarea[readonly], .readonly, input[disabled], select[disabled], textarea[disabled], .disabled {background:#f4f4f4; border-color:#ddd;}
+/* 첨부파일 다운로드 */
+.file_down {border:1px solid #e0e0e0; border-radius:5px; overflow:hidden;}
+.file_down > strong {display:block; border-bottom:1px solid #e0e0e0; color:#333; font-size:13px; font-weight:400; padding:7px 10px;}
+.file_down .cont {background:#f9f9f9; padding:4px 0;}
+.file_down .cont > a {display:block; padding:4px 10px; padding-left:40px; min-height:23px; font-size:13px; position:relative;}
+.file_down .cont > a > span {display:inline-block; background:#aaa; width:23px; height:23px; border-radius:100%; position:absolute; top:3px; left:10px; text-align:center;}
+.file_down .cont > a > span i {color:#fff; position:relative; top:2px; font-size:12px;} 
+/* 첨부파일 스타일 */
+.file_input {margin:2px 0; overflow:hidden; position:relative; padding-right:100px; width:70%; box-sizing:border-box;}
+.file_input label {vertical-align:middle; position:absolute; top:0; right:0; cursor:pointer; border-radius:0px; display:inline-block; overflow:hidden; width:95px; height:38px; line-height:38px; background:#777; color:#fff; text-align:center; box-sizing:border-box;}
+.file_input label input {position:absolute; width:0; height:0; overflow:hidden; padding:0; border:0;}
+.file_input input[type=text] {color:#737070; background:#fff; border:1px solid #ccc;}
+.file_list {max-width:none;}
+.file_list > div {position:relative;}
+.file_list > div > input[type=text] {max-width:300px; vertical-align:top;}
+.file_list > div > button {background:linear-gradient(to bottom, #f7f7f7, #f0f0f0); border:1px solid #ccc; vertical-align:top;}
+.file_list > div > button > span {position:relative; padding-left:18px;}
+.file_list > div > button > span::before {width:14px; height:14px; position:absolute; top:3px; left:0;}
+.file_list > div > button.del_btn {right:95px;}
+.file_list > div > button.del_btn span::before {background-position:0 -27px;}
+.file_list > div > button.fn_add_btn span::before {background-position:-17px -27px;}
+.file_list .file_input {display:inline-block; width:350px; margin-top:0;}
+/* 첨부파일 스타일_이미지 미리보기 */
+.file_upload {overflow:hidden; box-sizing:border-box;}
+.file_upload label {vertical-align:middle; position:absolute; top:0; right:0; cursor:pointer; border-radius:0px; display:inline-block; overflow:hidden; width:100%; height:100%;}
+.file_upload label i {display:block; background:#999; width:26px; height:26px; border-radius:50px; position:absolute; bottom:0; right:0; text-indent:-9999px;}
+.file_upload label i::after {background-position:-35px -27px; width:14px; height:11px; position:absolute; top:50%; left:50%; margin:-5px 0 0 -7px;}
+.file_upload label input {position:absolute; width:0; height:0; overflow:hidden; padding:0; border:0;}
+.file_upload input[type=text] {color:#737070; background:#f9f9f9; border:1px solid #d5d5d5; display:none;}
+.file_preview {max-width:90px; margin-bottom:10px; position:relative;}
+.file_preview > a {display:block;}
+.file_preview .thumb_wrap {border:1px solid #eee; background:#fff; background-size:cover; border-radius:50px;}
+.file_preview .thumb_wrap > p {padding-top:100%;}

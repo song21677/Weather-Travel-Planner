@@ -32,10 +32,7 @@ function checkPlaceReview(detailPlanNo) {
 function saveTravelReview(reviewNo, planNo) {
 	// 1. 필드 유효성 검사
 	const form = document.getElementById('reviewForm');
-
-	// 필드 유효성 검사 함수
-
-	// 제목 필드 유효성 검사
+	
 	const title = form.elements.namedItem("title").value;
 	if (title === "") {
 		alert("제목을 입력해주세요.");
@@ -98,7 +95,7 @@ function saveTravelReview(reviewNo, planNo) {
 				if (placeNoElement && rateElement !== null
 						&& rateElement !== undefined) {
 					// Rate 및 Content 값을 객체로 묶어 배열에 추가
-					placeReviewResponse
+					placeReviewRequest
 							.push({
 								detailPlanNo : detailPlanNoElement.value,
 								placeNo : placeNoElement.value,
@@ -123,8 +120,8 @@ function saveTravelReview(reviewNo, planNo) {
 	});
 	var endUrl = "/communities/" + travelReviewNo + "/edit";
 	callApi(endUrl, "get", null);
+	
 }
-
 function callApi(uri, method, params) {
 
 	let json = {}
