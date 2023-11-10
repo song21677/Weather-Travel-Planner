@@ -9,10 +9,11 @@
 		        <br>
 		        <div class="details">
 		        	<div class="startDate" th:text=${plan.startDate}></div>
-		        	<div th:text=${plan.endDate}></div>
+		        	<div class="endDate" th:text=${plan.endDate}></div>
 		        <div th:each="place : ${plan.places}">
 		        	<div th:text=${place.date}></div>
-		        	<div th:text=${place.time}></div>
+		        	<div th:text=${place.startHour}></div>
+		        	<div th:text=${place.endHour}></div>
 		        	<div th:text=${place.place.place_name}></div>
 		        	<div th:text=${place.place.longitude}></div>
 		        </div> <br>

@@ -17,12 +17,65 @@ var categoryBtn = document.getElementById('category');
                                var selectedPlace = document.createElement("div");
                                selectedPlace.setAttribute("id", "selectedPlace");
                     
-                               var inputTime = document.createElement("input");
+                               /*var inputTime = document.createElement("input");
                                inputTime.setAttribute("type", "time");
                                inputTime.setAttribute("id", "appt");
-                               inputTime.setAttribute("name", "appt");
-                    
+                               inputTime.setAttribute("name", "appt");*/
+                               
+                               var inputTime = document.createElement("input");
+                               inputTime.setAttribute("type", "text");
+                               inputTime.setAttribute("class", "timepicker");
+                               inputTime.setAttribute("id", "startTime");
+                               
+                               let body = document.querySelector('body');
+                               
+                               var inputTime2 = document.createElement("input");
+                               inputTime2.setAttribute("type", "text");
+                               inputTime2.setAttribute("class", "timepicker");
+                               inputTime2.setAttribute("id", "endTime");
+                               
                                selectedPlace.append(inputTime);
+                               selectedPlace.append(inputTime2);
+                               
+                               /*let script = document.createElement('script');
+                               script.src = 'js/plan/jquery.timepicker.min.js';
+                               body.appendChild(script);
+                               
+                               let script2 = document.createElement('script');
+                               script2.src = 'js/plan/timepicker.js';
+                               body.appendChild(script2);*/
+                               
+                               function loadScript(src, callback) {
+                            	    let script = document.createElement('script');
+                            	    script.src = src;
+                            	    script.setAttribute("class", "test");
+                            	    script.addEventListener('load', callback);
+                            	    document.body.appendChild(script);
+                            	}
+                               //https://code.jquery.com/ui/1.12.1/jquery-ui.js
+                            	// 첫 번째 스크립트 로드 후 두 번째 스크립트 로드
+                              
+                               var elementsToRemove = document.querySelectorAll('.test');
+
+                            // 가져온 요소를 순회하면서 삭제
+                            elementsToRemove.forEach(function(element) {
+                                element.remove();
+                            });
+                            
+                            var gg = document.querySelector('.ui-timepicker-container');
+                            
+                            if (gg) {
+                            gg.remove();
+                            }
+                            
+                            	loadScript('https://code.jquery.com/ui/1.12.1/jquery-ui.js', function () {
+                            	    loadScript('js/plan/jquery.timepicker.min.js', function () {
+                            	        loadScript('js/plan/timepicker.js', function() {
+                            	        	
+                            	        });
+                            	    });
+                            	});
+                              
                     
                                var place = this.closest("#place").cloneNode(true);
                                var cancelBtn = place.querySelector('.select');
@@ -42,7 +95,8 @@ var categoryBtn = document.getElementById('category');
                             
                                button.addEventListener('click', function() {
                                   const date = document.getElementById('date').value;
-                                  const time = document.getElementById('appt').value;
+                                  const startTime = document.getElementById('startTime').value;
+                                  const endTime = document.getElementById('endTime').value;
                                   const placeNo = selectedPlace.querySelector('.select').value;
                                   const placeName = selectedPlace.querySelector('#placeName').textContent;
                                   const placeCategory = selectedPlace.querySelector('#placeCategory').textContent;
@@ -53,9 +107,21 @@ var categoryBtn = document.getElementById('category');
                                   console.log(placeCategory);
                                   console.log(placeAddr);
                                   
+                                  function convertTo24HourFormat(timeString) {
+                                	    const date = new Date("2000-01-01 " + timeString);
+                                	    return date.getHours();
+                                	}
+
+                                	const startHour = convertTo24HourFormat(startTime);
+                                	const endHour = convertTo24HourFormat(endTime);
+
+                                	console.log(startHour);
+                                	console.log(endHour); 
+                                	
                                   const planDTO = {
                                 		  "date": date,
-                                		  "time": time,
+                                		  "startHour": startHour,
+                                		  "endHour": endHour,
                                 		  "place_no": placeNo
                                    };
                                   
@@ -71,13 +137,31 @@ var categoryBtn = document.getElementById('category');
                                       .then(response => response.text())
                                       .then(html => {
                                           document.querySelector('.frame').innerHTML = html;
-                                          var script = document.createElement('script');
-                                          script.src = 'js/plan/daterangepicker.js';
-                                          var script2 = document.createElement('script');
-                                          script2.src = 'js/plan/planperiodcalculator.js'
-                                          var body = document.querySelector('body');
-                                          body.appendChild(script);
-                                          body.appendChild(script2);
+                                          
+//                                          let script = document.createElement('script');
+//                                          script.src = 'js/plan/daterangepicker.js';
+//                                          let script2 = document.createElement('script');
+//                                          script2.src = 'js/plan/planperiodcalculator.js'
+//                                          let body = document.querySelector('body');
+//                                          body.appendChild(script);
+//                                          body.appendChild(script2);
+                                          
+                                          function loadScript(src, callback) {
+                                      	    let script = document.createElement('script');
+                                      	    script.src = src;
+                                      	    script.addEventListener('load', callback);
+                                      	    document.body.appendChild(script);
+                                      	}
+                                         //https://code.jquery.com/ui/1.12.1/jquery-ui.js
+                                      	// 첫 번째 스크립트 로드 후 두 번째 스크립트 로드
+                                      
+                                        	 loadScript('js/plan/daterangepicker.js', function () {
+                                        		 loadScript('js/plan/planperiodcalculator.js', function () {
+                                      	       
+                                        		 });
+                                        	 });
+                                       
+                                         
                                       });
                                      
                                   });
@@ -97,8 +181,10 @@ var categoryBtn = document.getElementById('category');
                const area = document.getElementById('area').value;   
                const category = categoryBtn.value;
                const date = document.getElementById('date').value;
-             
-                fetch(`/search?date=${date}&area=${area}&category=${category}`)
+               const startDateString = document.getElementById('startDate').value;
+               const endDateString = document.getElementById('endDate').value;
+               
+                fetch(`/search?date=${date}&area=${area}&category=${category}&startDate=${startDateString}&endDate=${endDateString}`)
                     .then(response => response.text())
                     .then(html => {
                         document.querySelector('.frame').innerHTML = html;

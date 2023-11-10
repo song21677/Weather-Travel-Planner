@@ -13,12 +13,15 @@ public class PlanDTO2 {
 
 	private int planNo;
 	String date;
-	String time;
+	String realDate;
+	String startHour;
+	String endHour;
 	Place place;
 	
-	public PlanDTO2(String date2, String time2, Place place2) {
-		date = date2;
-		time = time2;
-		place = place2;
+	public PlanDTO2(String date, String startHour, String endHour, Place place) {
+		this.date = date;
+		this.startHour = startHour;
+		this.endHour = endHour;
+		this.place = place;
 	}
 }

@@ -18,22 +18,25 @@ import lombok.Setter;
 public class PlanDTO {
 
    private String date;
-   private String time;
+   private String startHour;
+   private String endHour;
    private String place_no;
    
    
    public PlanDTO() {   
    }
    
-   
-   public PlanDTO(String date, String time, String place_no) {
-      this.date = date;
-      this.time = time;
-      this.place_no = place_no;
-   }
-   
+   public PlanDTO(String date, String startTime, String endTime, String place_no) {
+		super();
+		this.date = date;
+		this.startHour = startTime;
+		this.endHour = endTime;
+		this.place_no = place_no;
+	}
+  
    @Override
    public String toString() {
-      return "PlanDTO [date=" + date + ", time=" + time + ", place_no=" + place_no + "]";
+      return "PlanDTO [date=" + date + ", time=" + startHour + ", endTime=" + endHour + ", place_no=" + place_no + "]";
    }
+
 }

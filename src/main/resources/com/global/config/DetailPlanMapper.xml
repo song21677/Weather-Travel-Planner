@@ -35,7 +35,7 @@ INSERT INTO detail_plan_tb (
     	detail_plan_sq.nextval,
     			#{planNo},
     			#{place.place_no}, 
-    			#{date}, 
+    			#{realDate}, 
     			#{time}
     )
 </insert>
@@ -50,7 +50,7 @@ INSERT INTO detail_plan_tb (
             SELECT 
             	detail_plan_sq.nextval,
     			1, 
-    			#{planDTO2.date}, 
+    			#{planDTO2.realDate}, 
     			#{planDTO2.time}
             FROM DUAL
         </foreach>
