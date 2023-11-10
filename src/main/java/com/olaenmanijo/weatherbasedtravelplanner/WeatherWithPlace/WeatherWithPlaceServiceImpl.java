@@ -16,10 +16,13 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	@Autowired
 	WeatherWithPlaceDAO dao;
 	
+	//현재날짜
 	private LocalDateTime dateTime = LocalDateTime.now();
 	
+	//데이터 가져올때 문제가 생긴경우
 	String checkday = null;
 	
+	//세부테이블 가져오기
 	public void getDetailPlan(int no){
 		GetDetailPlanDTO dto = dao.getDetailPlan(no);
 		if(dto==null) {
@@ -30,6 +33,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		
 	}
 	
+	//날짜 비교후 적합한 메서드에 제공(단기 , 중기 ,비교불가) 
 	public void setColorBlock(GetDetailPlanDTO dto) {
 		String place_Category = dto.getPLACE_CATEGORY();
 		int plan_No = dto.getDETAIL_PLAN_NO();
@@ -39,7 +43,17 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		LocalDate planLocalDateTime = LocalDate.parse(plan_Ymd, formatter);
 		String road_Name_Adr = dto.getROAD_NAME_ADR();
-		String address = giveMeYourPlace(road_Name_Adr);
+		String address;
+		try {
+			address = giveMeYourPlace(road_Name_Adr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		if(address==null) {
+			System.out.println("구역 분류중에 이상이 생겼나봐요!");
+			return;
+		}
 		
 		/////이전 날짜일시 리턴
 		if(plan_Hour!=null&&plan_Hour_end!=null) {
@@ -65,7 +79,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		
 		///
 		
-		
+		//시간에 00플러스
 		if(plan_Hour!=null&&plan_Hour_end!=null) {
 			plan_Hour = plan_Hour +"00";
 			plan_Hour_end = plan_Hour_end +"00";
@@ -90,7 +104,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	
 	
 	// 행정 구역 추출기 ("xx시 xx구로 변환")
-	public String giveMeYourPlace(String address) {
+	public String giveMeYourPlace(String address) throws Exception {
 			String province = "";
 		    String city = "";
 		    String district = "";
@@ -316,7 +330,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 			
 			}//for each end
 			
-			if(countyellow>0) {
+			if(countyellow>0 && blockdto.getColor()==null) {
 				blockdto.setColor("YL");
 				blockdto.setReason(31);
 			}

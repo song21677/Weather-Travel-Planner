@@ -101,6 +101,7 @@ public class ShortWeatherScheduler {
         }
         try {
             weatherService.submitDataStore();
+            System.out.println("끝");
         } catch (Exception e) {
             e.printStackTrace();
         }

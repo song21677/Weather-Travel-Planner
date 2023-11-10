@@ -187,7 +187,8 @@
 		.minHumidity td:nth-child(5) {color:blue;}
 		.rainfall {--bs-bg-opacity: .2;
 		  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;}
-			      
+		.currentTime{--bs-bg-opacity: .2;
+		  background-color: rgba(var(--bs-info-rgb), var(--bs-bg-opacity)) !important;}}	      
  /* 추천 */
 		
         .slider-wrapper {
@@ -198,6 +199,7 @@
         }
         
         .slider {
+        overflow:hidden;
             align-items: center;
             display: flex;
             list-style-type: none;

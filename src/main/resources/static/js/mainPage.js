@@ -128,6 +128,7 @@
     }
     
     var currentDate = new Date(); // 현재 날짜의 날짜 객체 생성
+    var currentTime = currentDate.getHours()+":00";
     var threeDaysLater = new Date();
     threeDaysLater.setDate(currentDate.getDate() + 2);
     
@@ -308,7 +309,6 @@
                         maxTemp = Math.max(maxTemp, temp);
                         maxHumidity = Math.max(maxHumidity, humidity);
                         minTemp = Math.min(minTemp, temp);
-                        console.log(minTemp);
                         minHumidity = Math.min(minHumidity, humidity);
                         
                         hasFutureData = true;
@@ -316,6 +316,12 @@
                         if (rainfall !== '강수없음') {
                             $("table tbody tr td:contains('" + rainfall + "')").closest("tr").addClass("rainfall");
                         }
+                        
+                        if (time === currentTime) {
+                            $("table tbody tr td:contains('" + currentTime + "')").closest("tr").addClass("currentTime");
+                        }
+                        
+                        
                     
                     
                     
