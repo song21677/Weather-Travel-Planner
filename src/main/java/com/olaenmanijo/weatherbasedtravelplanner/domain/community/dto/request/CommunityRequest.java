@@ -1,62 +1,35 @@
 package com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request;
 
-import org.apache.ibatis.type.Alias;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Alias("CommunityModifyRequest")
-public class CommunityModifyRequest {
-	int TRAVEL_REVIEW_NO;
-	String PLANNER_REVIEW_TITLE;
-	String PLANNER_REVIEW_IMAGE;
-	String PLANNER_REVIEW_CONTENT;
+@ToString
+@Setter
+@Getter
+@NoArgsConstructor
+public class CommunityRequest {
+	// 사용자가 여행기 작성시 입력하는 항목
+	/*- <<TRAVEL_REVIEW_TB>>
+		TRAVEL_REVIEW_NO - 수정 시 매핑
+		TRAVEL_PLAN_NO - 여행일정 선택 시 입력
+		MEMBER_NO - 글 작성 시 입력
+		PLANNER_REVIEW_TITLE - 사용자 직접 입력
+		PLANNER_REVIEW_IMAGE - 사용자 직접 입력
+		PLANNER_REVIEW_CONTENT - 사용자 직접 입력
+		WRITE_DATE 
+		HIT
+		RECOMMEND
+		DEL_YN
+	*/
+	Long travelReviewNo;
+	Long travelPlanNo;
+	Long memberNo;
+	String plannerReviewTitle;
+	String plannerReviewImage;
+	String plannerReviewContent;
 
-	public CommunityModifyRequest() {
-	}
-
-	public CommunityModifyRequest(int tRAVEL_REVIEW_NO, String pLANNER_REVIEW_TITLE, String pLANNER_REVIEW_IMAGE,
-			String pLANNER_REVIEW_CONTENT) {
-		TRAVEL_REVIEW_NO = tRAVEL_REVIEW_NO;
-		PLANNER_REVIEW_TITLE = pLANNER_REVIEW_TITLE;
-		PLANNER_REVIEW_IMAGE = pLANNER_REVIEW_IMAGE;
-		PLANNER_REVIEW_CONTENT = pLANNER_REVIEW_CONTENT;
-	}
-
-	public int getTRAVEL_REVIEW_NO() {
-		return TRAVEL_REVIEW_NO;
-	}
-
-	public void setTRAVEL_REVIEW_NO(int tRAVEL_REVIEW_NO) {
-		TRAVEL_REVIEW_NO = tRAVEL_REVIEW_NO;
-	}
-
-	public String getPLANNER_REVIEW_TITLE() {
-		return PLANNER_REVIEW_TITLE;
-	}
-
-	public void setPLANNER_REVIEW_TITLE(String pLANNER_REVIEW_TITLE) {
-		PLANNER_REVIEW_TITLE = pLANNER_REVIEW_TITLE;
-	}
-
-	public String getPLANNER_REVIEW_IMAGE() {
-		return PLANNER_REVIEW_IMAGE;
-	}
-
-	public void setPLANNER_REVIEW_IMAGE(String pLANNER_REVIEW_IMAGE) {
-		PLANNER_REVIEW_IMAGE = pLANNER_REVIEW_IMAGE;
-	}
-
-	public String getPLANNER_REVIEW_CONTENT() {
-		return PLANNER_REVIEW_CONTENT;
-	}
-
-	public void setPLANNER_REVIEW_CONTENT(String pLANNER_REVIEW_CONTENT) {
-		PLANNER_REVIEW_CONTENT = pLANNER_REVIEW_CONTENT;
-	}
-
-	@Override
-	public String toString() {
-		return "CommunityModifyRequest [TRAVEL_REVIEW_NO=" + TRAVEL_REVIEW_NO + ", PLANNER_REVIEW_TITLE="
-				+ PLANNER_REVIEW_TITLE + ", PLANNER_REVIEW_IMAGE=" + PLANNER_REVIEW_IMAGE + ", PLANNER_REVIEW_CONTENT="
-				+ PLANNER_REVIEW_CONTENT + "]";
-	}
+	
 
 }
