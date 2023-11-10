@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<form th:fragment="copy">
+		<form th:fragment="copy" action="/savePlan" method="get">
 		        <div class="plan">
-		            <input type="text" class="form-control"> <br>
-		            <input type="text" class="form-control" name="daterange">
+		            <input type="text" class="form-control title" th:value=${plan.title} name="title"> <br>
+		            <input type="text" class="form-control daterange" name="daterange">
 		        </div>
 		        <br>
-		        <div class="details">
-		        	<div th:text=${planDTO.date}></div>
-		        	<div th:text=${planDTO.time}></div>
-		        	<div th:text=${planDTO.place}></div>
-		        </div> <br>
-		        <button class="form-control">저장</button>
+		        
+		        <div class="places">
+		        	<div th:each="place : ${plan.places}">
+		        		<div class="form-control">
+		        			<span th:text="${place.startHour + ':00 - ' + place.endHour + ':00'}" style="display: inline-block"></span>
+		        			<div style="display: inline-block">
+		        				<span th:text=${place.place.place_name}></span>
+		        				<span style="font-size: 0.8rem" th:text=${place.place.place_category}></span>
+		        			</div>
+		        			<input type="hidden" class="date" th:value=${place.date}>
+		        			<input type="hidden" class="realDate" th:value=${place.realDate}>
+		        			<input type="hidden" class="longitude" th:value=${place.place.longitude}>
+		        			<input type="hidden" class="latitude" th:value=${place.place.latitude}>
+		        		</div>
+		        	</div>
+ 					<br>
+		       </div>
+		       
+		       <div class="details"></div>
+		       
+		        <button class="form-control saveBtn">저장</button>
+		        <input type="hidden" class="startDate" th:value=${plan.startDate}>
+		        <input type="hidden" class="endDate" th:value=${plan.endDate}>
+		        <input type="hidden" class="title" th:value=${plan.title}>
 	    </form>
     </body>
 </html>

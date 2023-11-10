@@ -50,5 +50,39 @@
 		WHERE TP.TRAVEL_PLAN_NO = #{travelPlanNo}
 		ORDER BY TP.MEMBER_NO, DP.DETAIL_PLAN_YMD, DETAIL_PLAN_HOUR, DP.DETAIL_PLAN_NO
 	</select>
-
+	
+	<insert id="insertDetailPlan" parameterType="PlanDTO2" >
+INSERT INTO detail_plan_tb (
+       detail_plan_no, 
+       travel_plan_no,
+       place_no,
+       detail_plan_ymd, 
+       detail_plan_hour,
+       detail_plan_hour_end
+    )
+    VALUES (
+       detail_plan_sq.nextval,
+             #{planNo},
+             #{place.place_no}, 
+             #{realDate}, 
+             #{startHour},
+             #{endHour}
+    )
+</insert>
+<insert id="insertDetailPlan2" parameterType="java.util.List">
+    INSERT INTO detail_plan_tb (
+       detail_plan_no, 
+       travel_plan_no, 
+       detail_plan_ymd, 
+       detail_plan_hour
+    )
+        <foreach collection="list" item="planDTO2" separator="UNION ALL">
+            SELECT 
+               detail_plan_sq.nextval,
+             1, 
+             #{planDTO2.realDate}, 
+             #{planDTO2.time}
+            FROM DUAL
+        </foreach>
+</insert>
 </mapper>
