@@ -276,6 +276,11 @@
     function updateWeatherTable(weatherForDate) {
         const tbody = $("table tbody");
         tbody.empty();
+        
+        let maxTemp = -Infinity;
+        let maxHumidity = -Infinity;
+        let minTemp = Infinity;
+        let minHumidity = Infinity;
 
         let hasFutureData = false; // 미래의 데이터가 있는지 확인하는 플래그
 
@@ -288,9 +293,7 @@
 
                 // 현재 시간보다 미래의 행만 추가합니다.
                 if (rowDate <= threeDaysLater) {
-                    if (rowDate >= currentDate || rowHours >= hours || (rowHours === hours && rowMinutes > minutes)) {
                         const { weather, temp, rainfall, humidity } = weatherForDate[time];
-                        console.log(weatherForDate[time]);
                         const row = `
                             <tr>
                                 <td>${time}</td>
@@ -301,8 +304,22 @@
                             </tr>
                         `;
                         tbody.append(row);
+                        
+                        maxTemp = Math.max(maxTemp, temp);
+                        maxHumidity = Math.max(maxHumidity, humidity);
+                        minTemp = Math.min(minTemp, temp);
+                        console.log(minTemp);
+                        minHumidity = Math.min(minHumidity, humidity);
+                        
                         hasFutureData = true;
-                    }
+                        
+                        if (rainfall !== '강수없음') {
+                            $("table tbody tr td:contains('" + rainfall + "')").closest("tr").addClass("rainfall");
+                        }
+                    
+                    
+                    
+                    
                 } else {
                     const { weather, temp, rainfall, humidity } = weatherForDate[time];
                     const row = `
@@ -319,6 +336,46 @@
                 }
         }
         }
+        
+     // 최대값에 해당하는 클래스 추가
+
+        if (maxHumidity !== -Infinity) {
+            var maxHumidityValue = maxHumidity + "%";
+            $("table tbody tr td").filter(function() {
+                return $(this).text() === maxHumidityValue;
+            }).closest("tr").addClass("maxHumidity");
+        }
+        
+        
+        
+        if (maxTemp !== -Infinity) {
+            var maxTempValue = maxTemp + "°C";
+            $("table tbody tr td").filter(function() {
+                return $(this).text() === maxTempValue;
+            }).closest("tr").addClass("maxTemp");
+        }
+        
+        
+        
+        
+        if (minTemp !== Infinity) {
+            var minTempValue = minTemp + "°C";
+            $("table tbody tr td").filter(function() {
+                return $(this).text() === minTempValue;
+            }).closest("tr").addClass("minTemp");
+        }
+        
+        if (minHumidity !== Infinity) {
+            var minHumidityValue = minHumidity + "%";
+            $("table tbody tr td").filter(function() {
+                return $(this).text() === minHumidityValue;
+            }).closest("tr").addClass("minHumidity");
+        }
+
+
+        
+
+        
 
             // 만약 미래의 데이터가 없다면, 알림 행을 추가합니다.
             if (!hasFutureData) {
