@@ -76,23 +76,32 @@ $(document).ready(function () {
         sendAjaxRequest(locate);
     });
 
- // 받은 데이터를 처리하는 함수
-    function handleResponse(response) {
-      if (response && response.body && response.body.list) {
-        const locateClass = response.body.locate.toLowerCase();
-        const $locationList = $(`.location.${locateClass}`);
+    function handleResponse(response,locate) {
 
-        // 현재 locate에 해당하는 location 보이기
-        $locationList.empty(); // 기존 목록 초기화
+    	  // response가 유효하며 body와 list 속성이 있는 경우에만 처리
+    	  if (response && response.body && response.body.list) {
+    		  const locateClass = locate;
+              console.log('Locate Class:', locateClass);
 
-        // 각 항목에 대한 텍스트를 생성하여 추가
-        $.each(response.body.list, function(_, item) {
-          const listItemText = item.place_NAME;
-          const listItem = `<li>${listItemText}</li>`;
-          $locationList.append(listItem);
-        });
-      }
-    }
+    	    // 현재 위치에 해당하는 목록을 선택
+    	    const $locationList = $(`.location.${locateClass}`);
+    	    console.log('Location List:', $locationList);
+
+    	    // 현재 위치의 목록을 비움
+    	    $locationList.empty(); // 기존 목록 초기화
+
+    	    // 각 항목에 대한 텍스트를 생성하여 현재 위치의 목록에 추가
+    	    $.each(response.body.list, function(_, item) {
+    	    
+    	      const items1 = item.place_NAME;
+    	      const items2 = item.road_NAME_ADR;
+    	      const items3 = item.distance;
+    	      const listItem = `<ul><li>${items1}</li><li>${items2}</li><li>${items3}km</li></ul>`;
+
+    	      $locationList.append(listItem);
+    	    });
+    	  }
+    	}
 
     // Ajax 요청 보내는 함수
     function sendAjaxRequest(locate) {
@@ -105,7 +114,7 @@ $(document).ready(function () {
           console.log('Additional data:', response);
 
           // 받은 데이터를 처리하는 함수 호출
-          handleResponse(response);
+          handleResponse(response,locate);
         },
         error: function(error) {
           console.error('Error fetching additional data:', error);

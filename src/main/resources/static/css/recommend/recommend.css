@@ -19,8 +19,9 @@
             flex-wrap: wrap;
 
 	        }
-	     .location li {
-            display: inline-block;
+	      .location ul {display:inline-block; width: 400px; height: 200px;}  
+	        
+	     .location ul li {
             list-style: none;
             margin-right: 10px;
         }
