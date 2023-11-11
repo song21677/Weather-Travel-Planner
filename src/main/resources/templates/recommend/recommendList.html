@@ -68,7 +68,7 @@
 
 	<div id="filters2" class="mt-4">
         <h1>근처 이런곳은 어때요?</h1>
-        <button class="btn btn-primary locateFilter" data-locate="cafe">카페</button>
+        <button class="btn btn-primary locateFilter" data-locate="shop">쇼핑</button>
         <button class="btn btn-primary locateFilter" data-locate="restaurant">음식점</button>
         <button class="btn btn-primary locateFilter" data-locate="area">관광지</button>
         <button class="btn btn-primary locateFilter" data-locate="accommodation">숙박</button>
@@ -76,7 +76,7 @@
     </div>
 
     <div id="content2" class="mt-4">
-        <ul class="location cafe">
+        <ul class="location shop">
             <li>컨텐츠 1</li>
             <li>컨텐츠 1</li>
             <li>컨텐츠 1</li>
@@ -114,36 +114,7 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.ageFilter').click(function() {
-                var age = $(this).data('age');
-                // 활성 버튼 스타일 변경
-                $('.ageFilter').removeClass('active');
-                $(this).addClass('active');
-                // 필터링
-                $('.item').hide();
-                $('.item.' + age).show();
-            });
-            // 초기에 "20대" 버튼을 활성화
-            $('.ageFilter[data-age="age20"]').trigger('click');
-        });
-        
-        
-        
-        
-        $(document).ready(function() {
-            $('.locateFilter').click(function() {
-                var locate = $(this).data('locate');
-                // 활성 버튼 스타일 변경
-                $('.locateFilter').removeClass('active');
-                $(this).addClass('active');
-                // 필터링
-                $('.location').hide();
-                $('.' + locate).show();
-            });
-            // 초기에 "카페" 버튼을 활성화
-            $('.locateFilter[data-locate="cafe"]').trigger('click');
-        });
+       
     </script>
 </body>
 </html>

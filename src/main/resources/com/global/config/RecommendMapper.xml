@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RecommendMapper">
+
+
+<select id="getLocation" resultType="GetLocationDTO">
+    SELECT PLACE_NO, PLACE_NAME, ROAD_NAME_ADR, LONGITUDE, LATITUDE
+    FROM PLACE_TB
+    WHERE AREA = #{address}
+      AND ROUND(LONGITUDE, 0) = ROUND(#{longitude}, 0)
+      AND ROUND(LATITUDE, 0) = ROUND(#{latitude}, 0)
+      AND PLACE_CATEGORY = #{locate}
+      <![CDATA[AND ROWNUM <= 10]]>
+</select>
+
+
+</mapper>
