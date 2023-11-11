@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.olaenmanijo.weatherbasedtravelplanner.global.file.mapper.FileMapper">
+
+	<!-- tb_file 테이블 전체 컬럼 -->
+	<sql id="travelFileColumns">
+		FILE_NO,
+		ORIGINAL_NAME,
+		SAVE_NAME,
+		FILE_SIZE,
+		DELETE_YN,
+		CREATED_DATE,
+		DELETED_DATE,
+		TRAVEL_REVIEW_NO,
+	</sql>
+
+	<!-- 파일 정보 저장 -->
+	<insert id="travelReviewImgSaveAll" parameterType="list">
+		INSERT INTO tb_file (
+		<include refid="travelFileColumns" />
+		) VALUES
+		<foreach item="file" collection="list" separator=",">
+			(
+			#{file.fileNo}
+			, #{file.originalName}
+			, #{file.saveName}
+			, #{file.fileSize}
+			, 0
+			, SYSDATE
+			, NULL
+			, #{file.travelReviewNo}
+			)
+		</foreach>
+	</insert>
+</mapper>

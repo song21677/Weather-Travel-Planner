@@ -52,13 +52,13 @@
    <!-- 자랑하기 글쓰기 저장(insert)-->
    <insert id="travelReviewSave" parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.CommunityRequest">
    	insert into TRAVEL_REVIEW_TB (TRAVEL_REVIEW_NO, TRAVEL_PLAN_NO, MEMBER_NO, PLANNER_REVIEW_TITLE, PLANNER_REVIEW_IMAGE, PLANNER_REVIEW_CONTENT)
-   	values (TRAVEL_REVIEW_SQ.NEXTVAL+1, #{travelPlanNo}, #{memberNo}, #{plannerReviewTitle}, #{plannerReviewImage}, #{plannerReviewContent})
+   	values (TRAVEL_REVIEW_SQ.NEXTVAL, #{travelPlanNo}, #{memberNo}, #{plannerReviewTitle}, #{plannerReviewImage, jdbcType=VARCHAR}, #{plannerReviewContent})
    </insert>
    
    <!-- 자랑하기 글쓰기 수정(update)-->
    <update id="travelReviewUpdate" parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.CommunityRequest">
    	update TRAVEL_REVIEW_TB
-   	set PLANNER_REVIEW_TITLE = #{plannerReviewTitle}, PLANNER_REVIEW_IMAGE = #{plannerReviewImage}, PLANNER_REVIEW_CONTENT = #{plannerReviewContent}
+   	set PLANNER_REVIEW_TITLE = #{plannerReviewTitle}, PLANNER_REVIEW_IMAGE = #{plannerReviewImage, jdbcType=VARCHAR}, PLANNER_REVIEW_CONTENT = #{plannerReviewContent}
    	where TRAVEL_REVIEW_NO = #{travelReviewNo}
    </update>
    
