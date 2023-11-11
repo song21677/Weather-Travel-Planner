@@ -128,7 +128,10 @@
     }
     
     var currentDate = new Date(); // 현재 날짜의 날짜 객체 생성
-    var currentTime = currentDate.getHours()+":00";
+    var hour123 = currentDate.getHours();
+    let formattedHours1 = (hour123 < 10 ? '0' : '') + hour123;
+    var currentTime = formattedHours1+":00";
+    if(currentDate.getHours())
     var threeDaysLater = new Date();
     threeDaysLater.setDate(currentDate.getDate() + 2);
     
@@ -320,7 +323,6 @@
                         if (time === currentTime) {
                             $("table tbody tr td:contains('" + currentTime + "')").closest("tr").addClass("currentTime");
                         }
-                        
                         
                     
                     

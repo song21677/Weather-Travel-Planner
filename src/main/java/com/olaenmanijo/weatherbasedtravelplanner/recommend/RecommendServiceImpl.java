@@ -23,7 +23,6 @@ public class RecommendServiceImpl implements RecommendService {
 		address = address.substring(0, address.indexOf(" "));
 		}
 		
-		System.out.println(address);
 		if (address.contains("경남") || address.contains("경상남도")) {
             address = "경상남도";
         }else if (address.contains("경북") || address.contains("경상북도")) {
