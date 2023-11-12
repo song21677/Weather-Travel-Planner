@@ -70,6 +70,7 @@ WHERE
 <select id="checkBlock" resultType="SetBlockDTO">
 SELECT DETAIL_PLAN_NO, COLOR, REASON
 FROM DETAIL_PLAN_BLOCK_TB
+WHERE DETAIL_PLAN_NO=#{plan_No}
 </select>
 
 </mapper>

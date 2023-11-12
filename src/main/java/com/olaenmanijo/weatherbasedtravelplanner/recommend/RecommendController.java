@@ -43,6 +43,21 @@ public class RecommendController {
     public ResponseEntity<Object> getAdditionalData2(@RequestParam String locate) {
         
             ResponseEntity<Object> additionalData = service.getAdditionalData2(locate);
+            
+            if (additionalData != null) {
+                return ResponseEntity.ok(additionalData);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("추가 데이터를 검색할 수 없습니다.");
+            }
+
+    }
+    
+    /*
+    @ResponseBody
+    @PostMapping("/get-age-data")
+    public ResponseEntity<Object> getAgeData(@RequestParam Double lat, @RequestParam Double lon) {
+    	
+            ResponseEntity<Object> additionalData = service.getAdditionalData(lat, lon);
 
             if (additionalData != null) {
                 return ResponseEntity.ok(additionalData);
@@ -51,5 +66,6 @@ public class RecommendController {
             }
 
     }
+    */
 
 }

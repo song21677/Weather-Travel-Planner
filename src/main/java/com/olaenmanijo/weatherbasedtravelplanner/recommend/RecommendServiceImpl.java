@@ -126,7 +126,6 @@ public class RecommendServiceImpl implements RecommendService {
 			
 			dto.setDistance(Math.round(distance*100)/100.0);
 		};
-		System.out.println(list);
 		  Map<String, Object> responseData = new HashMap<>();
 		   responseData.put("list",list);
 	       responseData.put("locate", locate);
