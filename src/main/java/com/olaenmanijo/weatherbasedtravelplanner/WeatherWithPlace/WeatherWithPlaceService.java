@@ -1,9 +1,10 @@
 package com.olaenmanijo.weatherbasedtravelplanner.WeatherWithPlace;
 
+import org.springframework.http.ResponseEntity;
 
 public interface WeatherWithPlaceService {
 
-	public void getDetailPlan(int no);
+	public ResponseEntity<Object> getDetailPlan(int no);
 	
-	public void setColorBlock(GetDetailPlanDTO list);
+	public ResponseEntity<Object> setColorBlock(GetDetailPlanDTO list);
 }

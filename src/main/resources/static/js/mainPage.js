@@ -320,7 +320,7 @@
                             $("table tbody tr td:contains('" + rainfall + "')").closest("tr").addClass("rainfall");
                         }
                         
-                        if (time === currentTime) {
+                        if (time === currentTime && currentDate.getDate() === rowDate.getDate()) {
                             $("table tbody tr td:contains('" + currentTime + "')").closest("tr").addClass("currentTime");
                         }
                         

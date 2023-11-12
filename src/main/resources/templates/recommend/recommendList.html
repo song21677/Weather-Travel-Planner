@@ -18,7 +18,7 @@
 	 <header th:replace="@{mainPage/menu.html} :: header"></header>
 
    <div id="filters" class="mt-4">
-        <h1>연령별 추천 장소</h1>
+        <h1>연령별 인기 장소</h1>
         <button class="btn btn-primary ageFilter" data-age="age10">10대</button>
         <button class="btn btn-primary ageFilter" data-age="age20">20대</button>
         <button class="btn btn-primary ageFilter" data-age="age30">30대</button>
@@ -68,7 +68,7 @@
 
 	<div id="filters2" class="mt-4">
         <h1>근처 이런곳은 어때요?</h1>
-        <button class="btn btn-primary locateFilter" data-locate="cafe">카페</button>
+        <button class="btn btn-primary locateFilter" data-locate="shop">쇼핑</button>
         <button class="btn btn-primary locateFilter" data-locate="restaurant">음식점</button>
         <button class="btn btn-primary locateFilter" data-locate="area">관광지</button>
         <button class="btn btn-primary locateFilter" data-locate="accommodation">숙박</button>
@@ -76,74 +76,25 @@
     </div>
 
     <div id="content2" class="mt-4">
-        <ul class="location cafe">
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-        </ul>
-        <ul class="location restaurant">
-            <li>컨텐츠 2</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-        </ul>
-        <ul class="location area">
-            <li>컨텐츠 3</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-        </ul>
-        <ul class="location accommodation">
-            <li>컨텐츠 4</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-        </ul>
-        <ul class="location festival">
-            <li>컨텐츠 5</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-            <li>컨텐츠 1</li>
-        </ul>
+        <div class="location shop">
+          
+        </div>
+        <div class="location restaurant">
+            
+        </div>
+        <div class="location area">
+            
+        </div>
+        <div class="location accommodation">
+           
+        </div>
+        <div class="location festival">
+          
+        </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.ageFilter').click(function() {
-                var age = $(this).data('age');
-                // 활성 버튼 스타일 변경
-                $('.ageFilter').removeClass('active');
-                $(this).addClass('active');
-                // 필터링
-                $('.item').hide();
-                $('.item.' + age).show();
-            });
-            // 초기에 "20대" 버튼을 활성화
-            $('.ageFilter[data-age="age20"]').trigger('click');
-        });
-        
-        
-        
-        
-        $(document).ready(function() {
-            $('.locateFilter').click(function() {
-                var locate = $(this).data('locate');
-                // 활성 버튼 스타일 변경
-                $('.locateFilter').removeClass('active');
-                $(this).addClass('active');
-                // 필터링
-                $('.location').hide();
-                $('.' + locate).show();
-            });
-            // 초기에 "카페" 버튼을 활성화
-            $('.locateFilter[data-locate="cafe"]').trigger('click');
-        });
+       
     </script>
 </body>
 </html>

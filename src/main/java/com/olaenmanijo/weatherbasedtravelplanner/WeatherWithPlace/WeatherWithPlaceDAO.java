@@ -35,8 +35,8 @@ public class WeatherWithPlaceDAO {
 		session.update("WeatherWithPlace.setBlockUpdate",dto);
 	}
 	
-	public SetBlockDTO checkBlock () {
-		return session.selectOne("WeatherWithPlace.checkBlock");
+	public SetBlockDTO checkBlock (int plan_No) {
+		return session.selectOne("WeatherWithPlace.checkBlock",plan_No);
 	}
 	
 }
