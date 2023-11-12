@@ -16,6 +16,9 @@ public class RecommendController {
 
     @Autowired
     RecommendService service;
+    
+    @Autowired
+    AgeService ageservice;
 
     @GetMapping("/recommend")
     public String recommend(Model model) {
@@ -52,12 +55,12 @@ public class RecommendController {
 
     }
     
-    /*
+    
     @ResponseBody
     @PostMapping("/get-age-data")
     public ResponseEntity<Object> getAgeData(@RequestParam Double lat, @RequestParam Double lon) {
     	
-            ResponseEntity<Object> additionalData = service.getAdditionalData(lat, lon);
+            ResponseEntity<Object> additionalData = ageservice.getAgeData(lat, lon);
 
             if (additionalData != null) {
                 return ResponseEntity.ok(additionalData);
@@ -66,6 +69,20 @@ public class RecommendController {
             }
 
     }
-    */
+    
+    @ResponseBody
+    @PostMapping("/get-age-data2")
+    public ResponseEntity<Object> getAgeData(@RequestParam String age) {
+    	
+            ResponseEntity<Object> additionalData = ageservice.getAgeData2(age);
+
+            if (additionalData != null) {
+                return ResponseEntity.ok(additionalData);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("추가 데이터를 검색할 수 없습니다.");
+            }
+
+    }
+    
 
 }

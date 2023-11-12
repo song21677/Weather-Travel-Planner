@@ -5,22 +5,18 @@ $(document).ready(function() {
     // 페이지 경로가 '/recommend'인지 확인
     if (window.location.pathname === '/recommend') {
         // Ajax 요청 보내기
-        sendAjaxRequest(0, 0, 0);
-        sendAjaxRequest2(0,0);
+        sendAjaxRequest1(0,0,0);
+        sendAjaxRequest3(0,0);
     }
-});
 
-
-
-$(document).ready(function () {
     var initialage = "age20";
 
-    // 모든 location 숨김
+    // 모든 age 숨김
     $('.item').hide();
     $('.item.' + initialage).show();
-    // 초기에 "카페" 버튼을 활성화
+    // 초기에 "20대" 버튼을 활성화
     $('.ageFilter[data-age="' + initialage + '"]').addClass('active');
-    sendAjaxRequest2(initialage);
+    sendAjaxRequest4(initialage);
 
     $('.ageFilter').click(function() {
         var age = $(this).data('age');
@@ -30,15 +26,15 @@ $(document).ready(function () {
         
         
         // 모든 location 숨김
-        $('.age').hide();
-        $('.age.' + age).show();
+        $('.item').hide();
+        $('.item.' + age).show();
 
         // AJAX 호출
-        sendAjaxRequest2(age);
+        sendAjaxRequest4(age);
 });
 
 //Ajax 요청을 보내는 함수 정의
-function sendAjaxRequest2(lat, lon) {
+function sendAjaxRequest3(lat, lon) {
     $.ajax({
         type: "POST",
         url: `/get-age-data`,
@@ -60,7 +56,7 @@ function sendAjaxRequest2(lat, lon) {
 }
 
 // Ajax 요청 보내는 함수
-function sendAjaxRequest2(age) {
+function sendAjaxRequest4(age) {
   $.ajax({
     type: 'POST',
     url: `/get-age-data2`,
@@ -82,18 +78,33 @@ function sendAjaxRequest2(age) {
 function handleResponse2(response,age) {
 
 	  // response가 유효하며 body와 list 속성이 있는 경우에만 처리
-	  if (response && response.body && response.body.list) {
+	  if (response && response.body && response.body.age) {
 		  const ageClass = age;
 		  console.log(ageClass);
+		  
+		  
+		  // 현재 위치에 해당하는 목록을 선택
+  	    const $ageList = $(`.item.${ageClass}`);
+  	    console.log('age List:', $ageList);
+
+  	    // 현재 위치의 목록을 비움
+  	    $ageList.empty(); // 기존 목록 초기화
+
+  	    // 각 항목에 대한 텍스트를 생성하여 현재 위치의 목록에 추가
+  	    $.each(response.body.list, function(_, item) {
+  	    
+  	      const items1 = item.place_NAME;
+  	      const items2 = item.road_NAME_ADR;
+  	      const items3 = item.distance;
+  	      const listItem = `<ul><li>${items1}</li><li>${items2}</li><li>${items3}km</li></ul>`;
+
+  	      $ageList.append(listItem);
         
-	    };
+	    });
 	
 	}
 
-
-
-});
-
+}
 
 
 
@@ -110,7 +121,6 @@ function handleResponse2(response,age) {
 
 
 
-$(document).ready(function () {
     var initialLocate = "shop";
 
     // 모든 location 숨김
@@ -120,7 +130,7 @@ $(document).ready(function () {
     // 초기에 "카페" 버튼을 활성화
     $('.locateFilter[data-locate="' + initialLocate + '"]').addClass('active');
     // 초기 AJAX 호출
-    sendAjaxRequest(initialLocate);
+    sendAjaxRequest2(initialLocate);
 
     $('.locateFilter').click(function () {
         var locate = $(this).data('locate');
@@ -134,7 +144,7 @@ $(document).ready(function () {
         $('.location.' + locate).show();
 
         // AJAX 호출
-        sendAjaxRequest(locate);
+        sendAjaxRequest2(locate);
     });
 
 
@@ -142,7 +152,7 @@ $(document).ready(function () {
 
 
 // Ajax 요청을 보내는 함수 정의
-function sendAjaxRequest(lat, lon, address) {
+function sendAjaxRequest1(lat, lon, address) {
     $.ajax({
         type: "POST",
         url: `/get-additional-data`,
@@ -198,7 +208,7 @@ function sendAjaxRequest(lat, lon, address) {
     	}
 
     // Ajax 요청 보내는 함수
-    function sendAjaxRequest(locate) {
+    function sendAjaxRequest2(locate) {
       $.ajax({
         type: 'POST',
         url: `/get-additional-data2`,

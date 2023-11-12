@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class RecommendServiceImpl implements RecommendService {
 	
-	@Autowired
-    private HttpSession session;
 	
 	@Autowired
 	RecommendDAO dao;
