@@ -88,6 +88,8 @@ $(function() {
                    let endDateString = moment(endDate).format('YYYYMMDD');
                    let date = button.value;
                    console.log(title);
+                   var givemedate = document.querySelector('.span').textContent;
+                   localStorage.setItem('givemedate', givemedate);
                    // console.log(date);
                    
                          fetch(`/search?title=${title}&startDate=${startDateString}&endDate=${endDateString}&date=${date}`)

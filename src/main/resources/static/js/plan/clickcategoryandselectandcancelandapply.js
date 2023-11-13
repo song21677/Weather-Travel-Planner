@@ -1,4 +1,5 @@
 var categoryBtns = document.querySelectorAll('.cat');
+
        
 categoryBtns.forEach((categoryBtn) => {
 		// 카테고리 버튼 클릭 이벤트
@@ -110,65 +111,9 @@ categoryBtns.forEach((categoryBtn) => {
                             	});
                             	
                           
-                            	// setBlock/{detailPlanNo}로 색깔을 가져온다. 
-                            	let planId = document.querySelector('.detailPlanNo').value;
-                            	console.log(planId);
                             	
-                            	const requestData = {
-                            		planId: planId
-                            	};
-                            		
-                            	fetch(`/setblock/${planId}`, {
-                            		  method: 'POST',
-                            		  headers: {
-                                      	 'Content-Type': 'application/json',
-                                      },  
-                                      body: JSON.stringify(requestData),
-                            		})
-                            		.then(response => {
-                            			 if (!response.ok) {
-                            			      throw new Error(`HTTP error! Status: ${response.status}`);
-                            			    }
-                            			return response.json();
-                            		})
-                            		.then(data => {
-                            			console.log(data);
-                            			
-                            			// 컬러 입히기
-                            		    const color = data.body.color;
-                            		    console.log(data.body.color);
-                            		    
-                            		    const selectedPlaceElement = document.querySelector('#selectedPlace');
-                            		    const placeElement = selectedPlaceElement.querySelector('#place');
-
-                            		    const firstChildOfPlace = placeElement.querySelector(':first-child');
-                            		    
-	                            		 // place 요소가 있다면 조작 수행
-	                            		 if (firstChildOfPlace) {
-	                            		   console.log(firstChildOfPlace);
-	                            		   
-	                            		   if (color === "GN") {
-	                            			   console.log('yes');
-	                            			   firstChildOfPlace.setAttribute('style', 'border-color: green');
-	                            		   }
-	                            		   
-	                            		   if (color === "RD") {
-	                            			   firstChildOfPlace.setAttribute('style', 'border-color: red');
-	                            		   }
-	                            		   
-	                            		   if (color === "GY") {
-	                            			   firstChildOfPlace.setAttribute('style', 'border-color: gray');
-	                            		   }
-	                            		 } else {
-	                            		   console.log('place 요소를 찾을 수 없습니다.');
-	                            		 }
-	                            		 
-                            		    
-                            		})
-                            		.catch(error => {
-                            			console.log('Error:', error);
-                            		});
-                    
+                            	
+                            	
                             	// 장소를 selectedPlace에 붙여넣고 취소 버튼을 만든다.
                                var place = this.closest("#place").cloneNode(true);
                                var cancelBtn = place.querySelector('.select');
@@ -199,7 +144,7 @@ categoryBtns.forEach((categoryBtn) => {
                                   const placeName = selectedPlace.querySelector('#placeName').textContent;
                                   const placeCategory = selectedPlace.querySelector('#placeCategory').textContent;
                                   const placeAddr = selectedPlace.querySelector('#placeAddr').textContent;
-                                  
+                                  var givemedate = localStorage.getItem('givemedate');
                                   console.log(placeNo);
                                   console.log(placeName);
                                   console.log(placeCategory);
@@ -212,18 +157,79 @@ categoryBtns.forEach((categoryBtn) => {
 
                                 	const startHour = convertTo24HourFormat(startTime);
                                 	const endHour = convertTo24HourFormat(endTime);
-
-                                	console.log(startHour);
-                                	console.log(endHour); 
                                 	
-                                  const planDTO = {
-                                		  "date": date,
-                                		  "startHour": startHour,
-                                		  "endHour": endHour,
-                                		  "place_no": placeNo
-                                   };
+
+                              	$.ajax({
+                                    type: "POST",
+                                    url: `/setblock`,
+                                    data: {
+                                    	date: givemedate,
+                                    	startHour: startHour,
+                                    	endHour: endHour,
+                                    	place_no: placeNo
+                                    },
+                                    success: function(response) {
+                                    	
+                              		    const color = response.body.color;
+                              		    console.log(response.body.color);
+                              		    
+                              		    const selectedPlaceElement = document.querySelector('#selectedPlace');
+                              		    const placeElement = selectedPlaceElement.querySelector('#place');
+                              		    const firstChildOfPlace = placeElement.querySelector(':first-child');
+                              		    
+    	                            		 // place 요소가 있다면 조작 수행
+    	                            		 if (firstChildOfPlace) {
+    	                            		   console.log(firstChildOfPlace);
+    	                            		   
+    	                            		   if (color === "GN") {
+    	                            			   console.log('yes');
+    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: green');
+    	                            		   }
+    	                            		   
+    	                            		   if (color === "RD") {
+    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: red');
+    	                            		   }
+    	                            		   
+    	                            		   if (color === "GY") {
+    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: black');
+    	                            		   }
+    	                            		 } else {
+    	                            		   console.log('place 요소를 찾을 수 없습니다.');
+    	                            		 }
+                                    	
+                                    	
+                                    	
+                                    	
+                                    },
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        console.log("실패했습니다.");
+                                        // 오류가 발생한 경우의 동작
+                                        console.log("HTTP 상태 코드: " + jqXHR.status);
+                                        console.log("서버 응답: " + jqXHR.responseText);
+                                    }
+                                });
+                           
+                           
+                           
+                         	
+                            	
+                              			
+                              
+                          			
+                          			
+	                            		 
+                          	
+                  
+                              	
+                                const planDTO = {
+                              		  "date": givemedate,
+                              		  "startHour": startHour,
+                              		  "endHour": endHour,
+                              		  "place_no": placeNo
+                                 };
+                                
+                                const jsonData = JSON.stringify(planDTO);
                                   
-                                  const jsonData = JSON.stringify(planDTO);
                                   
                                       fetch('/addPlan', {
                                     	  method: 'POST',

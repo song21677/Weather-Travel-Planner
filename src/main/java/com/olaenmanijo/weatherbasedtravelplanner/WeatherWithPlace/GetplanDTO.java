@@ -7,14 +7,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Getter
 @Setter
-@Alias("GetDetailPlanDTO")
-public class GetDetailPlanDTO {
+@Getter
+@Alias("GetplanDTO")
+public class GetplanDTO {
 
-	String DETAIL_PLAN_YMD;
-	String DETAIL_PLAN_HOUR;
-	String DETAIL_PLAN_HOUR_END;
-	String ROAD_NAME_ADR;
-	String PLACE_CATEGORY;
+	String date;
+	String startHour;
+	String endHour;
+	int placeNo;
 }

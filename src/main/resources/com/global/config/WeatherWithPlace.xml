@@ -4,20 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="WeatherWithPlace">
 
-<select id="getDetailPlan" resultType="GetDetailPlanDTO">
+<select id="getDetailPlan" resultType="GetDetailPlanDTO" parameterType="GetplanDTO">
 SELECT
-    D.DETAIL_PLAN_NO,
-    D.DETAIL_PLAN_YMD,
-    D.DETAIL_PLAN_HOUR,
-    D.DETAIL_PLAN_HOUR_END,
-    P.ROAD_NAME_ADR,
-    P.PLACE_CATEGORY
+    ROAD_NAME_ADR,
+    PLACE_CATEGORY
 FROM
-    DETAIL_PLAN_TB D
-JOIN
-    PLACE_TB P ON D.PLACE_NO = P.PLACE_NO
-WHERE
-    D.DETAIL_PLAN_NO = #{no}
+    PLACE_TB
+WHERE PLACE_NO = #{placeNo}
 </select>
 	 
 
