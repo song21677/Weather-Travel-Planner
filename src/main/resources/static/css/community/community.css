@@ -11,6 +11,10 @@
 	overflow-y: auto;
 }
 
+.scrollable-xth {
+	overflow-x: auto;
+}
+
 .scrollable-area {
 	max-height: 500px;
 	overflow-y: auto;

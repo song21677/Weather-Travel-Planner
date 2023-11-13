@@ -10,7 +10,6 @@
         <result property="detailPlanNo" column="DETAIL_PLAN_NO" />
         <result property="memberNo" column="MEMBER_NO" />
         <result property="placeNo" column="PLACE_NO" />
-        <result property="placeReviewImg" column="PLACE_REVIEW_IMG" />
         <result property="placeReviewContent" column="PLACE_REVIEW_CONTENT" />
         <result property="placeReviewScore" column="PLACE_REVIEW_SCORE" />
         <result property="writeDate" column="WRITE_DATE" />
@@ -19,7 +18,7 @@
 	<!-- 여행지 리뷰 여행블럭으로 자세히보기(여행기페이지) -->
    <select id="placeReviewFindByDetailNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
      select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
-			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+			PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
 	 from PLACE_REVIEW_TB
      where DETAIL_PLAN_NO = #{detailPlanNo}
    </select>
@@ -27,7 +26,7 @@
 	<!-- 여행지 리뷰 멤버로 자세히보기(마이페이지) -->
    <select id="placeReviewFindByMemberNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
      select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
-			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+			PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
 	 from PLACE_REVIEW_TB
      where MEMBER_NO = #{memberNo}
    </select>
@@ -35,7 +34,7 @@
 	<!-- 여행지 리뷰 여행지로 자세히보기(여행정보) -->
    <select id="placeReviewFindByPlaceNo"  resultMap="PlaceReviewResponseMap" parameterType="long">
      select PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO, PLACE_NO,
-			PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
+			PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE, WRITE_DATE
 	 from PLACE_REVIEW_TB
      where PLACE_NO = #{placeNo}
    </select>
@@ -54,9 +53,9 @@
 	<insert id="placeReviewWrite"
 		parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.PlaceReviewRequest">
 		insert INTO PLACE_REVIEW_TB(PLACE_REVIEW_NO, DETAIL_PLAN_NO, MEMBER_NO,
-					PLACE_NO, PLACE_REVIEW_IMG, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE)
+					PLACE_NO, PLACE_REVIEW_CONTENT, PLACE_REVIEW_SCORE)
 		values (PLACE_REVIEW_SQ.NEXTVAL, #{detailPlanNo}, #{memberNo},
-				#{placeNo}, #{placeReviewImg}, #{placeReviewContent},
+				#{placeNo}, #{placeReviewContent},
 				#{placeReviewScore})
 	</insert>
 
@@ -64,8 +63,8 @@
 	<update id="placeReviewUpdate"
 		parameterType="com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request.PlaceReviewRequest">
 		update PLACE_REVIEW_TB
-		set PLACE_REVIEW_IMG = #{placeReviewImg}, PLACE_REVIEW_CONTENT =
-			#{placeReviewContent}, PLACE_REVIEW_SCORE = #{placeReviewScore}
+		set PLACE_REVIEW_CONTENT = #{placeReviewContent}, 
+			PLACE_REVIEW_SCORE = #{placeReviewScore}
 		where PLACE_REVIEW_NO = #{placeReviewNo}
 	</update>
 </mapper>

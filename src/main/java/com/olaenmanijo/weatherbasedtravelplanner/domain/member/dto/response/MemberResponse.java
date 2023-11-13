@@ -1,7 +1,5 @@
 package com.olaenmanijo.weatherbasedtravelplanner.domain.member.dto.response;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.ToString;
 
@@ -16,11 +14,11 @@ public class MemberResponse {
 	private Character gender;
 	private Long age;
 	private String email;
-	private LocalDateTime registerDate;
-	private LocalDateTime updateDate;
+	private String registerDate;
+	private String updateDate;
 	private Boolean deleteYN;
-	
+
 	public void clearPassword() {
-        this.password = "";
-    }
+		this.password = "";
+	}
 }

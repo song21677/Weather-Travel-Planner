@@ -17,13 +17,17 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class CloudFileUpload {
-	final String endPoint = "https://kr.object.ncloudstorage.com";
-	final String regionName = "kr-standard";
 
     @Value("${naver.cloud.access}")
-	String accessKey;
+	private String accessKey;
     @Value("${naver.cloud.secret}")
-	String secretKey;
+	private String secretKey;
+    @Value("${naver.cloud.regionName}")
+    private String regionName;
+    @Value("${naver.cloud.bucketName}")
+    private String bucketName;
+    @Value("${naver.cloud.endPoint}")
+    private String endPoint;
     
 	public String cloudUpload(String uploadName, File file) {
 
@@ -33,7 +37,6 @@ public class CloudFileUpload {
 				.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
 				.build();
 
-		String bucketName = "team5-bucket";
 
 		// create folder
 		String folderName = "upload/";

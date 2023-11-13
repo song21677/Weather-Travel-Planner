@@ -10,7 +10,6 @@
         	  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link th:href="@{/css/community/community.css}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
-        <link rel="stylesheet" type="text/css" th:href="@{/css/file/file.css}" />
       	  
         <title>자랑하기</title>
     </head>
@@ -64,8 +63,8 @@
                 		data-bs-target="#selplan">
                     	여행일정 불러오기
                 </button>
-                <th:block th:if="${CommunityRequest}" th:replace="@{community/communityWriteContent.html} :: content"></th:block>
-                <div th:unless="${CommunityRequest}" id="write-content"></div>
+                <th:block th:if="${CommunityResponse}" th:replace="@{community/communityWriteContent.html} :: content"></th:block>
+                <div th:unless="${CommunityResponse}" id="write-content"></div>
                 
             </div>
         </main>

@@ -53,6 +53,8 @@ public interface CommunityMapper {
      */
     List<CommunityPlanListResponse> travelPlanFindByMemberNo(Long memberNo);
     
+    CommunityPlanListResponse travelPlanFindByNo(Long travelPlanNo);
+    
     /**
      * 여행지 리뷰 여행블럭번호로 조회 - 여행기 작성페이지-
      * @param detailPlanNo
