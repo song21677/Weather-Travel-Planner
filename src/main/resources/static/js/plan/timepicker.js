@@ -1,5 +1,5 @@
 $('.timepicker').timepicker({
-    timeFormat: 'h:mm p',
+    timeFormat: 'hh:mm p',
     interval: 60,
     minTime: '6',
     maxTime: '23:00PM',

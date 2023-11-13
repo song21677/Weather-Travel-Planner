@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RecommendMapper">
+
+
+<select id="getLocation" resultType="GetLocationDTO">
+    SELECT PLACE_NO, PLACE_NAME, ROAD_NAME_ADR, LONGITUDE, LATITUDE
+    FROM PLACE_TB
+    WHERE AREA = #{address}
+      AND ROUND(LONGITUDE, 0) = ROUND(#{longitude}, 0)
+      AND ROUND(LATITUDE, 0) = ROUND(#{latitude}, 0)
+      AND PLACE_CATEGORY = #{locate}
+      <![CDATA[AND ROWNUM <= 10]]>
+</select>
+
+<select id="getAge" resultType="GetAgeDTO">
+SELECT * FROM (
+    SELECT
+        PL.LONGITUDE,
+        PL.LATITUDE,
+        PL.PLACE_NAME,
+        PL.ROAD_NAME_ADR
+    FROM
+        MEMBER_TB MP
+    JOIN
+        TRAVEL_PLAN_TB TP ON MP.MEMBER_NO = TP.MEMBER_NO
+    JOIN
+        DETAIL_PLAN_TB DP ON TP.TRAVEL_PLAN_NO = DP.TRAVEL_PLAN_NO
+    JOIN
+        PLACE_TB PL ON DP.PLACE_NO = PL.PLACE_NO
+    WHERE
+        MP.AGE BETWEEN #{start} AND #{end}
+    GROUP BY
+        MP.AGE, DP.PLACE_NO, PL.LONGITUDE, PL.LATITUDE, PL.PLACE_NAME, PL.ROAD_NAME_ADR
+    ORDER BY
+        COUNT(DP.PLACE_NO) DESC)
+     WHERE ROWNUM<![CDATA[ <= 10 ]]>
+</select>
+</mapper>

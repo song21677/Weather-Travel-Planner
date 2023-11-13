@@ -53,6 +53,29 @@ $(document).ready(function() {
                 	        console.log("실패: 추가 데이터를 가져오기 위한 AJAX 요청이 실패했습니다.");
                 	    }
                     });
+                	
+                	$.ajax({
+                	    type: "POST",
+                	    url: `/get-age-data`,
+                	    data: {
+                	        lat: latitude,
+                	        lon: longitude,
+                	    },
+                	   
+                	    success: function(additionalData) {
+                	        if (additionalData) {
+                	            // 추가 데이터를 사용하여 작업 수행
+                	            console.log("성공: 추가 데이터 성공적으로 검색됨.", additionalData);
+                	        } else {
+                	            console.log("실패: 추가 데이터를 가져올 수 없음.");
+                	        }
+                	    },
+                	    error: function() {
+                	        console.log("실패: 추가 데이터를 가져오기 위한 AJAX 요청이 실패했습니다.");
+                	    }
+                    });
+                	
+                	
                 }
                 else{ $("#resultLocation").text(address); } // 주소를 웹 페이지에 표시
             } else {

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,18 +25,18 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	String checkday = null;
 	
 	//세부테이블 가져오기
-	public void getDetailPlan(int no){
+	public ResponseEntity<Object> getDetailPlan(int no){
 		GetDetailPlanDTO dto = dao.getDetailPlan(no);
 		if(dto==null) {
 			System.out.println("해당값이 없어요");
-			return;
+			return null;
 			}
-		setColorBlock(dto);
+		return setColorBlock(dto);
 		
 	}
 	
 	//날짜 비교후 적합한 메서드에 제공(단기 , 중기 ,비교불가) 
-	public void setColorBlock(GetDetailPlanDTO dto) {
+	public ResponseEntity<Object> setColorBlock(GetDetailPlanDTO dto) {
 		String place_Category = dto.getPLACE_CATEGORY();
 		int plan_No = dto.getDETAIL_PLAN_NO();
 		String plan_Hour = dto.getDETAIL_PLAN_HOUR();
@@ -48,23 +50,23 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 			address = giveMeYourPlace(road_Name_Adr);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return;
+			return null;
 		}
 		if(address==null) {
 			System.out.println("구역 분류중에 이상이 생겼나봐요!");
-			return;
+			return null;
 		}
 		
 		/////이전 날짜일시 리턴
 		if(plan_Hour!=null&&plan_Hour_end!=null) {
 			if(planLocalDateTime.isBefore(dateTime.toLocalDate()) ) {
 				System.out.println("지난 일은 수정이 불가합니다.");
-				return;
+				return null;
 			}
 		}
 		if(planLocalDateTime.isBefore(dateTime.toLocalDate()) ||  (planLocalDateTime.isEqual(dateTime.toLocalDate()) && dateTime.getHour() >= Integer.parseInt(plan_Hour))){
 			System.out.println("지난 일은 수정이 불가합니다.");
-			return;
+			return null;
 		}
 		
 		
@@ -73,7 +75,7 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		} else {
 		    if (plan_Hour == null || plan_Hour_end == null) {
 		    	System.out.println("시간 값이 하나라서 로직을 실행할 수 없어요.");
-		    	return;
+		    	return null;
 		    }
 		}
 		
@@ -93,12 +95,13 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		setdto.setStartTime(plan_Hour);
 		setdto.setEndTime(plan_Hour_end);
 		if (daysBetween > 10) {
-	    	defaultacculate(setdto,place_Category,plan_No,checkday);
+	    	return defaultacculate(setdto,place_Category,plan_No,checkday);
+	    	
         }else if(daysBetween >= 3) {
-	    	withMediumWeather(setdto,place_Category,plan_No);
+	    	return withMediumWeather(setdto,place_Category,plan_No);
         }
 	    else {
-        	withShortWeather(setdto,place_Category,plan_No);
+        	return withShortWeather(setdto,place_Category,plan_No);
         }
 	}
 	
@@ -182,8 +185,9 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 	}
 	
 	
-	public void withShortWeather(SetAddressDTO dto,String category,int plan_No) {
+	public ResponseEntity<Object> withShortWeather(SetAddressDTO dto,String category, int plan_No) {
 		List<GetShortWeatherWithDTO> getdtos = dao.withShortWeather(dto);
+		
 		///
 		boolean nullpoint = false;
 		String starttimes = dto.getStartTime();
@@ -211,11 +215,11 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		
 		if(getdtos==null) {
 			checkday = "checked";
-			defaultacculate(dto,category,plan_No,checkday);
+			return defaultacculate(dto,category,plan_No,checkday);
 		}
 		else if (getdtos.size()!=24 || getdtos.size()!=hourlyDataList.size()) {
 			checkday = "checked";
-			defaultacculate(dto,category,plan_No,checkday);
+			return defaultacculate(dto,category,plan_No,checkday);
 		} 
 			
 		else {
@@ -340,24 +344,25 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 				blockdto.setColor("GY");
 			}
 			
-			if(dao.checkBlock()!=null) {
+			if(dao.checkBlock(plan_No)!=null) {
 				dao.setBlockUpdate(blockdto);
 			}
 			else {
 				dao.SetBlock(blockdto);
 			}
 			
-			
+			return new ResponseEntity<>(blockdto, HttpStatus.OK);
 			
 			
 		}
 	};
 
-	public void withMediumWeather(SetAddressDTO dto,String category,int plan_No) {
+	public ResponseEntity<Object> withMediumWeather(SetAddressDTO dto,String category,int plan_No) {
 		GetMediumWeatherWithDTO getdto = dao.withMediumWeather(dto);
 		if(getdto==null) {
 			checkday = "checked";
-			defaultacculate(dto,category,plan_No,checkday);
+			System.out.println("getdto가 값이 null입니다.");
+			return defaultacculate(dto,category,plan_No,checkday);
 		}
 		else {
 			SetBlockDTO blockdto = new SetBlockDTO();
@@ -474,14 +479,13 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 					blockdto.setColor("GY");
 				}
 				
-				
-				if(dao.checkBlock()!=null) {
+				if(dao.checkBlock(plan_No)!=null) {
 					dao.setBlockUpdate(blockdto);
 				}
 				else {
 					dao.SetBlock(blockdto);
 				}
-				
+				return new ResponseEntity<>(blockdto, HttpStatus.OK);
 			}
 			
 			
@@ -489,13 +493,13 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 		
 	};
 	
-	public void defaultacculate(SetAddressDTO dto,String category,int plan_No,String checkday) {
+	public ResponseEntity<Object> defaultacculate(SetAddressDTO dto,String category,int plan_No,String checkday) {
 		SetBlockDTO blockdto = new SetBlockDTO();
 		blockdto.setPlan_No(plan_No);
 		if(checkday=="checked") {
 			blockdto.setReason(200);
 			blockdto.setColor("GY");
-			if(dao.checkBlock()!=null) {
+			if(dao.checkBlock(plan_No)!=null) {
 				dao.setBlockUpdate(blockdto);
 			}
 			else {
@@ -580,15 +584,20 @@ public class WeatherWithPlaceServiceImpl implements WeatherWithPlaceService {
 			blockdto.setColor("GY");
 		}
 		
-	    if(dao.checkBlock()!=null) {
+	    if(dao.checkBlock(plan_No)!=null) {
 			dao.setBlockUpdate(blockdto);
 		}
 		else {
 			dao.SetBlock(blockdto);
 		}
+	    
 	}
+		return new ResponseEntity<>(blockdto, HttpStatus.OK);
 		
 	}
+	
+	
+	
 	
 	private boolean isPlaceCategory(String category) {
 	    return category.equals("관광지") || 

@@ -8,23 +8,26 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            width:1000px;
+            height:600px;
         }
         
 
-        .item {
-            width: 30%;
-            margin: 10px;
-            padding: 10px;
-            display: flex;
-            flex-wrap: wrap;
-
-	        }
-	     .location li {
-            display: inline-block;
+   		 .location ul {display:inline-block; width: 400px; height: 200px;}  
+	        
+	     .location ul li {
             list-style: none;
             margin-right: 10px;
         }
-        li{  list-style:none;}
+        
+         .item ul {display:inline-block; width: 400px; height: 200px;}  
+	        
+	     .item ul li {
+            list-style: none;
+            margin-right: 10px;
+        }
+        
+        li{list-style:none;}
 
 
 </style>

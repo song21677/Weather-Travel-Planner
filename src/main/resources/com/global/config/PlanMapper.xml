@@ -4,7 +4,7 @@
     
 <mapper namespace="PlanMapper">
 	<insert id="insertPlan" parameterType="Plan" useGeneratedKeys="true" keyColumn="travel_plan_no" keyProperty="id">
-		insert into travel_plan_tb (travel_plan_no, travel_plan_title, start_ymd, end_ymd)
-		values (travel_plan_sq.nextval, #{title}, #{startDate}, #{endDate})
+		insert into travel_plan_tb (travel_plan_no, member_no, travel_plan_title, start_ymd, end_ymd)
+		values (travel_plan_sq.nextval, #{memberNo}, #{title}, #{startDate}, #{endDate})
 	</insert>
 </mapper>

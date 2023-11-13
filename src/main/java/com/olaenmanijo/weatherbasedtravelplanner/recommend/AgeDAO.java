@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RecommendDAO {
-
+public class AgeDAO {
+	
 	@Autowired
 	SqlSession session;
 	
-	public List<GetLocationDTO> getLocation(Map<String,Object> parameters) {
-		return session.selectList("RecommendMapper.getLocation",parameters);
+	public List<GetAgeDTO> getAge(Map<String, Integer> map) {
+		return session.selectList("RecommendMapper.getAge",map);
 	}
+
 }

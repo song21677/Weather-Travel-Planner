@@ -17,6 +17,6 @@ public class PlanDAO {
 	}
 	
 	public int insertDetailPlan(PlanDTO2 planDTO2) {
-		return session.insert("DetailPlanMapper.insertDetailPlan", planDTO2);
+		return session.insert("InsertDetailPlanMapper.insertDetailPlan", planDTO2);
 	}
 }
