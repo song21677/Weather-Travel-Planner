@@ -2,7 +2,10 @@ package com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class TravelReviewFileRequest {
 

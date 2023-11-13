@@ -21,4 +21,11 @@
      order by START_YMD
    </select>
    
+   <!-- 여행일정 정보 -->
+   <select id="travelPlanFindByNo"  resultMap="PlanListResponseMap" parameterType="long">
+     select TRAVEL_PLAN_NO, MEMBER_NO, TRAVEL_PLAN_TITLE, START_YMD, END_YMD
+     from TRAVEL_PLAN_TB
+     where TRAVEL_PLAN_NO = #{travelPlanNo}
+   </select>
+   
 </mapper>

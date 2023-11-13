@@ -1,5 +1,6 @@
 package com.olaenmanijo.weatherbasedtravelplanner.domain.community.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,19 +25,22 @@ import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.C
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.service.CommunityService;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.member.dto.response.MemberResponse;
-import com.olaenmanijo.weatherbasedtravelplanner.global.file.controller.CloudFileUpload;
 import com.olaenmanijo.weatherbasedtravelplanner.global.file.controller.FileUtils;
-import com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.request.TravelReviewFileRequest;
+import com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.response.TravelReviewFileResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.global.file.service.FileService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class CommunityController {
 
 	@Autowired
 	CommunityService service;
+	@Autowired
 	FileService fileService;
+	@Autowired
 	FileUtils fileUtils;
-	CloudFileUpload cloudFileUpload;
 
 	// Community 글 쓰기 페이지
 	@GetMapping("/communities/new")
@@ -44,40 +48,44 @@ public class CommunityController {
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		Long memberNo = memberResponse.getMemberNo();
-		List<CommunityPlanListResponse> communityPlanListResponse= service.travelPlanFindByMemberNo(memberNo);
+		List<CommunityPlanListResponse> communityPlanListResponse = service.travelPlanFindByMemberNo(memberNo);
 		model.addAttribute("CommunityPlanListResponse", communityPlanListResponse);
 		return "community/communityWriteBody";
 	}
-	
+
 	// Community 글 수정 페이지 (글 수정 양식 표시)
 	@GetMapping("/communities/{travelReviewNo}/edit")
 	public String communityEditPage(@PathVariable final long travelReviewNo, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		Long memberNo = memberResponse.getMemberNo();
-		
-		List<CommunityPlanListResponse> communityPlanListResponse= service.travelPlanFindByMemberNo(memberNo);
+
+		List<TravelReviewFileResponse> travelReviewFileResponse = fileService
+				.travelFileFindByTravelReviewNo(travelReviewNo);
+		model.addAttribute("TravelReviewFileResponse", travelReviewFileResponse);
+
+		List<CommunityPlanListResponse> communityPlanListResponse = service.travelPlanFindByMemberNo(memberNo);
 		model.addAttribute("CommunityPlanListResponse", communityPlanListResponse);
-		
+
 		Long travelPlanNo = service.travelReviewfindById(travelReviewNo).getTravelPlanNo();
 		Map<String, List<CommunityDetailResponse>> groupedData = service.detailFindByTravelNo(travelPlanNo);
 		CommunityResponse communityResponse = service.travelReviewFindByTravelNo(travelPlanNo);
 		model.addAttribute("groupedData", groupedData);
 		model.addAttribute("CommunityResponse", communityResponse);
-		
+
 		return "community/communityWriteBody";
 	}
-	
+
 	// travelPlanNo -> travelReviewNo
-	@GetMapping("/travel-Review")
+	@GetMapping("/travel-Review/{travelPlanNo}")
 	@ResponseBody
-	public Long convertPlanNoToTravelReviewNo(@RequestParam final Long travelPlanNo) {
+	public Long convertPlanNoToTravelReviewNo(@PathVariable final Long travelPlanNo) {
 		System.out.println("travelPlanNo : " + travelPlanNo);
 		Long travelReviewNo = service.travelReviewFindByTravelNo(travelPlanNo).getTravelReviewNo();
 		System.out.println("travelReviewNo : " + travelReviewNo);
 		return travelReviewNo;
 	}
-	
+
 	// Plan 목록 보기
 	@GetMapping("/communities/newes/plan-list/{travelPlanNo}")
 	public String plannerContext(@PathVariable("travelPlanNo") Long travelPlanNo, Model model, HttpSession session) {
@@ -87,40 +95,39 @@ public class CommunityController {
 		model.addAttribute("CommunityResponse", communityResponse);
 		return "community/communityWriteContent";
 	}
-	
+
 	// Community 목록 보기
 	@GetMapping("/communities")
 	public String communityListes(Model model) {
-		List<CommunityResponse> communityResponse= service.travelReviewFindAll();
+		List<CommunityResponse> communityResponse = service.travelReviewFindAll();
+		for (CommunityResponse community : communityResponse) {
+			Long travelReviewNo = community.getTravelReviewNo();
+			List<TravelReviewFileResponse> travelReviewFileResponse = new ArrayList<TravelReviewFileResponse>();
+			System.out.println("travelReviewFileResponse : " + travelReviewFileResponse);
+			travelReviewFileResponse = fileService.travelFileFindByTravelReviewNo(travelReviewNo);
+			if (travelReviewFileResponse != null) {
+				System.out.println("travelReviewFileResponse : " + travelReviewFileResponse);
+				travelReviewFileResponse = fileService.travelFileFindByTravelReviewNo(travelReviewNo);
+				community.setTravelReviewFileResponse(travelReviewFileResponse);
+			}
+		}
 		model.addAttribute("CommunityResponse", communityResponse);
+		System.out.println(communityResponse);
 		return "community/communityList";
 	}
-	
+
 	// Community 글 작성 (글 작성 처리)
 	@PostMapping("/communities")
 	@ResponseBody
 	public Long communityWrite(HttpServletRequest request, @RequestBody final CommunityRequest params) {
-		
-		
+
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		params.setMemberNo(memberResponse.getMemberNo());
-		
-		// 파일업로드 추가 
-		Long travelReviewNo = params.getTravelReviewNo();
-		System.out.println("params:"+  params);
-		/*
-		List<TravelReviewFileRequest> files = fileUtils.uploadTravelReviewFiles(params.getFiles());
-		fileService.saveTravelReviewFiles(travelReviewNo, files);
-		params.setPlannerReviewImage(cloudFileUpload(files.get(0).getOriginalName(),files.get(0)));
-		System.out.println(params.getPlannerReviewImage());*/
-		return service.travelReviewSave(params);
-	}
 
-	
-	private String cloudFileUpload(String originalName, TravelReviewFileRequest travelReviewFileRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("params:" + params);
+
+		return service.travelReviewSave(params);
 	}
 
 	// Community 글 수정 (글 수정 처리)
@@ -132,24 +139,25 @@ public class CommunityController {
 		params.setMemberNo(memberResponse.getMemberNo());
 		return service.travelReviewUpdate(params);
 	}
-	
+
 	// 여행지 리뷰 수 카운팅(여행지 등록 및 삭제 여부)
-	@GetMapping("/placeReview-count")
+	@GetMapping("/placeReview-count/{detailPlanNo}")
 	@ResponseBody
-	public Long countBydetailPlanNo(@RequestParam final Long detailPlanNo) {
+	public Long countBydetailPlanNo(@PathVariable final Long detailPlanNo) {
 		return service.countBydetailPlanNo(detailPlanNo);
 	}
-	
+
 	// 여행지 리뷰 작성
 	@PostMapping("/placeReview")
 	@ResponseBody
 	public Long placeReviewWrite(HttpServletRequest request, @RequestBody final PlaceReviewRequest params) {
+		System.out.println("params : " + params);
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		params.setMemberNo(memberResponse.getMemberNo());
 		return service.placeReviewWrite(params);
 	}
-	
+
 	// 여행지 리뷰 수정
 	@PutMapping("/placeReview")
 	@ResponseBody
@@ -161,24 +169,34 @@ public class CommunityController {
 		Long placeReviewNo = service.placeReviewFindByDetailNo(detailPlanNo).getPlaceReviewNo();
 		params.setPlaceReviewNo(placeReviewNo);
 		System.out.println(params);
-		return service.placeReviewWrite(params);
+		return service.placeReviewUpdate(params);
 	}
-	
-	
+
 	// 여행기 자세히보기
 	@GetMapping("/communities/{travelReviewNo}")
 	public String communityRetrieve(@PathVariable final long travelReviewNo, HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		MemberResponse memberResponse = (MemberResponse) session.getAttribute("loginMember");
 		Long memberNo = memberResponse.getMemberNo();
-		
+
 		CommunityResponse communityResponse = service.travelReviewfindById(travelReviewNo);
-		Map<String, List<CommunityDetailResponse>> groupedData = service.detailFindByTravelNo(communityResponse.getTravelPlanNo());
+		Map<String, List<CommunityDetailResponse>> groupedData = service
+				.detailFindByTravelNo(communityResponse.getTravelPlanNo());
 		model.addAttribute("groupedData", groupedData);
 		System.out.println(groupedData);
+
+		List<TravelReviewFileResponse> travelReviewFileResponse = new ArrayList<TravelReviewFileResponse>();
+		System.out.println("travelReviewFileResponse : " + travelReviewFileResponse);
+		travelReviewFileResponse = fileService.travelFileFindByTravelReviewNo(travelReviewNo);
+		if (travelReviewFileResponse != null) {
+			System.out.println("travelReviewFileResponse : " + travelReviewFileResponse);
+			travelReviewFileResponse = fileService.travelFileFindByTravelReviewNo(travelReviewNo);
+			communityResponse.setTravelReviewFileResponse(travelReviewFileResponse);
+		}
+
 		model.addAttribute("CommunityResponse", communityResponse);
 		System.out.println(communityResponse);
-		model.addAttribute("MemeberNo",memberNo);
+		model.addAttribute("MemeberNo", memberNo);
 		System.out.println(memberNo);
 		return "community/communityRetrieve";
 	}

@@ -5,6 +5,19 @@
 <mapper
 	namespace="com.olaenmanijo.weatherbasedtravelplanner.global.file.mapper.FileMapper">
 
+	<!-- TRAVEL_REVIEW_TB 테이블 전체 컬럼 -->
+	<resultMap id="TravelFileResponseMap"
+		type="com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.response.TravelReviewFileResponse">
+		<id property="fileNo" column="FILE_NO" />
+		<result property="originalName" column="ORIGINAL_NAME" />
+		<result property="saveName" column="SAVE_NAME" />
+		<result property="fileSize" column="FILE_SIZE" />
+		<result property="deleteYN" column="DELETE_YN" />
+		<result property="createdDate" column="CREATED_DATE" />
+		<result property="deletedDate" column="DELETED_DATE" />
+		<result property="travelReviewNo" column="TRAVEL_REVIEW_NO" />
+	</resultMap>
+
 	<!-- tb_file 테이블 전체 컬럼 -->
 	<sql id="travelFileColumns">
 		FILE_NO,
@@ -14,25 +27,67 @@
 		DELETE_YN,
 		CREATED_DATE,
 		DELETED_DATE,
-		TRAVEL_REVIEW_NO,
+		TRAVEL_REVIEW_NO
 	</sql>
 
-	<!-- 파일 정보 저장 -->
-	<insert id="travelReviewImgSaveAll" parameterType="list">
-		INSERT INTO tb_file (
+	<!-- 파일 정보 불러오기 -->
+	<select id="travelFileFindByTravelReviewNo"
+		resultMap="TravelFileResponseMap" parameterType="long">
+		select
 		<include refid="travelFileColumns" />
-		) VALUES
-		<foreach item="file" collection="list" separator=",">
-			(
-			#{file.fileNo}
-			, #{file.originalName}
-			, #{file.saveName}
-			, #{file.fileSize}
-			, 0
-			, SYSDATE
-			, NULL
-			, #{file.travelReviewNo}
-			)
+		from TRAVEL_REVIEW_FILE_TB
+		where DELETE_YN = 0 AND TRAVEL_REVIEW_NO =
+		#{travelReviewNo}
+		ORDER BY FILE_NO
+	</select>
+
+	<!-- 파일 정보 불러오기 -->
+	<select id="travelFileFindByFileNoes"
+		resultMap="TravelFileResponseMap" parameterType="long">
+		select
+		<include refid="travelFileColumns" />
+		from TRAVEL_REVIEW_FILE_TB
+		where DELETE_YN = 0
+		AND FILE_NO IN
+		<foreach item="fileNo" collection="list" open="("
+			separator="," close=")">
+			#{fileNo}
 		</foreach>
+		ORDER BY FILE_NO
+	</select>
+
+	<!-- 파일 정보 저장 -->
+	<!-- <insert id="travelReviewImgSaveAll" parameterType="list"> <script> 
+		INSERT ALL <foreach item="file" collection="list"> <![CDATA[ INTO TRAVEL_REVIEW_FILE_TB 
+		( FILE_NO, ORIGINAL_NAME, SAVE_NAME, FILE_SIZE, TRAVEL_REVIEW_NO ) VALUES 
+		( FILE_SQ.NEXTVAL, #{file.originalName}, #{file.saveName}, #{file.fileSize}, 
+		#{file.travelReviewNo} ) ]]> </foreach> SELECT * FROM DUAL </script> </insert> -->
+
+
+	<insert id="travelReviewImgSaveAll"
+		parameterType="com.olaenmanijo.weatherbasedtravelplanner.global.file.dto.request.TravelReviewFileRequest">
+		INSERT INTO
+		TRAVEL_REVIEW_FILE_TB (FILE_NO, ORIGINAL_NAME, SAVE_NAME, FILE_SIZE, TRAVEL_REVIEW_NO)
+		VALUES
+		(
+		FILE_SQ.NEXTVAL
+		, #{originalName}, #{saveName}, #{fileSize},
+		#{travelReviewNo}
+		)
 	</insert>
+
+
+	<!-- 파일 삭제 -->
+	<delete id="deleteByFileNoes" parameterType="list">
+		UPDATE TRAVEL_REVIEW_FILE_TB
+		SET
+		delete_yn = 1
+		, deleted_date = SYSDATE
+		WHERE
+		FILE_NO IN
+		<foreach item="fileNo" collection="list" open="("
+			separator="," close=")">
+			#{fileNo}
+		</foreach>
+	</delete>
 </mapper>

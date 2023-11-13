@@ -39,6 +39,10 @@ public class MemberService {
 	public MemberResponse findMemberByLoginId(final String memberId) {
 		return memberMapper.findByLoginId(memberId);
 	}
+	
+	public MemberResponse findByMemberNo(final Long memberNo) {
+		return memberMapper.findByMemberNo(memberNo);
+	}
 
 	/**
 	 * 회원 정보 수정

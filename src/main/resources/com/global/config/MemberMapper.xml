@@ -59,6 +59,25 @@
             DELETE_YN = 0
             AND MEMBER_ID = #{memberId}
     </select>
+    <!-- 회원 이름 조회 -->
+    <select id="findByMemberNo" parameterType="long" resultMap="memberResponseMap">
+        SELECT
+            MEMBER_NO
+            , MEMBER_ID
+            , PASSWORD
+            , NICKNAME
+            , GENDER
+            , AGE
+            , EMAIL
+            , REGISTER_DATE
+            , UPDATE_DATE
+            , DELETE_YN
+        FROM
+            MEMBER_TB
+        WHERE
+            DELETE_YN = 0
+            AND MEMBER_NO = #{memberNo}
+    </select>
 
 
     <!-- 회원 정보 수정 -->

@@ -1,10 +1,5 @@
 package com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.request;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,10 +15,6 @@ public class CommunityRequest {
 	Long travelPlanNo;
 	Long memberNo;
 	String plannerReviewTitle;
-	String plannerReviewImage;
 	String plannerReviewContent;
-
-	// 파일 업로드 추가
-//	List<MultipartFile> files = new ArrayList<>();
 
 }

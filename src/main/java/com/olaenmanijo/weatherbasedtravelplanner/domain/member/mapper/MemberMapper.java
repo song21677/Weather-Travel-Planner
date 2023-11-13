@@ -19,6 +19,8 @@ public interface MemberMapper {
      * @return 회원 상세정보
      */
     MemberResponse findByLoginId(String memberId);
+    
+    MemberResponse findByMemberNo(Long memberNo);
 
     /**
      * 회원 정보 수정
@@ -38,4 +40,6 @@ public interface MemberMapper {
      * @return 회원 수
      */
     long countByLoginId(String memberId);
+    
+    
 }

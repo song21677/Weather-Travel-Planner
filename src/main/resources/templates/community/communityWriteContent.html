@@ -2,22 +2,16 @@
         <div id="write-content" th:with="groupedData=${groupedData}" th:fragment="content">
             <form id="reviewForm" th:method="${CommunityResponse} != null?'PUT':'POST'" enctype="multipart/form-data">
                 <!-- Img input -->
-            <tr>
-		        <td colspan="3">
-		            <div class="file_list">
-		                <div>
-		                    <div class="file_input">
-		                        <input type="text" readonly />
-		                        <label>첨부파일
-		                            <input type="file" name="files" onchange="selectFile(this);"/>
-		                        </label>
-		                    </div>
-		                    <button type="button" onclick="removeFile(this);" class="btns del_btn">삭제</button>
-		                    <button type="button" onclick="addFile();" class="btns fn_add_btn">파일추가</button>
-		                </div>
-		            </div>
-		        </td>
-		    </tr>
+            	<input type="file" name="imageFiles" id="imageFiles" accept="image/*" multiple>
+            	<button id="imageUploadButton" type="button" class="btn btn-primary">
+    				<i class="bi bi-image"></i>
+				</button>
+            	
+            	
+            	<!-- 이미지 미리보기를 위한 <img> 태그 -->
+				<img id="imagePreview" src="#" alt="Image Preview" 
+					 style="max-width: 100%; max-height: 300px; display: none;">
+					 
                 <!-- title input -->
                 <div class="form-floating mb-3"> 
                 <input type="text" class="form-control" 
