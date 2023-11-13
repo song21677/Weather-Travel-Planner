@@ -15,6 +15,7 @@ import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.C
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.PlaceReviewResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.mapper.CommunityMapper;
+import com.olaenmanijo.weatherbasedtravelplanner.domain.member.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class CommunityService {
 
 	private final CommunityMapper communityMapper;
+	private final MemberMapper memberMapper;
 
 	/**
 	 * 여행기 저장 - 여행기 작성페이지
@@ -34,7 +36,8 @@ public class CommunityService {
 	public Long travelReviewSave(final CommunityRequest params) {
 		System.out.println("params : " + params);
 		communityMapper.travelReviewSave(params);
-		return params.getTravelReviewNo();
+		Long result = communityMapper.travelReviewFindByTravelNo(params.getTravelPlanNo()).getTravelReviewNo();
+		return result;
 	}
 
 	/**
@@ -80,7 +83,9 @@ public class CommunityService {
 	 * @return 게시글 상세정보(title,img,content)
 	 */
 	public CommunityResponse travelReviewfindById(final Long travelReviewNo) {
-		return communityMapper.travelReviewFindById(travelReviewNo);
+		CommunityResponse communityResponse = communityMapper.travelReviewFindById(travelReviewNo);
+		communityResponse.setMemberName(memberMapper.findByMemberNo(communityResponse.getMemberNo()).getNickname());
+		return communityResponse;
 	}
 
 	/**
@@ -144,7 +149,7 @@ public class CommunityService {
 	 * 여행지 리뷰 여행블럭번호로 조회 - 여행기 작성페이지
 	 * 
 	 * @param detailPlanNo
-	 * @return 여행지 리뷰 정보 
+	 * @return 여행지 리뷰 정보
 	 */
 	public PlaceReviewResponse placeReviewFindByDetailNo(Long detailPlanNo) {
 		return communityMapper.placeReviewFindByDetailNo(detailPlanNo);
@@ -176,7 +181,20 @@ public class CommunityService {
 	 * @return 게시글 리스트
 	 */
 	public List<CommunityResponse> travelReviewFindAll() {
-		return communityMapper.travelReviewFindAll();
+		List<CommunityResponse> lists = communityMapper.travelReviewFindAll();
+		for (CommunityResponse list : lists) {
+			list.setMemberName(memberMapper.findByMemberNo(list.getMemberNo()).getNickname());
+			Long startDay = Long.parseLong(communityMapper.travelPlanFindByNo(list.getTravelPlanNo()).getStartYMD());
+			System.out.println(startDay);
+			Long endDay = Long.parseLong(communityMapper.travelPlanFindByNo(list.getTravelPlanNo()).getEndYMD());
+			System.out.println(endDay);
+			if (startDay != null && endDay != null) {
+				Long dateTem = endDay - startDay;
+				list.setDateTem(dateTem);
+				System.out.println(dateTem);
+			}
+		}
+		return lists;
 	}
 
 	/**
