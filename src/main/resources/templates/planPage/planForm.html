@@ -3,10 +3,9 @@
 	<body>
 		<form th:fragment="copy" action="/savePlan" method="get">
 		        <div class="plan">
-		            <input type="text" class="form-control title" th:value=${plan.title} name="title"> <br>
-		            <input type="text" class="form-control daterange" name="daterange">
+		            <input style = "border: dotted; border-color: #E5F2FF;" type="text" class="form-control title" th:value=${plan.title} name="title" placeholder="여행 제목을 입력해주세요."> <br>
+		            <input style = "border: dotted; border-color: #E5F2FF;" type="text" class="form-control daterange" name="daterange">
 		        </div>
-		        <br>
 		        
 		        <div class="places">
 		        	<div th:each="place : ${plan.places}">
@@ -27,10 +26,11 @@
 		       
 		       <div class="details"></div>
 		       
-		        <button class="form-control saveBtn">저장</button>
+		        <button class="form-control saveBtn" style='background-color: #4B96F3; color: white'>저장</button>
 		        <input type="hidden" class="startDate" th:value=${plan.startDate}>
 		        <input type="hidden" class="endDate" th:value=${plan.endDate}>
 		        <input type="hidden" class="title" th:value=${plan.title}>
+
 	    </form>
     </body>
 </html>

@@ -22,8 +22,8 @@ public class SetBlockController {
 		ResponseEntity<Object> response = service.getDetailPlan(planId);
 		if (response != null) {
 			System.out.println(response);
-			return null; // 삭제
-            // return ResponseEntity.ok(response);
+			// return null; // 삭제
+            return ResponseEntity.ok(response);
         } else {
         	return null; // 삭제
             // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("현재 연동이 불안정합니다.");

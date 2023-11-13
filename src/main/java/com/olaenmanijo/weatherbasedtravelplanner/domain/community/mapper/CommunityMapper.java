@@ -10,6 +10,7 @@ import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.C
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityPlanListResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.CommunityResponse;
 import com.olaenmanijo.weatherbasedtravelplanner.domain.community.dto.response.PlaceReviewResponse;
+import com.olaenmanijo.weatherbasedtravelplanner.plan.PlanDTO2;
 
 @Mapper
 public interface CommunityMapper {
@@ -121,5 +122,7 @@ public interface CommunityMapper {
      * @return 여행지 리뷰 수
      */
     long countBydetailPlanNo(Long detailPlanNo);
+    
+    int insertDetailPlan(PlanDTO2 planDto);
      
 }

@@ -1,6 +1,7 @@
 package com.olaenmanijo.weatherbasedtravelplanner.tourapi.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -28,10 +29,26 @@ public class APIService {
 	private static final Logger logger = LoggerFactory.getLogger(APIService.class);
 	
 	String baseUrl = "http://apis.data.go.kr";
-	String subUrl = "/B551011/KorService1/areaBasedList1";
+	String subUrl = "/B551011/KorService1/";
 	String serviceKey = "xSNjOLnnZKF%2B4zEt6Y7%2Bk79dqA76nW9NSDdStY2MsFcvF3zkLs1gLGOAyg5bVWoJhBT8BQeRPsY%2FRYsPu2Ukfg%3D%3D";
+	
+	public List<Item> requestCommonInfo() throws UnsupportedEncodingException {
+		
+		String sub = "detailCommon1";
+		String url = new StringBuilder(baseUrl + subUrl + sub)
+				.append("?serviceKey=").append(serviceKey)
+                .append("&MobileOS=").append(URLEncoder.encode("ETC", "UTF-8"))
+                .append("&MobileApp=").append(URLEncoder.encode("WeatherPlan", "UTF-8"))
+                .append("&_type=").append(URLEncoder.encode("json", "UTF-8"))
+                .append("&contentId").append(URLEncoder.encode("6", "UTF-8"))
+                .toString();
+		
+		return null;
+	}
+	
 	public List<Item> requestToTourListBasedAreaAPI() throws IOException, URISyntaxException {
-		String url = new StringBuilder(baseUrl + subUrl)
+		String sub = "areaBasedList1";
+		String url = new StringBuilder(baseUrl + subUrl + sub)
                 .append("?serviceKey=").append(serviceKey)
                 .append("&pageNo=").append(URLEncoder.encode("1", "UTF-8"))
                 .append("&numOfRows=").append(URLEncoder.encode("55000", "UTF-8"))

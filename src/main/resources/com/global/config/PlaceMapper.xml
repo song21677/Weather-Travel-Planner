@@ -11,7 +11,7 @@
 	<select id="selectByNameAndCategory" parameterType="java.util.Map" resultType="Place">
     
         SELECT place_no, place_category, place_name, road_name_adr
-        FROM place_tb_cpy
+        FROM place_tb
         WHERE place_category = #{category} AND road_name_adr LIKE '%' || #{location} || '%'
 	</select>
 	

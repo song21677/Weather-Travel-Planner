@@ -33,6 +33,7 @@ public class Plan implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private long memberNo;
 	@JsonProperty
 	String startDate;
 	@JsonProperty
@@ -52,6 +53,6 @@ public class Plan implements Serializable {
 	public void sortPlaces() {
         places.sort(Comparator
                 .comparing(PlanDTO2::getDate)
-                .thenComparingInt(PlanDTO2::getStartHour));
+                .thenComparing(PlanDTO2::getStartHour));
     }
 }
