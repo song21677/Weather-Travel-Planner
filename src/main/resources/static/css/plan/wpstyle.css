@@ -115,6 +115,9 @@
     /* display: inline-block; */
 }
 
+.weatherplace {
+	border-color: #E5F2FF;
+}
 .test1 {
     display: inline-block;
 }

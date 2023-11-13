@@ -70,8 +70,8 @@ public class PlanController {
       Place place = placeDAO.selectByPlaceNo(Integer.parseInt(planDTO.getPlace_no()));
       
       // 장소 정보와 장소 방문 날짜, 시간 세팅, 계획 화면에서 보여줄 것
-      PlanDTO2 plan2 = new PlanDTO2(planDTO.getDate(), planDTO.getStartHour(), planDTO.getEndHour(), place);
-      
+      PlanDTO2 plan2 = new PlanDTO2(planDTO.getDate(), planDTO.getStartHour(), planDTO.getEndHour(), place, planDTO.getPlace_color());
+      log.error("{}, {}", plan2.date , plan2.color);
       //log.error("{}, {}, {}", String.valueOf(place.getPlace_no()), place.getPlace_name(), place.getPlace_category());
       
       // 일정 저장
@@ -110,10 +110,10 @@ public class PlanController {
       
       plan.sortPlaces();
       
-      for (PlanDTO2 aplace : plan.getPlaces()) {
-            System.out.println(aplace);
-        }
-      
+//      for (PlanDTO2 aplace : plan.getPlaces()) {
+//            System.out.println(aplace);
+//        }
+//      
       System.out.println();
       model.addAttribute("plan", plan);
       
@@ -144,7 +144,7 @@ public class PlanController {
       plan.setEndDate(endDate);
       
       log.error("{}", keyword);
-      log.error("{}, {}", area, category);
+      //log.error("{}, {}", area, category);
       //log.error("{}, start: {}, end: {}, date: {}", plan.getTitle(), plan.getStartDate(), plan.getEndDate(), date);
       
       // db 검색
@@ -155,9 +155,9 @@ public class PlanController {
            paramMap.put("location", area);
          
            ArrayList<Place> places = (ArrayList<Place>) placeDAO.selectByNameAndCategory(paramMap);
-           for (Place place : places) {
-              log.error("{}", place);
-           }
+//           for (Place place : places) {
+//              log.error("{}", place);
+//           }
            
 //           ArrayList<Place> places = new ArrayList<>();
 //           log.error("{}", area.equals("가평") && category.equals("음식점"));

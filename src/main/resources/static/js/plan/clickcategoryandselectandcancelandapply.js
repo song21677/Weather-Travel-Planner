@@ -158,7 +158,8 @@ categoryBtns.forEach((categoryBtn) => {
                                 	const startHour = convertTo24HourFormat(startTime);
                                 	const endHour = convertTo24HourFormat(endTime);
                                 	
-
+                                	let color;
+                                /// ajax
                               	$.ajax({
                                     type: "POST",
                                     url: `/setblock`,
@@ -170,36 +171,12 @@ categoryBtns.forEach((categoryBtn) => {
                                     },
                                     success: function(response) {
                                     	
-                              		    const color = response.body.color;
+                              		    color = response.body.color;
                               		    console.log(response.body.color);
+                              		    console.log(color);
                               		    
-                              		    const selectedPlaceElement = document.querySelector('#selectedPlace');
-                              		    const placeElement = selectedPlaceElement.querySelector('#place');
-                              		    const firstChildOfPlace = placeElement.querySelector(':first-child');
+                              		    updatePlanDTO();
                               		    
-    	                            		 // place 요소가 있다면 조작 수행
-    	                            		 if (firstChildOfPlace) {
-    	                            		   console.log(firstChildOfPlace);
-    	                            		   
-    	                            		   if (color === "GN") {
-    	                            			   console.log('yes');
-    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: green');
-    	                            		   }
-    	                            		   
-    	                            		   if (color === "RD") {
-    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: red');
-    	                            		   }
-    	                            		   
-    	                            		   if (color === "GY") {
-    	                            			   firstChildOfPlace.setAttribute('style', 'border-color: black');
-    	                            		   }
-    	                            		 } else {
-    	                            		   console.log('place 요소를 찾을 수 없습니다.');
-    	                            		 }
-                                    	
-                                    	
-                                    	
-                                    	
                                     },
                                     error: function(jqXHR, textStatus, errorThrown) {
                                         console.log("실패했습니다.");
@@ -209,84 +186,141 @@ categoryBtns.forEach((categoryBtn) => {
                                     }
                                 });
                            
-                           
-                           
-                         	
-                            	
-                              			
-                              
-                          			
-                          			
-	                            		 
-                          	
-                  
+                           /// ajax
                               	
-                                const planDTO = {
-                              		  "date": givemedate,
-                              		  "startHour": startHour,
-                              		  "endHour": endHour,
-                              		  "place_no": placeNo
-                                 };
-                                
-                                const jsonData = JSON.stringify(planDTO);
+                              	function updatePlanDTO() {
+                              			const planDTO = {
+                                		  "date": date,
+                                		  "startHour": startHour,
+                                		  "endHour": endHour,
+                                		  "place_no": placeNo,
+                                		  "place_color": color
+                                		};
+                              			
+                              			console.log(color);
                                   
-                                  
-                                      fetch('/addPlan', {
-                                    	  method: 'POST',
-                                    	  headers: {
-                                    		  'Content-Type': 'application/json',
-                                    	  },
-                                    	  body:jsonData
-                                      })
-                                      .then(response => response.text())
-                                      .then(html => {
-                                    	  // 응답으로 planForm 받음
-                                          document.querySelector('.frame').innerHTML = html;
-                                          
-//                                          let script = document.createElement('script');
-//                                          script.src = 'js/plan/daterangepicker.js';
-//                                          let script2 = document.createElement('script');
-//                                          script2.src = 'js/plan/planperiodcalculator.js'
-//                                          let body = document.querySelector('body');
-//                                          body.appendChild(script);
-//                                          body.appendChild(script2);
-                                          
-                                          function loadScript(src, callback) {
-                                      	    let script = document.createElement('script');
-                                      	    script.src = src;
-                                      	  script.setAttribute("class", "test2");
-                                      	    script.addEventListener('load', callback);
-                                      	    document.body.appendChild(script);
-                                      	}
-                                         //https://code.jquery.com/ui/1.12.1/jquery-ui.js
-                                      	// 첫 번째 스크립트 로드 후 두 번째 스크립트 로드
-                                          var remove = document.querySelectorAll('.test2');
+                              			const jsonData = JSON.stringify(planDTO);
+                                    
+                              		/////
+                                        fetch('/addPlan', {
+                                      	  method: 'POST',
+                                      	  headers: {
+                                      		  'Content-Type': 'application/json',
+                                      	  },
+                                      	  body:jsonData
+                                        })
+                                        .then(response => response.text())
+                                        .then(html => {
+                                      	  // 응답으로 planForm 받음
+                                            document.querySelector('.frame').innerHTML = html;
+                                            
+//                                            let script = document.createElement('script');
+//                                            script.src = 'js/plan/daterangepicker.js';
+//                                            let script2 = document.createElement('script');
+//                                            script2.src = 'js/plan/planperiodcalculator.js'
+//                                            let body = document.querySelector('body');
+//                                            body.appendChild(script);
+//                                            body.appendChild(script2);
+                                            
+                                            let cat2 = document.querySelector('.categories');
+                                            cat2.remove();
+                                            
+                                         // map 사진 높이 바꾸는 거 추후에 할 예정
+                                            let map2 = document.getElementById('map');
+                                            console.log(map2);
+                                            map2.style='height: 480px;';
+                                           
+                                            // 존재하던 스크립트 지우고 다시 실행 -> 지우지 않으면 에러 발생
+                                            function loadScript(src, callback) {
+                                          	    let script = document.createElement('script');
+                                          	    script.src = src;
+                                          	  script.setAttribute("class", "test3");
+                                          	    script.addEventListener('load', callback);
+                                          	    document.body.appendChild(script);
+                                          	}
+                                            
+                                            var remove = document.querySelectorAll('.test3');
 
-                                          // 가져온 요소를 순회하면서 삭제
-                                          remove.forEach(function(element) {
-                                              element.remove();
-                                          });
-                                          
-                                          var hh = document.querySelector('.daterangepicker');
-                                          
-                                          if (hh) {
-                                          hh.remove();
-                                          }
-                                         
-                                      
-                                          // planForm에서 daterangepicker와 periodcalculator와 addblock 필요
-                                          // 세션에 저장된 데이터를 보여주기 위해
-                                        	 loadScript('js/plan/daterangepicker.js', function () {
-                                        		 loadScript('js/plan/planperiodcalculator.js', function () {
-                                        			 loadScript('js/plan/addblock.js', function() {
-                                        				 
-                                        			 })
-                                        		 });
-                                        	 });
-                                       	
-                                      });
+                                            remove.forEach(function(element) {
+                                                element.remove();
+                                            });
+                                            
+                                            
+	           								 loadScript("//dapi.kakao.com/v2/maps/sdk.js?appkey=0a4e5f604e58c301ddedd0a6790ec3bf", function() {
+	           								                                	 
+	           								                                 
+	           								 });
+	                                            
+                                            loadScript('js/plan/map.js', function() {
+                                           	 
+                                            });
+                                       
+                                            let resColors = document.querySelectorAll('.color');
+                                            let details = document.querySelectorAll('.weatherplace');
+
+                                            resColors.forEach((colorElement, index) => {
+                                                console.log("res: " + colorElement.value);
+
+                                                let color = colorElement.value;
+                                                let detail = details[index];  // 현재 colorElement에 대응하는 detail을 가져옴
+
+                                                // detail에 스타일 적용
+                                                if (color === "GN") {
+                                                    detail.setAttribute('style', 'background-color: #CFFFCD; ');
+                                                    let span = document.createElement('span');
+                                                    span.textContent = "☀";
+                                                    span.style.color = "#FFB000";
+                                                    detail.appendChild(span);
+                                                } else if (color === "RD") {
+                                                    detail.setAttribute('style', 'border-color: #FF495F');
+                                                    span.textContent = "🌧️";
+                                                    span.styls.color = "#00BCF2";
+                                                } else if (color === 'GY') {
+                                                    detail.setAttribute('style', 'background-color: #F8F9FA');
+                                                }
+                                            });
+
+    	                            		 
+                                            
+                                            function loadScript(src, callback) {
+                                        	    let script = document.createElement('script');
+                                        	    script.src = src;
+                                        	  script.setAttribute("class", "test2");
+                                        	    script.addEventListener('load', callback);
+                                        	    document.body.appendChild(script);
+                                        	}
+                                           //https://code.jquery.com/ui/1.12.1/jquery-ui.js
+                                        	// 첫 번째 스크립트 로드 후 두 번째 스크립트 로드
+                                            var remove = document.querySelectorAll('.test2');
+
+                                            // 가져온 요소를 순회하면서 삭제
+                                            remove.forEach(function(element) {
+                                                element.remove();
+                                            });
+                                            
+                                            var hh = document.querySelector('.daterangepicker');
+                                            
+                                            if (hh) {
+                                            hh.remove();
+                                            }
+                                           
+                                        
+                                            // planForm에서 daterangepicker와 periodcalculator와 addblock 필요
+                                            // 세션에 저장된 데이터를 보여주기 위해
+                                          	 loadScript('js/plan/daterangepicker.js', function () {
+                                          		 loadScript('js/plan/planperiodcalculator.js', function () {
+                                          			 loadScript('js/plan/addblock.js', function() {
+                                          				 
+                                          			 })
+                                          		 });
+                                          	 });
+                                         	
+                                        });
+                                        ///// fetch
+                           
+                              	}
                                      
-                                  });
+                                  }); //// listener
                         
                                   // cancelBtn
                                cancelBtn.addEventListener("click", function(event) {

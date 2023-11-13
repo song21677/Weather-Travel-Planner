@@ -9,7 +9,7 @@
 		        
 		        <div class="places">
 		        	<div th:each="place : ${plan.places}">
-		        		<div class="form-control">
+		        		<div class="form-control weatherplace">
 		        			<span th:text="${place.startHour + ':00 - ' + place.endHour + ':00'}" style="display: inline-block"></span>
 		        			<div style="display: inline-block">
 		        				<span th:text=${place.place.place_name}></span>
@@ -17,6 +17,7 @@
 		        			</div>
 		        			<input type="hidden" class="date" th:value=${place.date}>
 		        			<input type="hidden" class="realDate" th:value=${place.realDate}>
+		        			<input type="hidden" class="color" th:value=${place.color}>
 		        			<input type="hidden" class="longitude" th:value=${place.place.longitude}>
 		        			<input type="hidden" class="latitude" th:value=${place.place.latitude}>
 		        		</div>
@@ -30,7 +31,6 @@
 		        <input type="hidden" class="startDate" th:value=${plan.startDate}>
 		        <input type="hidden" class="endDate" th:value=${plan.endDate}>
 		        <input type="hidden" class="title" th:value=${plan.title}>
-
 	    </form>
     </body>
 </html>

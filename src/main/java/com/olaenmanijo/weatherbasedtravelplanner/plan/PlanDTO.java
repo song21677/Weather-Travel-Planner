@@ -21,17 +21,19 @@ public class PlanDTO {
    private String startHour;
    private String endHour;
    private String place_no;
+   private String place_color;
    
    
    public PlanDTO() {   
    }
    
-   public PlanDTO(String date, String startTime, String endTime, String place_no) {
+   public PlanDTO(String date, String startTime, String endTime, String place_no, String place_color) {
 		super();
 		this.date = date;
 		this.startHour = startTime;
 		this.endHour = endTime;
 		this.place_no = place_no;
+		this.place_color = place_color;
 	}
   
    @Override

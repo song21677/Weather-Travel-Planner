@@ -18,11 +18,13 @@ public class PlanDTO2 {
 	String startHour;
 	String endHour;
 	Place place;
+	String color;
 	
-	public PlanDTO2(String date, String startHour, String endHour, Place place) {
+	public PlanDTO2(String date, String startHour, String endHour, Place place, String color) {
 		this.date = date;
 		this.startHour = startHour;
 		this.endHour = endHour;
 		this.place = place;
+		this.color = color;
 	}
 }
