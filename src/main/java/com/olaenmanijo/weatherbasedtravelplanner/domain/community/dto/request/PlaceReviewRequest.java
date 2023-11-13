@@ -20,7 +20,6 @@ public class PlaceReviewRequest {
 	Long detailPlanNo;
 	Long memberNo;
 	Long placeNo;
-	String placeReviewImg;
 	String placeReviewContent;
 	Long placeReviewScore;
 
