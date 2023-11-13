@@ -1,3 +1,4 @@
+ <form id="searchForm">   
     <div class="row" id="search">
     <div class="col-md-3" style="
     padding-right: 0px;
@@ -16,10 +17,10 @@
        </div>
         
         <div class="col-md-9">
-        <input class="form-control col-md-9" id="search" type="text" name="keyword" style="border: dotted; border-color: #E5F2FF;">
+        <input class="form-control col-md-9" id="keyword" type="text" name="keyword" style="border: dotted; border-color: #E5F2FF;">
         </div>
     </div>
-        
+</form>    
     <div id="places" class="container">
 	    <!-- <div class="row" id="place" th:each="place : ${places}"> -->
 	    <div class="row" id="place" th:each="place : ${places}">
@@ -42,3 +43,5 @@
     <input type="hidden" th:value=${plan.endDate} id="endDate"/>
      <input type="hidden" th:value=${plan.title} id="title"/>
     <button type="button" class="form-control" id="applyBtn" style='background-color: #4B96F3; color: white'>적용</button>
+    
+    <script src="js/plan/search.js"></script>

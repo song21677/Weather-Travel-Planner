@@ -144,6 +144,16 @@ public class PlanController {
       plan.setEndDate(endDate);
       
       log.error("{}", keyword);
+      if (keyword != null) {
+    	  log.error("{}, {}", keyword);
+    	  Map<String, String> paramMap = new HashMap<>();
+    	  if (area == null) area = "부산";
+    	  paramMap.put("location", area);
+    	  paramMap.put("name", keyword);
+    	  
+    	  ArrayList<Place> places = (ArrayList<Place>) placeDAO.selectByNameAndAddress(paramMap);
+    	  model.addAttribute("places", places);
+      }
       //log.error("{}, {}", area, category);
       //log.error("{}, start: {}, end: {}, date: {}", plan.getTitle(), plan.getStartDate(), plan.getEndDate(), date);
       

@@ -30,4 +30,8 @@ public class PlaceDAO {
 		return session.selectOne("PlaceMapper.selectByPlaceNo", no);
 	}
 	
+	public List<Place> selectByNameAndAddress(Map<String, String> paramMap) {
+		List<Place> list = session.selectList("PlaceMapper.selectByNameAndAddress", paramMap);
+		return list;
+	}
 }

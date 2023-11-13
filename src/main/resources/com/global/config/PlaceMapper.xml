@@ -20,4 +20,10 @@
 		from place_tb
 		where place_no = #{no}
 	</select>
+	
+	<select id="selectByNameAndAddress" parameterType="String" resultType="Place">
+		SELECT place_no, place_category, place_name, road_name_adr
+        FROM place_tb
+        WHERE place_name LIKE '%' || #{name} || '%' AND road_name_adr LIKE '%' || #{location} || '%'
+	</select>
 </mapper>
