@@ -272,9 +272,11 @@ categoryBtns.forEach((categoryBtn) => {
                                                     span.style.color = "#FFB000";
                                                     detail.appendChild(span);
                                                 } else if (color === "RD") {
-                                                    detail.setAttribute('style', 'border-color: #FF495F');
+                                                    detail.setAttribute('style', 'background-color: #FF495F;color:white');
+                                                    let span = document.createElement('span');
                                                     span.textContent = "🌧️";
-                                                    span.styls.color = "#00BCF2";
+                                                    span.style.color = "#00BCF2";
+                                                    detail.appendChild(span);
                                                 } else if (color === 'GY') {
                                                     detail.setAttribute('style', 'background-color: #F8F9FA');
                                                 }

@@ -83,6 +83,7 @@ public class CommunityService {
 	 * @return 게시글 상세정보(title,img,content)
 	 */
 	public CommunityResponse travelReviewfindById(final Long travelReviewNo) {
+		communityMapper.travelReviewReadHit(travelReviewNo);
 		CommunityResponse communityResponse = communityMapper.travelReviewFindById(travelReviewNo);
 		communityResponse.setMemberName(memberMapper.findByMemberNo(communityResponse.getMemberNo()).getNickname());
 		return communityResponse;
