@@ -44,6 +44,7 @@ categoryBtns.forEach((categoryBtn) => {
                                inputTime.setAttribute("type", "text");
                                inputTime.setAttribute("class", "timepicker form-control");
                                inputTime.setAttribute("id", "startTime");
+                               
                                inputTime.setAttribute("style", "height: 40px; border: dotted; border-color: #E5F2FF;");
                                
                                div2.appendChild(label);
@@ -319,10 +320,9 @@ categoryBtns.forEach((categoryBtn) => {
                                          	
                                         });
                                         ///// fetch
-                           
-                              	}
                                      
-                                  }); //// listener
+                                  });//// listener
+                            }
                         
                                   // cancelBtn
                                cancelBtn.addEventListener("click", function(event) {
@@ -334,7 +334,7 @@ categoryBtns.forEach((categoryBtn) => {
                             }
                         });
                     });
-              }
+              
               
                // area에는 지역 선택 부분이 없어도 현재 위치의 위경도가 들어가게 할것임.
                const area = document.getElementById('area').value; 
@@ -353,5 +353,5 @@ categoryBtns.forEach((categoryBtn) => {
                         
                         addEventListeners();
                     });
+       		  })
          });
-});  
