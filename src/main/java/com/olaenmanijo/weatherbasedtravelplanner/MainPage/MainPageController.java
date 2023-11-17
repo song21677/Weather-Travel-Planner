@@ -10,12 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainPageController {
 	
 	@Autowired
 	GetNowWeatherService service;
+	
+	@Autowired
+	ProudConetentService service2;
+	
 	
 	@GetMapping("/main")
 	public String main(Model model, HttpSession session) {
@@ -37,8 +42,15 @@ public class MainPageController {
 	    model.addAttribute("weatherList2", weatherList2);
 	    model.addAttribute("list",list);
 	    
+	    
+	    List<GetRecommendDTO> list2 = service2.community();
+	    model.addAttribute("list2",list2);
+	    
 	    return "mainPage/main";
 	}
+	
+	
+	
 	
 	
 

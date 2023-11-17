@@ -1,9 +1,9 @@
-
+$(document).ready(function() {
 
 
 //recommend
 
-        $(document).ready(function() {
+        
         function slideList() {
         const $slider = $('.slider');
         const $firstItem = $slider.find('li:first');

@@ -2,61 +2,10 @@
 <body th:fragment="div">
     <div class="slider-wrapper">
         <ul class="slider">
-            <li>
+            <li th:each="dto : ${list2}">
                 <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx1님의 여행지</p>
-            </li>
-            <li>
-          	  <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx2님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx3님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx4님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx5님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx6님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx7님의 여행지</p>
-            </li>
-            <li>
-                <img src="#" class="userImg" alt="">
-                <p>서울 , 대한민국</p>
-                <h1>예약 NO , 야경 3곳</h1>
-                <P>느낌있는 그곳...</P>
-                <p>xxx8님의 여행지</p>
+               <p th:if="${dto != null}" th:text="${dto.PLANNER_REVIEW_TITLE}"></p>
+                <p th:if="${dto != null}" th:text="${dto.NICKNAME} + '님의 여행지'"></p>
             </li>
             <!-- ... 추가로 항목을 넣을 수 있습니다 ... -->
         </ul>
