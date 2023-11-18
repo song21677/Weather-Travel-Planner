@@ -13,7 +13,6 @@ public class ProudConetentDAO {
 	SqlSession session;
 
 	public List<GetRecommendDTO> community(){
-		System.out.println(session.selectList("MainPageMapper.getRecommend"));
 		return session.selectList("MainPageMapper.getRecommend");
 	}
 }

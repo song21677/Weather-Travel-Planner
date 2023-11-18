@@ -3,7 +3,9 @@
     <div class="slider-wrapper">
         <ul class="slider">
             <li th:each="dto : ${list2}">
-                <img src="#" class="userImg" alt="">
+            
+                <img th:if="${dto.SAVE_NAME == null}" src="#" class="userImg" alt="">
+                <img th:if="${dto.SAVE_NAME != null}" src="${dto.SAVE_NAME}" class="userImg" alt="">
                <p th:if="${dto != null}" th:text="${dto.PLANNER_REVIEW_TITLE}"></p>
                 <p th:if="${dto != null}" th:text="${dto.NICKNAME} + '님의 여행지'"></p>
             </li>

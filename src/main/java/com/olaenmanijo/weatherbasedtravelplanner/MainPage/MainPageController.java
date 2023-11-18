@@ -42,6 +42,7 @@ public class MainPageController {
 	    model.addAttribute("weatherList2", weatherList2);
 	    model.addAttribute("list",list);
 	    
+	    System.out.println(list);
 	    
 	    List<GetRecommendDTO> list2 = service2.community();
 	    model.addAttribute("list2",list2);
