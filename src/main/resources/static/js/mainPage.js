@@ -491,7 +491,7 @@ $(document).ready(function() {
             
             
             
-         // 맵 생성기
+         // 값이 없을경우
             var names = ["divseoul", "divincheon", "divdaegu" , "divbusan" , "divdaejeon" , "divgyeonggi" , "divgangwon" , "divchungbuk",
             	"divchungnam", "divjeonbuk", "divjeonnam", "divkyungbuk", "divkyungnam", "divgwangju", "divulleung", "divjeju" ,"divulsan"];
             var locate = ["서울", "인천", "대구", "부산" , "대전", "경기" ,"강원", "충북","충남","전북","전남","경북","경남","광주","울릉","제주","울산"];

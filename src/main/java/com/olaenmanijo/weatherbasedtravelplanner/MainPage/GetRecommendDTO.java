@@ -11,6 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class GetRecommendDTO {
+	String TRAVEL_REVIEW_NO;
 	String PLANNER_REVIEW_TITLE;
 	String NICKNAME;
 	String SAVE_NAME;
