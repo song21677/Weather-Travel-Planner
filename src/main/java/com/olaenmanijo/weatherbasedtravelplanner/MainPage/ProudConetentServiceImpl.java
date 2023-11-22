@@ -14,8 +14,15 @@ public class ProudConetentServiceImpl implements ProudConetentService {
 	
 	
 	public List<GetRecommendDTO> community(){
-		
-		return dao.community();
+
+		List<GetRecommendDTO> list = dao.community();
+		for (GetRecommendDTO dto : list) {
+			if (dto.getPLANNER_REVIEW_TITLE().length()>=8) {
+			String shortenedTitle = dto.getPLANNER_REVIEW_TITLE().substring(0, 8) + "...";
+			dto.setPLANNER_REVIEW_TITLE(shortenedTitle);
+			}
+		}
+		return list;
 	}
 
 }
