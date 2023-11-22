@@ -1,9 +1,9 @@
-
+$(document).ready(function() {
 
 
 //recommend
 
-        $(document).ready(function() {
+        
         function slideList() {
         const $slider = $('.slider');
         const $firstItem = $slider.find('li:first');
@@ -486,13 +486,30 @@
                 $locations.css('transform', `translateX(${offset}px)`);
             };
             
+           
             
-        
+            
+            
+            
+         // 값이 없을경우
+            var names = ["divseoul", "divincheon", "divdaegu" , "divbusan" , "divdaejeon" , "divgyeonggi" , "divgangwon" , "divchungbuk",
+            	"divchungnam", "divjeonbuk", "divjeonnam", "divkyungbuk", "divkyungnam", "divgwangju", "divulleung", "divjeju" ,"divulsan"];
+            var locate = ["서울", "인천", "대구", "부산" , "대전", "경기" ,"강원", "충북","충남","전북","전남","경북","경남","광주","울릉","제주","울산"];
 
+            for (var i = 0; i < names.length; i++) {
+            	if ($('#' + names[i]).length === 0) {
+                var thId = names[i];
+                var realId = names[i].substr(3);
 
-        
-        
-        
+                var defaultDiv = '<div class="city" th:id="' + thId + '" id="' + realId + '">' +
+                    '<p>' + locate[i] + '</p>' +
+                    '<p class="cloud" ><span>☁</span></p>' +
+                    '<p>null</p>' +
+                    '</div>';
+
+                $('#map_container').append(defaultDiv);
+            }
+            }
               
         
         });
