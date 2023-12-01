@@ -497,7 +497,9 @@ $(document).ready(function() {
             var locate = ["서울", "인천", "대구", "부산" , "대전", "경기" ,"강원", "충북","충남","전북","전남","경북","경남","광주","울릉","제주","울산"];
 
             for (var i = 0; i < names.length; i++) {
-            	if ($('#' + names[i]).length === 0) {
+            	var id = names[i].replace('div', '');
+            	if ($('#' + id).length === 0) {
+            		
                 var thId = names[i];
                 var realId = names[i].substr(3);
 

@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
 public class ShortWeatherScheduler {
-	
+	private final Object lock = new Object();
 
 	@Autowired
     private ShortWeatherService weatherService;
@@ -65,11 +66,13 @@ public class ShortWeatherScheduler {
         
         
         List<Second_precinct_tb_DTO> dataList = getdataService.getSecondPrecinctData();
+        Iterator<Second_precinct_tb_DTO> iterator = dataList.iterator();
         
         int index = 0;
-        for (Second_precinct_tb_DTO data : dataList) {
-            index++;
-
+        while (iterator.hasNext()) {
+        	index++;
+        	Second_precinct_tb_DTO data = iterator.next();
+        	
         	int second_Precinct_No = data.getSecond_Precinct_No();
         	String nx = Integer.toString(data.getNx());
             String ny = Integer.toString(data.getNy());
@@ -79,31 +82,21 @@ public class ShortWeatherScheduler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            try {
+            
+            synchronized (lock) {
                 if (index % 50 == 0) { // 트랜잭션 숫자 조절 기능
-                	Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
-                	weatherService.submitDataStore();
-                    Thread.sleep(1 * 40 * 1000); //40초 동안 스레드를 잠시 중지합니다.
+                    weatherService.submitDataStore();
                     weatherService.claerDataStore();
-                    Thread.sleep(1 * 5 * 1000); // 5초 동안 스레드를 잠시 중지합니다.
-                } else {
-                	try {
-                    Thread.sleep(1000); // 쿼리 호출 시 매번1초 동안 스레드를 잠시 중지합니다.
-                	}
-                	catch(InterruptedException e) {
-                        e.printStackTrace();
-                	}
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                if(!iterator.hasNext()) {
+	                try {
+	                    weatherService.submitDataStore();
+	                    System.out.println("끝");
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
             }
-        }
-        try {
-            weatherService.submitDataStore();
-            System.out.println("끝");
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
         }
 
     }
