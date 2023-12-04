@@ -165,9 +165,9 @@ public class PlanController {
            paramMap.put("location", area);
          
            ArrayList<Place> places = (ArrayList<Place>) placeDAO.selectByNameAndCategory(paramMap);
-//           for (Place place : places) {
-//              log.error("{}", place);
-//           }
+           for (Place place : places) {
+              log.error("{}", place);
+           }
            
 //           ArrayList<Place> places = new ArrayList<>();
 //           log.error("{}", area.equals("가평") && category.equals("음식점"));
