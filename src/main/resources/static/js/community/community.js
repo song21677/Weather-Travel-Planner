@@ -122,7 +122,7 @@ async function saveTravelReview(reviewNo, planNo) {
 	});
 	console.log("travelReviewFileCount : " + travelReviewFileCount);
 	if (travelReviewFileCount > 0) {
-		await uploadImages(fileUrl, "put", imageFiles);
+		await uploadImages(fileUrl, "post", imageFiles);
 	}
 	if (travelReviewFileCount == 0) {
 		await uploadImages(fileUrl, "post", imageFiles);

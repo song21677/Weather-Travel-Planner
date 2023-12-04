@@ -272,9 +272,8 @@ categoryBtns.forEach((categoryBtn) => {
                                                     span.style.color = "#FFB000";
                                                     detail.appendChild(span);
                                                 } else if (color === "RD") {
-                                                    detail.setAttribute('style', 'border-color: #FF495F');
-                                                    span.textContent = "🌧️";
-                                                    span.styls.color = "#00BCF2";
+                                                    detail.setAttribute('style', 'background-color: #FF495F;color:white');
+                                                   
                                                 } else if (color === 'GY') {
                                                     detail.setAttribute('style', 'background-color: #F8F9FA');
                                                 }

@@ -122,16 +122,16 @@
         
         <div class="btn-group align-top">
         <!-- recommend -->
-          <button type="button"
+          <button type="button" style="display: none;"
                   class="btn btn-outline-danger fixed-width-button bi bi-heart-fill"
                   > 2000
           </button>
           <!-- listing -->
-          <button type="button"
+          <button type="button" style="display: none;"
                   class="btn btn-outline-primary fixed-width-button bi bi-file-arrow-down-fill"
                   > 10
           </button>
-          <button type="button"
+          <button type="button" style="display: none;"
           		  class="btn btn-outline-secondary fixed-width-button bi bi-chat-dots"
                   data-bs-toggle="collapse" data-bs-target="#commentWrite"
           >
@@ -142,7 +142,7 @@
 
           
       </div>
-      <form id="commentWrite" action="/action_page.php" class="collapse">
+      <form id="commentWrite" action="/action_page.php" class="collapse" >
         <div class="input-group mt-3">
           <textarea class="form-control" name="text" placeholder="Comment" oninput="autoResize(this)"></textarea>
           <button class="btn btn-secondary" type="submit">등록</button> 
@@ -152,7 +152,7 @@
 <hr class="border border-4 border-secondary">
 
 <!-- comment space -->
-<div>
+<div style="display: none;">
 	<h4>댓글</h4>
 	<ul class="list-group list-group-flush">
       <li class="list-group-item">
